@@ -22,6 +22,7 @@ export async function sendSms({ to, message, password }) {
 
     return {
       ok: !!data.ok,
+      code: res.status,
       status: data.status || (data.ok ? 'sent' : 'failed'),
       response: data.response || data.error || `HTTP ${res.status}`,
       messageId: data.messageId || null,
@@ -30,6 +31,7 @@ export async function sendSms({ to, message, password }) {
     // Network failure (e.g. running on a host without the backend).
     return {
       ok: false,
+      code: 0,
       status: 'failed',
       response: err?.message || 'Network error — backend unreachable',
       messageId: null,

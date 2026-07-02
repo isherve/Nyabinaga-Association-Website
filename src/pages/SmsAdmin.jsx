@@ -60,12 +60,31 @@ export default function SmsAdmin() {
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [sendPw, setSendPw] = useState(() => {
     try {
-      return sessionStorage.getItem(SEND_PW_KEY) || ''
+      return localStorage.getItem(SEND_PW_KEY) || ''
     } catch {
       return ''
     }
   })
+  const [pwSaved, setPwSaved] = useState(() => {
+    try {
+      return !!localStorage.getItem(SEND_PW_KEY)
+    } catch {
+      return false
+    }
+  })
+  const [editingPw, setEditingPw] = useState(false)
   const [progress, setProgress] = useState(null) // { total, done, current, sent, failed, running }
+
+  const forgetPw = () => {
+    try {
+      localStorage.removeItem(SEND_PW_KEY)
+    } catch {
+      /* ignore */
+    }
+    setSendPw('')
+    setPwSaved(false)
+    setEditingPw(true)
+  }
 
   const fileRef = useRef(null)
 
@@ -154,8 +173,11 @@ export default function SmsAdmin() {
   const runSend = async () => {
     const recipients = selectedContacts
     setConfirmOpen(false)
+    setEditingPw(false)
+    // Remember the password on this device so future sends are one click.
     try {
-      sessionStorage.setItem(SEND_PW_KEY, sendPw)
+      localStorage.setItem(SEND_PW_KEY, sendPw)
+      setPwSaved(true)
     } catch {
       /* ignore */
     }
@@ -163,6 +185,7 @@ export default function SmsAdmin() {
     let done = 0
     let sent = 0
     let failed = 0
+    let badPassword = false
     setProgress({ total: recipients.length, done: 0, current: '', sent: 0, failed: 0, running: true })
 
     const batchId = Date.now().toString(36)
@@ -189,11 +212,28 @@ export default function SmsAdmin() {
       else failed += 1
       setProgress((p) => ({ ...p, done, sent, failed }))
 
+      // A rejected password will fail every recipient — stop early and clear it
+      // so the user is prompted to re-enter next time.
+      if (result.code === 401) {
+        badPassword = true
+        break
+      }
+
       // Gentle pacing to respect gateway limits.
       await new Promise((r) => setTimeout(r, 250))
     }
 
-    setProgress((p) => ({ ...p, current: '', running: false, done, sent, failed }))
+    if (badPassword) {
+      try {
+        localStorage.removeItem(SEND_PW_KEY)
+      } catch {
+        /* ignore */
+      }
+      setPwSaved(false)
+      setEditingPw(true)
+    }
+
+    setProgress((p) => ({ ...p, current: '', running: false, done, sent, failed, badPassword }))
   }
 
   /* --------------------------- not admin --------------------------- */
@@ -519,14 +559,30 @@ export default function SmsAdmin() {
           <div className="mt-4 rounded-xl bg-earth-50 p-3 text-sm text-forest-700 dark:bg-forest-900 dark:text-forest-200">
             <span className="line-clamp-4 whitespace-pre-wrap">{message}</span>
           </div>
-          <label className="mt-4 block text-sm font-semibold text-forest-800 dark:text-forest-100">SMS send password</label>
-          <input
-            type="password"
-            value={sendPw}
-            onChange={(e) => setSendPw(e.target.value)}
-            placeholder="Set via SMS_SEND_PASSWORD in Vercel"
-            className="mt-1 w-full rounded-xl border border-earth-200 bg-white px-4 py-2.5 text-forest-900 focus:border-forest-500 focus:outline-none dark:border-forest-700 dark:bg-forest-950 dark:text-forest-50"
-          />
+          {pwSaved && !editingPw ? (
+            <div className="mt-4 flex items-center justify-between rounded-xl bg-forest-50 px-4 py-3 dark:bg-forest-900/60">
+              <span className="flex items-center gap-2 text-sm font-medium text-forest-700 dark:text-forest-200">
+                <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> Using your saved send password
+              </span>
+              <button type="button" onClick={forgetPw} className="text-sm font-semibold text-forest-600 underline decoration-gold-400 underline-offset-2 hover:text-forest-800 dark:text-gold-300">
+                Change
+              </button>
+            </div>
+          ) : (
+            <>
+              <label className="mt-4 block text-sm font-semibold text-forest-800 dark:text-forest-100">SMS send password</label>
+              <input
+                type="password"
+                value={sendPw}
+                onChange={(e) => setSendPw(e.target.value)}
+                placeholder="Set via SMS_SEND_PASSWORD in Vercel"
+                className="mt-1 w-full rounded-xl border border-earth-200 bg-white px-4 py-2.5 text-forest-900 focus:border-forest-500 focus:outline-none dark:border-forest-700 dark:bg-forest-950 dark:text-forest-50"
+              />
+              <p className="mt-1.5 text-xs text-earth-500 dark:text-forest-400">
+                Saved on this device — you'll only enter it once, then sending is one click.
+              </p>
+            </>
+          )}
           <div className="mt-6 flex justify-end gap-3">
             <button type="button" onClick={() => setConfirmOpen(false)} className="btn-outline">Cancel</button>
             <button type="button" onClick={runSend} disabled={!sendPw} className="btn-primary disabled:opacity-50">
@@ -546,6 +602,10 @@ export default function SmsAdmin() {
               </p>
               {progress.current && <p className="mt-1 truncate text-sm text-muted">→ {progress.current}</p>}
             </>
+          ) : progress.badPassword ? (
+            <p className="font-medium text-red-600 dark:text-red-400">
+              The send password was rejected. It has been cleared — you'll be asked for the correct one next time.
+            </p>
           ) : (
             <p className="text-forest-800 dark:text-forest-100">Finished sending {progress.total} messages.</p>
           )}

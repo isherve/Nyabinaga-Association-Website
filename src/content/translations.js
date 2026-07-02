@@ -21,6 +21,13 @@ export const translations = {
     'nav.themeDark': 'Switch to dark mode',
     'nav.language': 'Language',
     'nav.programs': 'Programs',
+    'nav.more': 'More',
+    'nav.team': 'Our Team',
+    'nav.donate': 'Donate',
+
+    // WhatsApp
+    'whatsapp.label': 'Chat on WhatsApp',
+    'whatsapp.prefill': 'Hello RW0164 EMLR Nyabinaga, I would like to know more about your work.',
 
     // Site
     'site.tagline': 'Building Self-Reliance, One Family at a Time',
@@ -246,6 +253,46 @@ export const translations = {
     'gallery.admin.drop': 'Drag & drop images here, or click to browse',
     'gallery.admin.hint': 'JPEG / PNG — large photos are automatically resized for the web.',
     'gallery.admin.saved': 'uploaded photo(s) · saved in this browser.',
+    'gallery.filter.all': 'All Photos',
+    'gallery.filter.recent': 'Recently Added',
+
+    // Team
+    'team.eyebrow': 'Our Team',
+    'team.title': 'The people behind the work',
+    'team.subtitle':
+      'RW0164 EMLR Nyabinaga is powered by dedicated leaders, staff, volunteers, and community committees.',
+    'team.leadership.eyebrow': 'Leadership',
+    'team.leadership.title': 'Meet our leaders',
+    'team.structure.eyebrow': 'Staff & Committees',
+    'team.structure.title': 'How the team is organized',
+    'team.structure.sub':
+      'Daily operations, teaching, cooking, facilities, and community committees all work together to keep the project running.',
+    'team.total': 'people serving the project every week',
+
+    // Donate
+    'donate.eyebrow': 'Support Us',
+    'donate.title': 'Help a family build self-reliance',
+    'donate.subtitle':
+      'Your generosity helps vulnerable families, children, and youth in Nyabinaga grow toward a self-reliant future.',
+    'donate.why.eyebrow': 'Why give',
+    'donate.why.title': 'Every gift makes a difference',
+    'donate.why.text':
+      'We help families save together, run income-generating activities, keep children in school with a Saturday meal, and train youth in real skills. Your support strengthens all of this work.',
+    'donate.impact.1': 'Keeps children learning and fed on Saturdays',
+    'donate.impact.2': 'Grows savings groups, farming, livestock and trade',
+    'donate.impact.3': 'Trains youth in vocational skills and small business',
+    'donate.momo.title': 'Mobile Money (MoMo)',
+    'donate.momo.text': 'Send your gift directly via Mobile Money to the number below.',
+    'donate.momo.name': 'Name',
+    'donate.momo.number': 'Number',
+    'donate.bank.title': 'Bank transfer',
+    'donate.bank.bankName': 'Bank',
+    'donate.bank.accountName': 'Account name',
+    'donate.bank.accountNumber': 'Account number',
+    'donate.contact.title': 'Give another way',
+    'donate.contact.text':
+      'Want to support a specific group, donate goods, or partner with us? Reach out and we will guide you.',
+    'donate.contact.button': 'Contact us',
 
     // Contact
     'contact.eyebrow': 'Contact',
@@ -255,6 +302,7 @@ export const translations = {
     'contact.getInTouch': 'Get in touch',
     'contact.visit': 'Visit or write to us',
     'contact.location': 'Our location',
+    'contact.phone': 'Phone / WhatsApp',
     'contact.email': 'Email',
     'contact.name': 'Name',
     'contact.namePlaceholder': 'Your name',
@@ -262,6 +310,12 @@ export const translations = {
     'contact.message': 'Message',
     'contact.messagePlaceholder': 'How can we help?',
     'contact.formNote': 'This opens your email app. Online submission can be added later.',
+    'contact.formNoteOnline': 'Your message is sent directly to our team.',
+    'contact.sending': 'Sending…',
+    'contact.error': 'Something went wrong. Please try again or email us directly.',
+    'contact.sent.title': 'Message sent!',
+    'contact.sent.text': 'Thank you for reaching out. We will get back to you soon.',
+    'contact.sent.again': 'Send another message',
 
     // Not found
     'notFound.title': 'Page not found',
@@ -299,6 +353,12 @@ export const translations = {
     'nav.themeDark': 'Passer au mode sombre',
     'nav.language': 'Langue',
     'nav.programs': 'Programmes',
+    'nav.more': 'Plus',
+    'nav.team': 'Notre équipe',
+    'nav.donate': 'Faire un don',
+
+    'whatsapp.label': 'Discuter sur WhatsApp',
+    'whatsapp.prefill': 'Bonjour RW0164 EMLR Nyabinaga, je souhaite en savoir plus sur votre travail.',
 
     'site.tagline': "Bâtir l'autonomie, une famille à la fois",
     'site.description':
@@ -514,6 +574,44 @@ export const translations = {
     'gallery.admin.drop': 'Glissez-déposez des images ici, ou cliquez pour parcourir',
     'gallery.admin.hint': 'JPEG / PNG — les grandes photos sont redimensionnées automatiquement.',
     'gallery.admin.saved': 'photo(s) téléversée(s) · enregistrée(s) dans ce navigateur.',
+    'gallery.filter.all': 'Toutes les photos',
+    'gallery.filter.recent': 'Récemment ajoutées',
+
+    'team.eyebrow': 'Notre équipe',
+    'team.title': 'Les personnes derrière le travail',
+    'team.subtitle':
+      "RW0164 EMLR Nyabinaga est animé par des dirigeants dévoués, du personnel, des bénévoles et des comités communautaires.",
+    'team.leadership.eyebrow': 'Direction',
+    'team.leadership.title': 'Rencontrez nos dirigeants',
+    'team.structure.eyebrow': 'Personnel et comités',
+    'team.structure.title': "Comment l'équipe est organisée",
+    'team.structure.sub':
+      'Les opérations quotidiennes, l\'enseignement, la cuisine, les installations et les comités communautaires travaillent ensemble pour faire fonctionner le projet.',
+    'team.total': 'personnes au service du projet chaque semaine',
+
+    'donate.eyebrow': 'Soutenez-nous',
+    'donate.title': "Aidez une famille à devenir autonome",
+    'donate.subtitle':
+      "Votre générosité aide les familles vulnérables, les enfants et les jeunes de Nyabinaga à bâtir un avenir autonome.",
+    'donate.why.eyebrow': 'Pourquoi donner',
+    'donate.why.title': 'Chaque don compte',
+    'donate.why.text':
+      "Nous aidons les familles à épargner ensemble, à mener des activités génératrices de revenus, à garder les enfants à l'école avec un repas le samedi, et à former les jeunes à de vraies compétences. Votre soutien renforce tout ce travail.",
+    'donate.impact.1': "Permet aux enfants d'apprendre et de manger le samedi",
+    'donate.impact.2': "Développe l'épargne, l'agriculture, l'élevage et le commerce",
+    'donate.impact.3': 'Forme les jeunes aux métiers et à la petite entreprise',
+    'donate.momo.title': 'Mobile Money (MoMo)',
+    'donate.momo.text': 'Envoyez votre don directement par Mobile Money au numéro ci-dessous.',
+    'donate.momo.name': 'Nom',
+    'donate.momo.number': 'Numéro',
+    'donate.bank.title': 'Virement bancaire',
+    'donate.bank.bankName': 'Banque',
+    'donate.bank.accountName': 'Nom du compte',
+    'donate.bank.accountNumber': 'Numéro de compte',
+    'donate.contact.title': "Donner autrement",
+    'donate.contact.text':
+      "Vous souhaitez soutenir un groupe précis, donner des biens ou devenir partenaire ? Contactez-nous et nous vous guiderons.",
+    'donate.contact.button': 'Nous contacter',
 
     'contact.eyebrow': 'Contact',
     'contact.title': 'Nous serions ravis de vous entendre',
@@ -522,6 +620,7 @@ export const translations = {
     'contact.getInTouch': 'Nous contacter',
     'contact.visit': 'Nous rendre visite ou nous écrire',
     'contact.location': 'Notre adresse',
+    'contact.phone': 'Téléphone / WhatsApp',
     'contact.email': 'E-mail',
     'contact.name': 'Nom',
     'contact.namePlaceholder': 'Votre nom',
@@ -529,6 +628,12 @@ export const translations = {
     'contact.message': 'Message',
     'contact.messagePlaceholder': 'Comment pouvons-nous vous aider ?',
     'contact.formNote': 'Cela ouvre votre application e-mail. Une soumission en ligne pourra être ajoutée plus tard.',
+    'contact.formNoteOnline': 'Votre message est envoyé directement à notre équipe.',
+    'contact.sending': 'Envoi…',
+    'contact.error': "Une erreur s'est produite. Réessayez ou envoyez-nous un e-mail directement.",
+    'contact.sent.title': 'Message envoyé !',
+    'contact.sent.text': 'Merci de nous avoir contactés. Nous vous répondrons bientôt.',
+    'contact.sent.again': 'Envoyer un autre message',
 
     'notFound.title': 'Page introuvable',
     'notFound.sub': "La page que vous recherchez n'existe pas ou a été déplacée.",
@@ -564,6 +669,12 @@ export const translations = {
     'nav.themeDark': 'Hindura mu buryo bw\'ijoro',
     'nav.language': 'Ururimi',
     'nav.programs': 'Gahunda',
+    'nav.more': 'Ibindi',
+    'nav.team': 'Ikipe yacu',
+    'nav.donate': 'Tanga inkunga',
+
+    'whatsapp.label': 'Vugana natwe kuri WhatsApp',
+    'whatsapp.prefill': 'Muraho RW0164 EMLR Nyabinaga, nifuza kumenya byinshi ku bikorwa byanyu.',
 
     'site.tagline': 'Kubaka kwihangana, umuryango umwe ku wundi',
     'site.description':
@@ -779,6 +890,44 @@ export const translations = {
     'gallery.admin.drop': 'Kurura amafoto hano, cyangwa kanda ushakishe',
     'gallery.admin.hint': 'JPEG / PNG — amafoto manini ahindurwa ubunini ku rubuga.',
     'gallery.admin.saved': 'ifoto zashyizweho · zabitswe muri uyu mushakisha.',
+    'gallery.filter.all': 'Amafoto yose',
+    'gallery.filter.recent': 'Ayongewe vuba',
+
+    'team.eyebrow': 'Ikipe yacu',
+    'team.title': 'Abantu bari inyuma y\'akazi',
+    'team.subtitle':
+      'RW0164 EMLR Nyabinaga ushyigikirwa n\'abayobozi b\'umwete, abakozi, abateguzi n\'amakomite y\'umuryango.',
+    'team.leadership.eyebrow': 'Ubuyobozi',
+    'team.leadership.title': 'Menya abayobozi bacu',
+    'team.structure.eyebrow': 'Abakozi n\'amakomite',
+    'team.structure.title': 'Uko ikipe iteguwe',
+    'team.structure.sub':
+      'Ibikorwa bya buri munsi, kwigisha, guteka, ibikorwa remezo n\'amakomite y\'umuryango bikorera hamwe kugira ngo umushinga ukomeze.',
+    'team.total': 'abantu bakorera umushinga buri cyumweru',
+
+    'donate.eyebrow': 'Dushyigikire',
+    'donate.title': 'Fasha umuryango kubaka kwihangana',
+    'donate.subtitle':
+      'Ubuntu bwawe bufasha imiryango y\'abakennye, abana n\'urubyiruko bo muri Nyabinaga gukura bagana ku buzima bwiza.',
+    'donate.why.eyebrow': 'Impamvu yo gutanga',
+    'donate.why.title': 'Buri nkunga ifite akamaro',
+    'donate.why.text':
+      'Dufasha imiryango kwizigamira hamwe, gukora ibikorwa by\'inyungu, kubungabunga abana bari mu ishuri hamwe n\'ifunguro ku wa gatandatu, no guhugura urubyiruko mu bumenyi. Inkunga yawe ikomeza ibi bikorwa byose.',
+    'donate.impact.1': 'Ituma abana biga kandi bahabwa ifunguro ku wa gatandatu',
+    'donate.impact.2': 'Yubaka ubwizigame, ubuhinzi, ubworozi n\'ubucuruzi',
+    'donate.impact.3': 'Ihugura urubyiruko mu myuga no mu bucuruzi buto',
+    'donate.momo.title': 'Mobile Money (MoMo)',
+    'donate.momo.text': 'Ohereza inkunga yawe kuri Mobile Money kuri numero iri hasi.',
+    'donate.momo.name': 'Izina',
+    'donate.momo.number': 'Numero',
+    'donate.bank.title': 'Kohereza kuri banki',
+    'donate.bank.bankName': 'Banki',
+    'donate.bank.accountName': 'Izina rya konti',
+    'donate.bank.accountNumber': 'Numero ya konti',
+    'donate.contact.title': 'Tanga mu bundi buryo',
+    'donate.contact.text':
+      'Ushaka gushyigikira itsinda runaka, gutanga ibintu cyangwa gukorana natwe? Twandikire tuzagufasha.',
+    'donate.contact.button': 'Twandikire',
 
     'contact.eyebrow': 'Twandikire',
     'contact.title': 'Twishimiye kumva ibivuye kuri wewe',
@@ -787,6 +936,7 @@ export const translations = {
     'contact.getInTouch': 'Twandikire',
     'contact.visit': 'Tugane cyangwa twandikire',
     'contact.location': 'Aho duherereye',
+    'contact.phone': 'Telefone / WhatsApp',
     'contact.email': 'Imeli',
     'contact.name': 'Izina',
     'contact.namePlaceholder': 'Izina ryawe',
@@ -794,6 +944,12 @@ export const translations = {
     'contact.message': 'Ubutumwa',
     'contact.messagePlaceholder': 'Dushobora kugufasha dute?',
     'contact.formNote': 'Ibi bifungura porogaramu yawe ya imeli. Kohereza ku rubuga birashobora kongerwaho nyuma.',
+    'contact.formNoteOnline': 'Ubutumwa bwawe boherezwa mu buryo butaziguye ku ikipe yacu.',
+    'contact.sending': 'Birimo koherezwa…',
+    'contact.error': 'Hari ikibazo cyabaye. Ongera ugerageze cyangwa utwandikire kuri imeli.',
+    'contact.sent.title': 'Ubutumwa bwoherejwe!',
+    'contact.sent.text': 'Murakoze kutwandikira. Tuzabasubiza vuba.',
+    'contact.sent.again': 'Ohereza ubundi butumwa',
 
     'notFound.title': 'Paji ntiboneka',
     'notFound.sub': 'Paji ushaka ntibaho cyangwa yimuriwe.',
@@ -816,10 +972,12 @@ export const translations = {
 export const navRouteKeys = [
   { to: '/', key: 'nav.home' },
   { to: '/about', key: 'nav.about' },
+  { to: '/team', key: 'nav.team' },
   { to: '/groups', key: 'nav.groups' },
   { to: '/youth', key: 'nav.youth' },
   { to: '/children', key: 'nav.children' },
   { to: '/impact', key: 'nav.impact' },
   { to: '/gallery', key: 'nav.gallery' },
   { to: '/contact', key: 'nav.contact' },
+  { to: '/donate', key: 'nav.donate' },
 ]

@@ -92,11 +92,54 @@ The site has two soft-gated areas, configured in **`src/config/access.js`**:
 > login API + file storage) and update `src/context/AuthContext.jsx` and
 > `src/hooks/useGalleryUploads.js`. To change the passwords now, edit `src/config/access.js`.
 
-## Contact form
+## Contact, WhatsApp, socials & donation
 
-The contact form on the Contact page opens the visitor's email client via a `mailto:` link (no
-backend in v1). To accept submissions online later, wire the form to a service such as Formspree
-and update `src/pages/Contact.jsx`.
+All of these are configured in one place — **`src/content/site.js`** — so you never have to touch
+components:
+
+- **`contact`** — project emails, phone/WhatsApp number, and the optional Formspree form ID.
+- **`socials`** — Facebook / Instagram / YouTube URLs (leave a value `''` to hide that icon).
+- **`donation`** — Mobile Money name/number and (optional) bank-transfer details shown on the
+  Donate page. Any blank field is hidden automatically.
+
+### Contact form (delivering emails online)
+
+By default the contact form opens the visitor's email app via `mailto:` (addressed to both project
+emails). To have messages delivered **directly to your inbox** without relying on the visitor's
+email client:
+
+1. Go to [formspree.io](https://formspree.io) and create a free account.
+2. Create a new form and choose which email should receive submissions (you can forward to both
+   `rw164projdirector@gmail.com` and `jeromemunyansanga@gmail.com`).
+3. Copy the form ID from the endpoint `https://formspree.io/f/XXXXXXXX` — the `XXXXXXXX` part.
+4. Paste it into `contact.formspreeId` in `src/content/site.js`.
+
+Once set, the form submits in-page and shows a success message; if left blank it falls back to the
+`mailto:` behaviour.
+
+### WhatsApp button
+
+A floating WhatsApp button (bottom-right) opens a chat with `contact.whatsapp`. Change the number
+in `src/content/site.js` (digits only, with country code, e.g. `250783060232`).
+
+## Team page
+
+The **Our Team** page (`/team`) shows the staff/committee structure from `src/content/staff.js`.
+To feature named leaders with photos, fill in the `leadership` array in that file (set a `name`,
+optional `role`, and optional `photo` path under `/public/images`). Cards with an empty `name` are
+hidden, and a colored initials avatar is shown when no photo is provided.
+
+## Deploying live
+
+The project is a static site, so any static host works. SPA-routing configs are already included:
+
+- **Vercel** (`vercel.json`) — import the GitHub repo at [vercel.com](https://vercel.com); it
+  auto-detects Vite. No settings needed.
+- **Netlify** (`netlify.toml` + `public/_redirects`) — import the repo at
+  [netlify.com](https://netlify.com); build command `npm run build`, publish directory `dist`.
+
+Both serve the app at the domain root and redirect all routes to `index.html` so React Router works.
+After the first deploy you can connect a custom domain (e.g. `nyabinaga.org`) in the host's settings.
 
 ---
 

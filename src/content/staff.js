@@ -1,5 +1,17 @@
 // Staff, volunteers and committees serving RW0164 EMLR Nyabinaga.
 
+// Named leadership. Fill in real names (and optional photo paths under
+// /public/images) to show them on the Team page. Leave `name` empty to hide
+// a card. `photo` is optional — a placeholder avatar shows when it's blank.
+export const leadership = [
+  { name: '', role: 'Project Director', photo: '' },
+  { name: '', role: 'Deputy Director', photo: '' },
+  { name: '', role: 'Project Coordinator', photo: '' },
+  { name: '', role: 'Finance / Savings Lead', photo: '' },
+  { name: '', role: 'Youth Program Lead', photo: '' },
+  { name: '', role: "Children's Program Lead", photo: '' },
+]
+
 export const staffRoles = [
   { role: 'Daily operations staff', number: 5 },
   { role: 'Volunteer teachers', number: 4 },

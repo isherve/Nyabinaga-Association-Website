@@ -17,6 +17,46 @@ export const site = {
   thankYou: 'Murakoze (Thank you)', // legacy — no longer shown in footer
 }
 
+// ── Contact, social & donation configuration ────────────────────────────
+// Edit these values in one place; they feed the WhatsApp button, footer
+// social links, the Contact page, and the Donate page.
+
+export const contact = {
+  emails: ['rw164projdirector@gmail.com', 'jeromemunyansanga@gmail.com'],
+  // Phone shown on the site (human-friendly).
+  phoneDisplay: '+250 783 060 232',
+  // Same number, digits only, for tel: and WhatsApp (wa.me) links.
+  phoneRaw: '250783060232',
+  whatsapp: '250783060232',
+  // Paste your Formspree form ID here (looks like 'xayzabcd'). Leave empty to
+  // fall back to opening the visitor's email app via mailto:.
+  // Get one free at https://formspree.io  (see README → Contact form).
+  formspreeId: '',
+}
+
+// Social links. Set a URL to show the icon; leave '' to hide it.
+export const socials = {
+  facebook: '',
+  instagram: '',
+  youtube: '',
+}
+
+// Ways to give shown on the Donate / Support Us page.
+// Any entry left blank is hidden automatically.
+export const donation = {
+  mobileMoney: {
+    // Defaults to the project phone; change the name/number if needed.
+    name: 'RW0164 EMLR Nyabinaga',
+    number: '+250 783 060 232',
+  },
+  bank: {
+    bankName: '', // e.g. 'Bank of Kigali'
+    accountName: '', // e.g. 'RW0164 EMLR Nyabinaga'
+    accountNumber: '', // e.g. '000012345678900'
+    swift: '', // optional, for international transfers
+  },
+}
+
 export const navItems = [
   { label: 'Home', to: '/' },
   { label: 'About Us', to: '/about' },
@@ -74,6 +114,9 @@ export const heroSlideshow = [
 // image1 (woven pattern) and image87 (placeholder) are excluded.
 const excludedGalleryImages = [1, 87]
 
+// Images numbered 88+ were added in the most recent photo batches.
+const RECENT_FROM = 88
+
 export const galleryImages = Array.from({ length: 192 }, (_, i) => i + 1)
   .filter((n) => !excludedGalleryImages.includes(n))
   .map((n) => {
@@ -81,5 +124,11 @@ export const galleryImages = Array.from({ length: 192 }, (_, i) => i + 1)
     let ext = 'jpeg'
     if (n === 23 || n === 24) ext = 'jpg'
     if (n === 87) ext = 'png'
-    return { src: `/images/image${n}.${ext}`, alt: `RW0164 EMLR Nyabinaga community photo ${n}` }
+    return {
+      src: `/images/image${n}.${ext}`,
+      alt: `RW0164 EMLR Nyabinaga community photo ${n}`,
+      recent: n >= RECENT_FROM,
+    }
   })
+  // Show the most recent photos first.
+  .sort((a, b) => Number(b.recent) - Number(a.recent))

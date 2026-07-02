@@ -51,12 +51,13 @@ async function sendViaAfricasTalking({ to, message }) {
       : 'https://api.sandbox.africastalking.com/version1/messaging'
 
   const params = new URLSearchParams({ username, to, message })
-  if (senderId) params.set('from', senderId)
+  const from = senderId || (env === 'sandbox' ? 'Sandbox' : '')
+  if (from) params.set('from', from)
 
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: {
-      apiKey,
+      apikey: apiKey,
       'Content-Type': 'application/x-www-form-urlencoded',
       Accept: 'application/json',
     },
@@ -72,7 +73,13 @@ async function sendViaAfricasTalking({ to, message }) {
     status: ok ? 'sent' : 'failed',
     messageId: recipient?.messageId || null,
     cost: recipient?.cost || null,
-    response: recipient?.status || data?.SMSMessageData?.Message || `HTTP ${res.status}`,
+    response:
+      recipient?.status ||
+      data?.SMSMessageData?.Message ||
+      data?.errorMessage ||
+      data?.message ||
+      (typeof data === 'string' ? data : null) ||
+      `HTTP ${res.status}`,
     raw: data,
   }
 }

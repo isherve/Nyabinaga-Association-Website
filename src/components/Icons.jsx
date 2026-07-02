@@ -258,6 +258,34 @@ export function Gift(props) {
   )
 }
 
+export function Message(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M21 15a2 2 0 0 1-2 2H8l-4 4V6a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2v9Z" />
+      <path d="M8 9h8M8 12.5h5" />
+    </svg>
+  )
+}
+
+export function Send(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M22 2 11 13" />
+      <path d="M22 2 15 22l-4-9-9-4 20-7Z" />
+    </svg>
+  )
+}
+
+export function Download(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 4v12" />
+      <path d="m7 11 5 5 5-5" />
+      <path d="M5 20h14" />
+    </svg>
+  )
+}
+
 export const iconMap = {
   sprout: Sprout,
   book: Book,

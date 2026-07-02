@@ -204,6 +204,60 @@ export function Trash(props) {
   )
 }
 
+export function Phone(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" />
+    </svg>
+  )
+}
+
+// Brand icons use fill (not stroke) so they render as solid glyphs.
+export function WhatsApp(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" width={24} height={24} {...props}>
+      <path d="M17.5 14.4c-.3-.15-1.7-.85-2-.94-.26-.1-.45-.15-.64.15s-.74.93-.9 1.12c-.17.2-.33.22-.62.08a8.2 8.2 0 0 1-2.4-1.48 9 9 0 0 1-1.67-2.07c-.17-.3 0-.46.13-.6.13-.14.3-.34.44-.5.14-.18.19-.3.29-.5.1-.2.05-.37-.02-.52-.08-.15-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.48h-.55c-.19 0-.5.07-.76.36-.26.3-1 .98-1 2.38s1.02 2.76 1.17 2.95c.14.2 2.02 3.08 4.9 4.32.68.3 1.22.47 1.63.6.69.22 1.31.19 1.8.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34ZM12 2a10 10 0 0 0-8.6 15.06L2 22l5.06-1.33A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3 .79.8-2.93-.2-.3A8.2 8.2 0 1 1 12 20.2Z" />
+    </svg>
+  )
+}
+
+export function Facebook(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" width={24} height={24} {...props}>
+      <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z" />
+    </svg>
+  )
+}
+
+export function Instagram(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" width={24} height={24} {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  )
+}
+
+export function YouTube(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" width={24} height={24} {...props}>
+      <path d="M23 12s0-3.4-.43-5.03a2.62 2.62 0 0 0-1.84-1.85C19.1 4.7 12 4.7 12 4.7s-7.1 0-8.73.42A2.62 2.62 0 0 0 1.43 6.97C1 8.6 1 12 1 12s0 3.4.43 5.03c.24.9.94 1.6 1.84 1.85 1.63.42 8.73.42 8.73.42s7.1 0 8.73-.42a2.62 2.62 0 0 0 1.84-1.85C23 15.4 23 12 23 12ZM9.75 15.5v-7l6 3.5-6 3.5Z" />
+    </svg>
+  )
+}
+
+export function Gift(props) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3" y="8" width="18" height="4" rx="1" />
+      <path d="M5 12v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-8" />
+      <path d="M12 8v13" />
+      <path d="M12 8S10.5 3 8 4.5 9.5 8 12 8Zm0 0s1.5-5 4-3.5S14.5 8 12 8Z" />
+    </svg>
+  )
+}
+
 export const iconMap = {
   sprout: Sprout,
   book: Book,

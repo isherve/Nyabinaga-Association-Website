@@ -7,13 +7,17 @@ import { useSettings } from '../context/SettingsContext'
 import PasswordModal from './PasswordModal'
 import ThemeToggle from './ThemeToggle'
 import LanguageSelector from './LanguageSelector'
-import { Menu, Close, Lock, Unlock, ChevronDown, Users, Book, ArrowRight } from './Icons'
+import { Menu, Close, Lock, Unlock, ChevronDown, Users, Book, ArrowRight, Coins, Spark, Mail, Heart } from './Icons'
 
-const mainRoutes = navRouteKeys.slice(0, 3)
-const programRoutes = navRouteKeys.slice(3, 5)
-const moreRoutes = navRouteKeys.slice(5, 7)
+const routeByPath = Object.fromEntries(navRouteKeys.map((r) => [r.to, r]))
+const pick = (...paths) => paths.map((p) => routeByPath[p]).filter(Boolean)
+
+const mainRoutes = pick('/', '/about', '/groups')
+const programRoutes = pick('/youth', '/children')
+const moreRoutes = pick('/impact', '/gallery', '/team', '/contact')
 
 const programIcons = { '/youth': Users, '/children': Book }
+const moreIcons = { '/impact': Coins, '/gallery': Spark, '/team': Users, '/contact': Mail }
 
 function NavItem({ to, label, end, onClick, className = '', pill = true }) {
   return (
@@ -39,7 +43,9 @@ export default function Navbar() {
   const { isAdmin, logout } = useAuth()
   const [mobileOpen, setMobileOpen] = useState(false)
   const [programsOpen, setProgramsOpen] = useState(false)
+  const [moreOpen, setMoreOpen] = useState(false)
   const programsRef = useRef(null)
+  const moreRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const [adminLogin, setAdminLogin] = useState(false)
   const location = useLocation()
@@ -47,16 +53,18 @@ export default function Navbar() {
   useEffect(() => {
     setMobileOpen(false)
     setProgramsOpen(false)
+    setMoreOpen(false)
   }, [location.pathname])
 
   useEffect(() => {
-    if (!programsOpen) return
+    if (!programsOpen && !moreOpen) return
     const onClick = (e) => {
       if (programsRef.current && !programsRef.current.contains(e.target)) setProgramsOpen(false)
+      if (moreRef.current && !moreRef.current.contains(e.target)) setMoreOpen(false)
     }
     document.addEventListener('mousedown', onClick)
     return () => document.removeEventListener('mousedown', onClick)
-  }, [programsOpen])
+  }, [programsOpen, moreOpen])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -73,6 +81,7 @@ export default function Navbar() {
   }, [mobileOpen])
 
   const programsActive = programRoutes.some((r) => location.pathname === r.to)
+  const moreActive = moreRoutes.some((r) => location.pathname === r.to)
 
   return (
     <header
@@ -154,9 +163,48 @@ export default function Navbar() {
                 )}
               </div>
 
-              {moreRoutes.map((item) => (
-                <NavItem key={item.to} to={item.to} label={t(item.key)} />
-              ))}
+              {/* More dropdown */}
+              <div className="relative" ref={moreRef}>
+                <button
+                  type="button"
+                  onClick={() => setMoreOpen((v) => !v)}
+                  className={`inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
+                    moreActive
+                      ? 'bg-forest-600 text-white shadow-sm dark:bg-forest-500'
+                      : 'text-forest-700 hover:bg-earth-100 dark:text-forest-100 dark:hover:bg-forest-800'
+                  }`}
+                  aria-expanded={moreOpen}
+                >
+                  {t('nav.more')}
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform ${moreOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {moreOpen && (
+                  <div className="absolute left-1/2 top-full z-50 mt-3 w-64 -translate-x-1/2 overflow-hidden rounded-2xl border border-earth-100 bg-white p-1.5 shadow-xl dark:border-forest-700 dark:bg-forest-900">
+                    {moreRoutes.map((item) => {
+                      const Icon = moreIcons[item.to]
+                      return (
+                        <NavLink
+                          key={item.to}
+                          to={item.to}
+                          onClick={() => setMoreOpen(false)}
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
+                              isActive
+                                ? 'bg-forest-50 font-semibold text-forest-800 dark:bg-forest-800 dark:text-gold-300'
+                                : 'text-forest-700 hover:bg-earth-50 dark:text-forest-100 dark:hover:bg-forest-800'
+                            }`
+                          }
+                        >
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-forest-100 text-forest-600 dark:bg-forest-950 dark:text-gold-400">
+                            {Icon && <Icon className="h-5 w-5" />}
+                          </span>
+                          {t(item.key)}
+                        </NavLink>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
             </div>
           </nav>
 
@@ -196,9 +244,9 @@ export default function Navbar() {
               </button>
             )}
 
-            <Link to="/contact" className="btn-gold group hidden px-4 py-2.5 text-xs sm:px-5 sm:text-sm md:inline-flex">
-              {t('nav.getInTouch')}
-              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+            <Link to="/donate" className="btn-gold group hidden px-4 py-2.5 text-xs sm:px-5 sm:text-sm md:inline-flex">
+              <Heart className="h-4 w-4" />
+              {t('nav.donate')}
             </Link>
 
             <button
@@ -250,17 +298,19 @@ export default function Navbar() {
 
             <nav className="flex-1 overflow-y-auto px-4 py-4" aria-label="Mobile navigation">
               <ul className="space-y-1">
-                {navRouteKeys.map((item) => (
-                  <li key={item.to}>
-                    <NavItem
-                      to={item.to}
-                      label={t(item.key)}
-                      end={item.to === '/'}
-                      onClick={() => setMobileOpen(false)}
-                      pill={false}
-                    />
-                  </li>
-                ))}
+                {navRouteKeys
+                  .filter((item) => item.to !== '/donate')
+                  .map((item) => (
+                    <li key={item.to}>
+                      <NavItem
+                        to={item.to}
+                        label={t(item.key)}
+                        end={item.to === '/'}
+                        onClick={() => setMobileOpen(false)}
+                        pill={false}
+                      />
+                    </li>
+                  ))}
               </ul>
             </nav>
 
@@ -292,8 +342,8 @@ export default function Navbar() {
                   <Lock className="h-4 w-4" /> {t('nav.adminLogin')}
                 </button>
               )}
-              <Link to="/contact" onClick={() => setMobileOpen(false)} className="btn-gold w-full">
-                {t('nav.getInTouch')}
+              <Link to="/donate" onClick={() => setMobileOpen(false)} className="btn-gold w-full">
+                <Heart className="h-4 w-4" /> {t('nav.donate')}
               </Link>
             </div>
           </div>

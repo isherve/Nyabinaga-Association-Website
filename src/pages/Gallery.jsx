@@ -14,7 +14,17 @@ export default function Gallery() {
   const [dragging, setDragging] = useState(false)
   const [busy, setBusy] = useState(false)
 
-  const images = [...uploads, ...galleryImages]
+  const allImages = [...uploads, ...galleryImages]
+
+  // Category filter (All / Recently added).
+  const [filter, setFilter] = useState('all')
+  const filters = [
+    { id: 'all', label: t('gallery.filter.all') },
+    { id: 'recent', label: t('gallery.filter.recent') },
+  ]
+  const images =
+    filter === 'recent' ? allImages.filter((img) => img.recent || img.uploaded) : allImages
+
   const [index, setIndex] = useState(null)
   const isOpen = index !== null
 
@@ -25,6 +35,11 @@ export default function Gallery() {
   const visibleImages = images.slice(0, visibleCount)
   const hasMore = visibleCount < images.length
   const canCollapse = visibleCount > INITIAL_COUNT
+
+  // Reset how many are shown whenever the filter changes.
+  useEffect(() => {
+    setVisibleCount(INITIAL_COUNT)
+  }, [filter])
 
   const close = useCallback(() => setIndex(null), [])
   const next = useCallback(() => setIndex((i) => (i === null ? i : (i + 1) % images.length)), [images.length])
@@ -127,6 +142,23 @@ export default function Gallery() {
               )}
             </div>
           )}
+
+          <div className="mb-8 flex flex-wrap items-center justify-center gap-2">
+            {filters.map((f) => (
+              <button
+                key={f.id}
+                type="button"
+                onClick={() => setFilter(f.id)}
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition-colors ${
+                  filter === f.id
+                    ? 'bg-forest-600 text-white shadow-sm dark:bg-forest-500'
+                    : 'bg-earth-100 text-forest-700 hover:bg-earth-200 dark:bg-forest-900 dark:text-forest-100 dark:hover:bg-forest-800'
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
 
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {visibleImages.map((img, i) => (

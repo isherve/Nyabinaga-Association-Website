@@ -1,0 +1,825 @@
+// Site-wide translations — English (en), French (fr), Kinyarwanda (rw).
+// Use t('key') from useSettings() in components.
+
+export const translations = {
+  en: {
+    // Navigation
+    'nav.home': 'Home',
+    'nav.about': 'About Us',
+    'nav.groups': 'Our Groups',
+    'nav.youth': 'Youth Programs',
+    'nav.children': "Children's Program",
+    'nav.impact': 'Impact',
+    'nav.gallery': 'Gallery',
+    'nav.contact': 'Contact',
+    'nav.getInTouch': 'Get in touch',
+    'nav.adminLogin': 'Administrator login',
+    'nav.adminLogout': 'Admin · Log out',
+    'nav.openMenu': 'Open menu',
+    'nav.closeMenu': 'Close menu',
+    'nav.themeLight': 'Switch to light mode',
+    'nav.themeDark': 'Switch to dark mode',
+    'nav.language': 'Language',
+    'nav.programs': 'Programs',
+
+    // Site
+    'site.tagline': 'Building Self-Reliance, One Family at a Time',
+    'site.description':
+      'A community empowerment project helping vulnerable families build self-reliance through savings groups, farming, livestock, trade, crafts, and education.',
+
+    // Footer
+    'footer.explore': 'Explore',
+    'footer.more': 'More',
+    'footer.rights': 'All rights reserved.',
+
+    // Common
+    'common.viewDetails': 'View details',
+    'common.hideDetails': 'Hide details',
+    'common.registered': 'Registered',
+    'common.members': 'members',
+    'common.groupAssets': 'Group assets',
+    'common.totalGroupAssets': 'Total group assets',
+    'common.assetsBreakdown': 'Assets breakdown',
+    'common.savings': 'Savings',
+    'common.approx': '(approx.)',
+    'common.backHome': 'Back to home',
+    'common.sendMessage': 'Send message',
+    'common.choosePhotos': 'Choose photos',
+    'common.uploading': 'Uploading…',
+    'common.new': 'New',
+    'common.deletePhoto': 'Delete photo',
+    'common.viewMore': 'View more',
+    'common.showLess': 'Show less',
+
+    // Home
+    'home.hero.location': 'Nyamasheke District, Rwanda',
+    'home.hero.headline': 'Building Self-Reliance,',
+    'home.hero.headlineAccent': 'One Family at a Time',
+    'home.hero.sub':
+      'A community empowerment project in Karambi Village, Nyamasheke District, Rwanda, helping vulnerable families grow through savings groups, farming, livestock, trade, and education.',
+    'home.hero.ctaGroups': 'See Our Groups',
+    'home.hero.ctaContact': 'Contact Us',
+    'home.stats.beneficiaries': 'Beneficiaries supported',
+    'home.stats.groups': 'Livelihood groups',
+    'home.stats.registered': 'Groups formally registered',
+    'home.stats.assets': 'Total combined group assets',
+    'home.whatWeDo.eyebrow': 'What we do',
+    'home.whatWeDo.title': 'Four ways we walk alongside families',
+    'home.whatWeDo.sub':
+      'Every part of our work is designed to help families stand on their own — through shared savings, productive work, and education for the next generation.',
+    'home.whatWeDo.livelihood.title': 'Livelihood Groups',
+    'home.whatWeDo.livelihood.text':
+      'Families are organized into savings and income-generating groups — farming, livestock, trade, and crafts.',
+    'home.whatWeDo.children.title': "Children's Education Support",
+    'home.whatWeDo.children.text':
+      'A primary school with 18 classrooms plus a Saturday learning and feeding program for children.',
+    'home.whatWeDo.youth.title': 'Youth Empowerment',
+    'home.whatWeDo.youth.text':
+      'Vocational training, small business support, and talent development for young people.',
+    'home.whatWeDo.savings.title': 'Savings & Credit',
+    'home.whatWeDo.savings.text':
+      'Every group practices weekly or monthly group savings and internal lending.',
+    'home.groups.eyebrow': 'The families behind the numbers',
+    'home.groups.title': 'Meet a few of our livelihood groups',
+    'home.groups.viewAll': 'View all 13 groups',
+    'home.cta.title': 'Discover the families and groups behind these numbers.',
+    'home.cta.button': 'Explore Our Groups',
+
+    // About
+    'about.eyebrow': 'Our Story',
+    'about.title': 'A community growing stronger, together',
+    'about.subtitle':
+      'From 210 families in 2011 to 264 today — the story of RW0164 EMLR Nyabinaga is one of compassion, hard work, and steady progress.',
+    'about.origins.eyebrow': 'Origins',
+    'about.origins.title': 'How we grew',
+    'about.origins.p1':
+      'As time went on, the project was blessed to welcome more beneficiaries through internal growth, transfers from other areas, and integration from the CSP (Child Survival Program). Today, the project supports 264 beneficiaries in total.',
+    'about.origins.p2':
+      'All beneficiaries come from vulnerable families that are gradually improving their lives through the support they receive. The families we serve continue to grow steadily thanks to these compassion-driven activities.',
+    'about.location.eyebrow': 'Location & History',
+    'about.location.title': 'Where it all happens',
+    'about.location.text':
+      'The project is located in Western Province, Nyamasheke District, Kirimbi Sector, Karengera Cell, Karambi Village.',
+    'about.timeline.start.title': 'The project begins',
+    'about.timeline.start.text':
+      'RW0164 EMLR Nyabinaga started operations, beginning with 210 beneficiaries.',
+    'about.timeline.activity.title': 'Families join in',
+    'about.timeline.activity.text':
+      "Families began actively taking part in the project's activities.",
+    'about.timeline.today.date': 'Today',
+    'about.timeline.today.title': '264 beneficiaries and growing',
+    'about.timeline.today.text':
+      'Through internal growth, transfers from other areas, and integration from the CSP (Child Survival Program), the project now supports 264 beneficiaries.',
+    'about.facilities.eyebrow': 'Our Facilities',
+    'about.facilities.title': 'Places built for people',
+    'about.facilities.f1':
+      'A staff building with 8 offices and one "survival" (emergency / child-protection) room',
+    'about.facilities.f2':
+      'A primary school with 18 classrooms plus a school office, used for the Saturday children\'s learning program',
+    'about.facilities.saturday':
+      "Every Saturday, the project runs a full-day program: children's classes, a prepared meal for the children, and general facility and administrative work.",
+    'about.people.eyebrow': 'Our People',
+    'about.people.title': 'Staff, volunteers & committees',
+    'about.people.sub':
+      'The project is powered by dedicated staff, volunteers, and community committees.',
+    'about.staff.daily': 'Daily operations staff',
+    'about.staff.teachers': 'Volunteer teachers',
+    'about.staff.cooks': 'Cooks (prepare Saturday meals for children)',
+    'about.staff.facilities': 'Facilities / animal care staff',
+    'about.staff.project': 'Project Committee members',
+    'about.staff.parents': "Parents' Committee members",
+    'about.staff.youth': 'Youth Committee members',
+    'about.cta.title': 'See our work in action',
+    'about.cta.sub': 'Explore the 13 livelihood groups building self-reliance every day.',
+    'about.cta.button': 'Our Groups',
+
+    // Groups
+    'groups.eyebrow': 'Our Groups — Amatsinda',
+    'groups.title': '13 livelihood groups building self-reliance',
+    'groups.subtitle':
+      'Each group runs its own income-generating activities — farming, livestock, trade, or crafts — alongside a group savings scheme.',
+    'groups.intro':
+      'Families supported by RW0164 EMLR Nyabinaga are organized into 13 livelihood groups. 11 of these groups are officially registered at the Sector level and hold a certificate; 1 additional entity operates as a registered company. One group has not yet registered because its members come directly from the Survival / emergency program.',
+    'groups.registered.eyebrow': 'Officially Registered',
+    'groups.registered.title': 'Groups with legal, notarized statutes',
+    'groups.registered.sub': 'The following groups all hold legal, notarized statutes.',
+
+    // Youth
+    'youth.eyebrow': 'Youth Programs',
+    'youth.title': 'Helping young people find their path',
+    'youth.subtitle':
+      'Beyond supporting families, RW0164 EMLR Nyabinaga runs a dedicated youth program helping young people discover their talents, get vocational training, and start small businesses.',
+    'youth.group.title': 'Youth Group: Ubwiza bw\'Iwacu',
+    'youth.group.desc': 'A dedicated youth livelihood group running its own activities.',
+    'youth.group.a1': 'Pig farming',
+    'youth.group.a2': 'Bead / jewelry weaving (masaro — traditional woven ornaments)',
+    'youth.blacksmith.title': 'Blacksmithing & Metalwork (Ubucuzi)',
+    'youth.blacksmith.i1': 'Making and selling hoes, machetes, and other metal tools ("Male")',
+    'youth.blacksmith.i2': 'Making and selling charcoal cookstoves ("Imbabura")',
+    'youth.blacksmith.note': 'Sold at Karengera trading center.',
+    'youth.talent.title': 'Talent Discovery & Recognition',
+    'youth.talent.desc':
+      "A program dedicated to discovering children's talents, nurturing them, and rewarding children who behave well and excel academically.",
+    'youth.businesses.eyebrow': 'Youth Small Businesses',
+    'youth.businesses.title': 'Started with our support',
+    'youth.businesses.sub': 'Young people have been supported to launch their own small businesses.',
+    'youth.businesses.b1': 'Airtime & Mobile Money (MoMo) agent businesses',
+    'youth.businesses.b2': 'Clothing / boutique trade',
+    'youth.businesses.b3': 'Fruit trade',
+    'youth.businesses.b4': 'ICT equipment trade',
+    'youth.vocational.eyebrow': 'Vocational Training — Imyuga',
+    'youth.vocational.title': 'Skills for a livelihood',
+    'youth.vocational.sub': 'Youth are enrolled in hands-on vocational skills training.',
+    'youth.vocational.tailoring': 'Tailoring',
+    'youth.vocational.shoemaking': 'Shoemaking / cobbling',
+    'youth.vocational.carpentry': 'Carpentry',
+    'youth.vocational.entrepreneurship': 'Entrepreneurship skills',
+    'youth.vocational.weaving': 'Basket & bead weaving',
+
+    // Children
+    'children.eyebrow': "Children's Program",
+    'children.title': 'Learning, nourishment, and protection',
+    'children.subtitle':
+      "Our children's program combines schooling, a Saturday feeding program, and a safe place for children who need emergency support.",
+    'children.f1.title': '18 classrooms',
+    'children.f1.text':
+      'A primary school with 18 classrooms and a school office, at the heart of the community.',
+    'children.f2.title': 'Saturday classes',
+    'children.f2.text':
+      "Every Saturday, volunteer teachers lead children's classes to reinforce their learning.",
+    'children.f3.title': 'A prepared meal',
+    'children.f3.text': 'Four dedicated cooks prepare a warm meal for the children each Saturday.',
+    'children.survival.eyebrow': 'A safe place',
+    'children.survival.title': 'The "survival" room',
+    'children.survival.text':
+      'Our staff building includes a dedicated "survival" room for emergency child support — a safe space where children who need urgent help can be cared for and protected.',
+    'children.impact.stat': '0',
+    'children.impact.title':
+      'children aged 15+ enrolled in primary school are out of school',
+    'children.impact.sub':
+      'Zero dropout among that cohort. Of the 2 families in the program not yet fully "graduated" / reconciled, the underlying children\'s school metrics remain strong.',
+    'children.cta.title': 'Explore our youth program',
+    'children.cta.sub': 'See how we help young people learn trades and start businesses.',
+    'children.cta.button': 'Youth Programs',
+
+    // Impact
+    'impact.eyebrow': 'Impact & Numbers',
+    'impact.title': 'The measure of our progress',
+    'impact.subtitle':
+      'Real numbers from a real community — from beneficiaries served to the assets our groups have built together.',
+    'impact.h1.label': 'Beneficiaries supported today',
+    'impact.h1.from': 'up from 210 at launch in 2011',
+    'impact.h2.label': 'Livelihood groups',
+    'impact.h2.from': '12 with notarized legal statutes',
+    'impact.h3.label': 'Total group assets (RWF)',
+    'impact.h3.from': 'built from savings & shared work',
+    'impact.h4.label': 'Primary school classrooms',
+    'impact.h4.from': 'plus a Saturday learning program',
+    'impact.chart.eyebrow': 'Assets by group',
+    'impact.chart.title': 'What each group has built (RWF)',
+    'impact.chart.sub': 'Combined assets across all groups total 72,826,010 RWF.',
+    'impact.table.eyebrow': 'The full picture',
+    'impact.table.title': 'Key metrics at a glance',
+    'impact.m1': 'Total beneficiaries',
+    'impact.m2': 'Beneficiaries at project start (2011)',
+    'impact.m3': 'Number of livelihood groups',
+    'impact.m4': 'Groups formally registered (notarized statutes)',
+    'impact.m5': 'Total combined assets across all groups',
+    'impact.m6': '— of which, youth group assets',
+    'impact.m7': '— of which, family livelihood group assets',
+    'impact.m8': 'Project start date',
+    'impact.m9': 'First community activity date',
+    'impact.m10': 'Classrooms in primary school',
+    'impact.m11': 'Staff offices',
+    'impact.m12': 'Daily staff',
+    'impact.m13': 'Volunteer teachers',
+    'impact.m14': 'Saturday program cooks',
+
+    // Gallery
+    'gallery.eyebrow': 'Gallery',
+    'gallery.title': 'Faces, work, and life in our community',
+    'gallery.subtitle':
+      'A window into the people, groups, activities, and children of RW0164 EMLR Nyabinaga.',
+    'gallery.admin.title': 'Administrator uploads',
+    'gallery.admin.sub':
+      'Add photos to the gallery. Images are saved in this browser and shown at the top of the grid below.',
+    'gallery.admin.drop': 'Drag & drop images here, or click to browse',
+    'gallery.admin.hint': 'JPEG / PNG — large photos are automatically resized for the web.',
+    'gallery.admin.saved': 'uploaded photo(s) · saved in this browser.',
+
+    // Contact
+    'contact.eyebrow': 'Contact',
+    'contact.title': "We'd love to hear from you",
+    'contact.subtitle':
+      'Whether you want to learn more, partner with us, or support a group, reach out — our door is open.',
+    'contact.getInTouch': 'Get in touch',
+    'contact.visit': 'Visit or write to us',
+    'contact.location': 'Our location',
+    'contact.email': 'Email',
+    'contact.name': 'Name',
+    'contact.namePlaceholder': 'Your name',
+    'contact.emailPlaceholder': 'you@example.com',
+    'contact.message': 'Message',
+    'contact.messagePlaceholder': 'How can we help?',
+    'contact.formNote': 'This opens your email app. Online submission can be added later.',
+
+    // Not found
+    'notFound.title': 'Page not found',
+    'notFound.sub': "The page you're looking for doesn't exist or has moved.",
+
+    // Auth
+    'auth.restricted': 'Restricted content',
+    'auth.restrictedSub':
+      'Enter the access password to view detailed financial information for this group.',
+    'auth.adminTitle': 'Administrator login',
+    'auth.adminSub':
+      'Enter the administrator password to manage photos and view all details.',
+    'auth.password': 'Password',
+    'auth.unlock': 'Unlock',
+    'auth.login': 'Log in',
+    'auth.wrongPassword': 'Incorrect password. Please try again.',
+    'auth.close': 'Close',
+  },
+
+  fr: {
+    'nav.home': 'Accueil',
+    'nav.about': 'À propos',
+    'nav.groups': 'Nos groupes',
+    'nav.youth': 'Programmes jeunesse',
+    'nav.children': 'Programme enfants',
+    'nav.impact': 'Impact',
+    'nav.gallery': 'Galerie',
+    'nav.contact': 'Contact',
+    'nav.getInTouch': 'Nous contacter',
+    'nav.adminLogin': 'Connexion administrateur',
+    'nav.adminLogout': 'Admin · Déconnexion',
+    'nav.openMenu': 'Ouvrir le menu',
+    'nav.closeMenu': 'Fermer le menu',
+    'nav.themeLight': 'Passer au mode clair',
+    'nav.themeDark': 'Passer au mode sombre',
+    'nav.language': 'Langue',
+    'nav.programs': 'Programmes',
+
+    'site.tagline': "Bâtir l'autonomie, une famille à la fois",
+    'site.description':
+      "Un projet d'autonomisation communautaire aidant les familles vulnérables grâce aux groupes d'épargne, l'agriculture, l'élevage, le commerce, l'artisanat et l'éducation.",
+
+    'footer.explore': 'Explorer',
+    'footer.more': 'Plus',
+    'footer.rights': 'Tous droits réservés.',
+
+    'common.viewDetails': 'Voir les détails',
+    'common.hideDetails': 'Masquer les détails',
+    'common.registered': 'Enregistré',
+    'common.members': 'membres',
+    'common.groupAssets': 'Actifs du groupe',
+    'common.totalGroupAssets': 'Actifs totaux du groupe',
+    'common.assetsBreakdown': 'Répartition des actifs',
+    'common.savings': 'Épargne',
+    'common.approx': '(approx.)',
+    'common.backHome': "Retour à l'accueil",
+    'common.sendMessage': 'Envoyer le message',
+    'common.choosePhotos': 'Choisir des photos',
+    'common.uploading': 'Téléversement…',
+    'common.new': 'Nouveau',
+    'common.viewMore': 'Voir plus',
+    'common.showLess': 'Voir moins',
+    'common.deletePhoto': 'Supprimer la photo',
+
+    'home.hero.location': 'District de Nyamasheke, Rwanda',
+    'home.hero.headline': "Bâtir l'autonomie,",
+    'home.hero.headlineAccent': 'une famille à la fois',
+    'home.hero.sub':
+      "Un projet d'autonomisation communautaire à Karambi, district de Nyamasheke, Rwanda, aidant les familles vulnérables grâce aux groupes d'épargne, l'agriculture, l'élevage, le commerce et l'éducation.",
+    'home.hero.ctaGroups': 'Voir nos groupes',
+    'home.hero.ctaContact': 'Nous contacter',
+    'home.stats.beneficiaries': 'Bénéficiaires soutenus',
+    'home.stats.groups': "Groupes de subsistance",
+    'home.stats.registered': 'Groupes officiellement enregistrés',
+    'home.stats.assets': 'Actifs combinés des groupes',
+    'home.whatWeDo.eyebrow': 'Ce que nous faisons',
+    'home.whatWeDo.title': "Quatre façons d'accompagner les familles",
+    'home.whatWeDo.sub':
+      "Chaque aspect de notre travail vise à aider les familles à devenir autonomes — par l'épargne collective, le travail productif et l'éducation des jeunes générations.",
+    'home.whatWeDo.livelihood.title': 'Groupes de subsistance',
+    'home.whatWeDo.livelihood.text':
+      "Les familles sont organisées en groupes d'épargne et de revenus — agriculture, élevage, commerce et artisanat.",
+    'home.whatWeDo.children.title': "Soutien à l'éducation des enfants",
+    'home.whatWeDo.children.text':
+      'Une école primaire de 18 salles de classe et un programme du samedi d\'apprentissage et de repas pour les enfants.',
+    'home.whatWeDo.youth.title': 'Autonomisation des jeunes',
+    'home.whatWeDo.youth.text':
+      'Formation professionnelle, soutien aux petites entreprises et développement des talents des jeunes.',
+    'home.whatWeDo.savings.title': 'Épargne et crédit',
+    'home.whatWeDo.savings.text':
+      'Chaque groupe pratique une épargne collective hebdomadaire ou mensuelle et des prêts internes.',
+    'home.groups.eyebrow': 'Les familles derrière les chiffres',
+    'home.groups.title': 'Découvrez quelques-uns de nos groupes',
+    'home.groups.viewAll': 'Voir les 13 groupes',
+    'home.cta.title': 'Découvrez les familles et les groupes derrière ces chiffres.',
+    'home.cta.button': 'Explorer nos groupes',
+
+    'about.eyebrow': 'Notre histoire',
+    'about.title': 'Une communauté qui grandit ensemble',
+    'about.subtitle':
+      "De 210 familles en 2011 à 264 aujourd'hui — l'histoire de RW0164 EMLR Nyabinaga est celle de la compassion, du travail acharné et des progrès constants.",
+    'about.origins.eyebrow': 'Origines',
+    'about.origins.title': 'Notre croissance',
+    'about.origins.p1':
+      "Au fil du temps, le projet a accueilli davantage de bénéficiaires grâce à la croissance interne, aux transferts d'autres zones et à l'intégration du CSP (Child Survival Program). Aujourd'hui, le projet soutient 264 bénéficiaires au total.",
+    'about.origins.p2':
+      "Tous les bénéficiaires proviennent de familles vulnérables qui améliorent progressivement leur vie grâce au soutien reçu. Les familles que nous servons continuent de croître grâce à ces activités guidées par la compassion.",
+    'about.location.eyebrow': 'Lieu et histoire',
+    'about.location.title': 'Où tout se passe',
+    'about.location.text':
+      'Le projet est situé dans la province de l\'Ouest, district de Nyamasheke, secteur de Kirimbi, cellule de Karengera, village de Karambi.',
+    'about.timeline.start.title': 'Début du projet',
+    'about.timeline.start.text':
+      'RW0164 EMLR Nyabinaga a commencé ses activités avec 210 bénéficiaires.',
+    'about.timeline.activity.title': 'Les familles participent',
+    'about.timeline.activity.text':
+      'Les familles ont commencé à participer activement aux activités du projet.',
+    'about.timeline.today.date': "Aujourd'hui",
+    'about.timeline.today.title': '264 bénéficiaires et en croissance',
+    'about.timeline.today.text':
+      "Grâce à la croissance interne, aux transferts et à l'intégration du CSP, le projet soutient aujourd'hui 264 bénéficiaires.",
+    'about.facilities.eyebrow': 'Nos installations',
+    'about.facilities.title': 'Des lieux conçus pour les gens',
+    'about.facilities.f1':
+      'Un bâtiment administratif avec 8 bureaux et une salle « survival » (urgence / protection de l\'enfance)',
+    'about.facilities.f2':
+      "Une école primaire de 18 salles de classe et un bureau scolaire, utilisés pour le programme d'apprentissage du samedi",
+    'about.facilities.saturday':
+      "Chaque samedi, le projet organise une journée complète : cours pour les enfants, repas préparé et travail administratif.",
+    'about.people.eyebrow': 'Notre équipe',
+    'about.people.title': 'Personnel, bénévoles et comités',
+    'about.people.sub':
+      'Le projet est animé par un personnel dévoué, des bénévoles et des comités communautaires.',
+    'about.staff.daily': 'Personnel des opérations quotidiennes',
+    'about.staff.teachers': 'Enseignants bénévoles',
+    'about.staff.cooks': 'Cuisiniers (repas du samedi pour les enfants)',
+    'about.staff.facilities': 'Personnel des installations / soins aux animaux',
+    'about.staff.project': 'Membres du comité du projet',
+    'about.staff.parents': 'Membres du comité des parents',
+    'about.staff.youth': 'Membres du comité de la jeunesse',
+    'about.cta.title': 'Voir notre travail en action',
+    'about.cta.sub': 'Explorez les 13 groupes de subsistance qui construisent l\'autonomie chaque jour.',
+    'about.cta.button': 'Nos groupes',
+
+    'groups.eyebrow': 'Nos groupes — Amatsinda',
+    'groups.title': '13 groupes de subsistance bâtissant l\'autonomie',
+    'groups.subtitle':
+      "Chaque groupe mène ses propres activités génératrices de revenus — agriculture, élevage, commerce ou artisanat — avec un système d'épargne collective.",
+    'groups.intro':
+      "Les familles soutenues par RW0164 EMLR Nyabinaga sont organisées en 13 groupes de subsistance. 11 sont officiellement enregistrés au niveau du secteur ; 1 entité supplémentaire opère comme société enregistrée. Un groupe n'est pas encore enregistré car ses membres proviennent directement du programme Survival / urgence.",
+    'groups.registered.eyebrow': 'Officiellement enregistrés',
+    'groups.registered.title': 'Groupes aux statuts légaux notariés',
+    'groups.registered.sub': 'Les groupes suivants détiennent tous des statuts légaux notariés.',
+
+    'youth.eyebrow': 'Programmes jeunesse',
+    'youth.title': 'Aider les jeunes à trouver leur voie',
+    'youth.subtitle':
+      "En plus du soutien aux familles, RW0164 EMLR Nyabinaga mène un programme jeunesse dédié à la découverte des talents, la formation professionnelle et la création de petites entreprises.",
+    'youth.group.title': 'Groupe jeunesse : Ubwiza bw\'Iwacu',
+    'youth.group.desc': 'Un groupe de subsistance jeunesse menant ses propres activités.',
+    'youth.group.a1': 'Élevage porcin',
+    'youth.group.a2': 'Tissage de perles / bijoux (masaro — ornements traditionnels)',
+    'youth.blacksmith.title': 'Forge et métallurgie (Ubucuzi)',
+    'youth.blacksmith.i1': 'Fabrication et vente de houes, machettes et autres outils (« Male »)',
+    'youth.blacksmith.i2': 'Fabrication et vente de foyers à charbon (« Imbabura »)',
+    'youth.blacksmith.note': 'Vendus au centre commercial de Karengera.',
+    'youth.talent.title': 'Découverte et reconnaissance des talents',
+    'youth.talent.desc':
+      "Un programme dédié à la découverte des talents des enfants, à leur développement et à la récompense de ceux qui se comportent bien et excellent scolairement.",
+    'youth.businesses.eyebrow': 'Petites entreprises des jeunes',
+    'youth.businesses.title': 'Lancées avec notre soutien',
+    'youth.businesses.sub': 'Des jeunes ont été soutenus pour lancer leurs propres petites entreprises.',
+    'youth.businesses.b1': 'Agences airtime et Mobile Money (MoMo)',
+    'youth.businesses.b2': 'Commerce de vêtements / boutique',
+    'youth.businesses.b3': 'Commerce de fruits',
+    'youth.businesses.b4': 'Commerce de matériel informatique',
+    'youth.vocational.eyebrow': 'Formation professionnelle — Imyuga',
+    'youth.vocational.title': 'Des compétences pour vivre',
+    'youth.vocational.sub': 'Les jeunes suivent une formation professionnelle pratique.',
+    'youth.vocational.tailoring': 'Couture',
+    'youth.vocational.shoemaking': 'Cordonnerie',
+    'youth.vocational.carpentry': 'Menuiserie',
+    'youth.vocational.entrepreneurship': "Compétences entrepreneuriales",
+    'youth.vocational.weaving': 'Vannerie et tissage de perles',
+
+    'children.eyebrow': 'Programme enfants',
+    'children.title': 'Apprentissage, nourriture et protection',
+    'children.subtitle':
+      "Notre programme enfants combine la scolarisation, un programme du samedi avec repas et un lieu sûr pour les enfants en situation d'urgence.",
+    'children.f1.title': '18 salles de classe',
+    'children.f1.text':
+      'Une école primaire de 18 salles de classe et un bureau scolaire, au cœur de la communauté.',
+    'children.f2.title': 'Cours du samedi',
+    'children.f2.text':
+      'Chaque samedi, des enseignants bénévoles animent des cours pour renforcer l\'apprentissage des enfants.',
+    'children.f3.title': 'Un repas préparé',
+    'children.f3.text': 'Quatre cuisiniers dévoués préparent un repas chaud pour les enfants chaque samedi.',
+    'children.survival.eyebrow': 'Un lieu sûr',
+    'children.survival.title': 'La salle « survival »',
+    'children.survival.text':
+      "Notre bâtiment comprend une salle « survival » dédiée au soutien d'urgence des enfants — un espace sûr pour ceux qui ont besoin d'aide immédiate.",
+    'children.impact.stat': '0',
+    'children.impact.title':
+      "d'enfants de 15 ans et plus inscrits à l'école primaire sont déscolarisés",
+    'children.impact.sub':
+      "Aucun abandon dans cette cohorte. Pour les 2 familles pas encore pleinement « diplômées », les indicateurs scolaires des enfants restent solides.",
+    'children.cta.title': 'Découvrez notre programme jeunesse',
+    'children.cta.sub': 'Voyez comment nous aidons les jeunes à apprendre un métier et créer des entreprises.',
+    'children.cta.button': 'Programmes jeunesse',
+
+    'impact.eyebrow': 'Impact et chiffres',
+    'impact.title': 'La mesure de nos progrès',
+    'impact.subtitle':
+      'Des chiffres réels d\'une vraie communauté — des bénéficiaires aux actifs construits ensemble.',
+    'impact.h1.label': 'Bénéficiaires soutenus aujourd\'hui',
+    'impact.h1.from': 'contre 210 au lancement en 2011',
+    'impact.h2.label': 'Groupes de subsistance',
+    'impact.h2.from': '12 avec statuts légaux notariés',
+    'impact.h3.label': 'Actifs totaux des groupes (FRW)',
+    'impact.h3.from': 'construits par l\'épargne et le travail collectif',
+    'impact.h4.label': 'Salles de classe primaire',
+    'impact.h4.from': 'plus un programme du samedi',
+    'impact.chart.eyebrow': 'Actifs par groupe',
+    'impact.chart.title': 'Ce que chaque groupe a construit (FRW)',
+    'impact.chart.sub': 'Les actifs combinés totalisent 72 826 010 FRW.',
+    'impact.table.eyebrow': 'Vue d\'ensemble',
+    'impact.table.title': 'Indicateurs clés',
+    'impact.m1': 'Total des bénéficiaires',
+    'impact.m2': 'Bénéficiaires au démarrage (2011)',
+    'impact.m3': 'Nombre de groupes de subsistance',
+    'impact.m4': 'Groupes officiellement enregistrés (statuts notariés)',
+    'impact.m5': 'Actifs combinés de tous les groupes',
+    'impact.m6': '— dont actifs du groupe jeunesse',
+    'impact.m7': '— dont actifs des groupes familiaux',
+    'impact.m8': 'Date de début du projet',
+    'impact.m9': 'Date de la première activité communautaire',
+    'impact.m10': 'Salles de classe primaire',
+    'impact.m11': 'Bureaux du personnel',
+    'impact.m12': 'Personnel quotidien',
+    'impact.m13': 'Enseignants bénévoles',
+    'impact.m14': 'Cuisiniers du programme du samedi',
+
+    'gallery.eyebrow': 'Galerie',
+    'gallery.title': 'Visages, travail et vie dans notre communauté',
+    'gallery.subtitle':
+      'Une fenêtre sur les personnes, groupes, activités et enfants de RW0164 EMLR Nyabinaga.',
+    'gallery.admin.title': 'Téléversements administrateur',
+    'gallery.admin.sub':
+      'Ajoutez des photos à la galerie. Les images sont enregistrées dans ce navigateur et affichées en haut de la grille.',
+    'gallery.admin.drop': 'Glissez-déposez des images ici, ou cliquez pour parcourir',
+    'gallery.admin.hint': 'JPEG / PNG — les grandes photos sont redimensionnées automatiquement.',
+    'gallery.admin.saved': 'photo(s) téléversée(s) · enregistrée(s) dans ce navigateur.',
+
+    'contact.eyebrow': 'Contact',
+    'contact.title': 'Nous serions ravis de vous entendre',
+    'contact.subtitle':
+      'Que vous souhaitiez en savoir plus, devenir partenaire ou soutenir un groupe, contactez-nous — notre porte est ouverte.',
+    'contact.getInTouch': 'Nous contacter',
+    'contact.visit': 'Nous rendre visite ou nous écrire',
+    'contact.location': 'Notre adresse',
+    'contact.email': 'E-mail',
+    'contact.name': 'Nom',
+    'contact.namePlaceholder': 'Votre nom',
+    'contact.emailPlaceholder': 'vous@exemple.com',
+    'contact.message': 'Message',
+    'contact.messagePlaceholder': 'Comment pouvons-nous vous aider ?',
+    'contact.formNote': 'Cela ouvre votre application e-mail. Une soumission en ligne pourra être ajoutée plus tard.',
+
+    'notFound.title': 'Page introuvable',
+    'notFound.sub': "La page que vous recherchez n'existe pas ou a été déplacée.",
+
+    'auth.restricted': 'Contenu restreint',
+    'auth.restrictedSub':
+      'Entrez le mot de passe pour voir les informations financières détaillées de ce groupe.',
+    'auth.adminTitle': 'Connexion administrateur',
+    'auth.adminSub':
+      'Entrez le mot de passe administrateur pour gérer les photos et voir tous les détails.',
+    'auth.password': 'Mot de passe',
+    'auth.unlock': 'Déverrouiller',
+    'auth.login': 'Se connecter',
+    'auth.wrongPassword': 'Mot de passe incorrect. Veuillez réessayer.',
+    'auth.close': 'Fermer',
+  },
+
+  rw: {
+    'nav.home': 'Ahabanza',
+    'nav.about': 'Twebwe',
+    'nav.groups': 'Amatsinda',
+    'nav.youth': 'Urubyiruko',
+    'nav.children': 'Abana',
+    'nav.impact': 'Ingaruka',
+    'nav.gallery': 'Amafoto',
+    'nav.contact': 'Twandikire',
+    'nav.getInTouch': 'Twandikire',
+    'nav.adminLogin': 'Kwinjira kw\'umuyobozi',
+    'nav.adminLogout': 'Umuyobozi · Gusohoka',
+    'nav.openMenu': 'Gufungura menu',
+    'nav.closeMenu': 'Gufunga menu',
+    'nav.themeLight': 'Hindura mu buryo bw\'umucyo',
+    'nav.themeDark': 'Hindura mu buryo bw\'ijoro',
+    'nav.language': 'Ururimi',
+    'nav.programs': 'Gahunda',
+
+    'site.tagline': 'Kubaka kwihangana, umuryango umwe ku wundi',
+    'site.description':
+      'Umushinga w\'ubufasha bwo mu muryango ufasha imiryango y\'abakennye kubaka kwihangana binyuze mu matsinda y\'ubwizigame, ubuhinzi, ubworozi, ubucuruzi, ubukorikori n\'uburezi.',
+
+    'footer.explore': 'Shakisha',
+    'footer.more': 'Ibindi',
+    'footer.rights': 'Uburenganzira bwose burabitswe.',
+
+    'common.viewDetails': 'Reba ibisobanuro',
+    'common.hideDetails': 'Hisha ibisobanuro',
+    'common.registered': 'Byanditswe',
+    'common.members': 'abanyamuryango',
+    'common.groupAssets': 'Umutungo w\'itsinda',
+    'common.totalGroupAssets': 'Umutungo wose w\'itsinda',
+    'common.assetsBreakdown': 'Ibisobanuro by\'umutungo',
+    'common.savings': 'Ubwizigame',
+    'common.approx': '(hafi)',
+    'common.backHome': 'Subira ahabanza',
+    'common.sendMessage': 'Ohereza ubutumwa',
+    'common.choosePhotos': 'Hitamo amafoto',
+    'common.uploading': 'Birimo koherezwa…',
+    'common.new': 'Gishya',
+    'common.viewMore': 'Reba andi',
+    'common.showLess': 'Garagaza make',
+    'common.deletePhoto': 'Siba ifoto',
+
+    'home.hero.location': 'Akarere ka Nyamasheke, u Rwanda',
+    'home.hero.headline': 'Kubaka kwihangana,',
+    'home.hero.headlineAccent': 'umuryango umwe ku wundi',
+    'home.hero.sub':
+      'Umushinga w\'ubufasha bwo mu muryango mu Karambi, Akarere ka Nyamasheke, u Rwanda, ufasha imiryango y\'abakennye gukura binyuze mu matsinda y\'ubwizigame, ubuhinzi, ubworozi, ubucuruzi n\'uburezi.',
+    'home.hero.ctaGroups': 'Reba Amatsinda',
+    'home.hero.ctaContact': 'Twandikire',
+    'home.stats.beneficiaries': 'Abagenerwa bafashwa',
+    'home.stats.groups': 'Amatsinda y\'ubuzima',
+    'home.stats.registered': 'Amatsinda yanditswe mu buryo bwemewe',
+    'home.stats.assets': 'Umutungo wose w\'amatsinda',
+    'home.whatWeDo.eyebrow': 'Icyo dukora',
+    'home.whatWeDo.title': 'Uburyo bune bwo gufasha imiryango',
+    'home.whatWeDo.sub':
+      'Buri gice cy\'akazi kacu cyagenewe gufasha imiryango kwihanganira — binyuze mu bwizigame, akazi k\'ingirakamaro n\'uburezi bw\'urubyiruko ruzaza.',
+    'home.whatWeDo.livelihood.title': 'Amatsinda y\'ubuzima',
+    'home.whatWeDo.livelihood.text':
+      'Imiryango itegurwa mu matsinda y\'ubwizigame n\'inyungu — ubuhinzi, ubworozi, ubucuruzi n\'ubukorikori.',
+    'home.whatWeDo.children.title': 'Gufasha abana mu masomo',
+    'home.whatWeDo.children.text':
+      'Ishuri ry\'incuke rifite ibyumba 18 hamwe n\'igikorwa cy\'amasomo n\'ibiryo ku wa gatandatu.',
+    'home.whatWeDo.youth.title': 'Gushimangira urubyiruko',
+    'home.whatWeDo.youth.text':
+      'Amahugurwa y\'umwuga, gufasha udushya tw\'ubucuruzi no gushimangira impano z\'urubyiruko.',
+    'home.whatWeDo.savings.title': 'Ubwizigame n\'inguzanyo',
+    'home.whatWeDo.savings.text':
+      'Buri tsinda rikora ubwizigame buri cyumweru cyangwa buri kwezi n\'inguzanyo mu itsinda.',
+    'home.groups.eyebrow': 'Imiryango iri inyuma y\'imibare',
+    'home.groups.title': 'Menya amwe mu matsinda yacu',
+    'home.groups.viewAll': 'Reba amatsinda 13 yose',
+    'home.cta.title': 'Menya imiryango n\'amatsinda ari inyuma y\'iyi mibare.',
+    'home.cta.button': 'Shakisha Amatsinda',
+
+    'about.eyebrow': 'Inkuru yacu',
+    'about.title': 'Umuryango ukura hamwe',
+    'about.subtitle':
+      'Kuva imiryango 210 mu 2011 kugeza kuri 264 uyu munsi — inkuru ya RW0164 EMLR Nyabinaga ni iy\'impano, akazi k\'umwete n\'iterambere rihoraho.',
+    'about.origins.eyebrow': 'Intangiriro',
+    'about.origins.title': 'Uko twakuye',
+    'about.origins.p1':
+      'Mu gihe cyagiye gihita, umushinga wahawe impano yo kwakira abandi bagenerwa binyuze mu gukura imbere, guhindurwa mu bice bitandukanye no guhuza n\'umushinga wa CSP (Child Survival Program). Uyu munsi, umushinga ufasha abagenerwa 264.',
+    'about.origins.p2':
+      'Abagenerwa bose bava mu miryango y\'abakennye bigenda bongera iterambere mu buzima binyuze mu bufasha babona. Imiryango dukorera ikomeza gukura binyuze muri izi nkoranyambaga zishingiye ku mutima.',
+    'about.location.eyebrow': 'Aho biherereye n\'amateka',
+    'about.location.title': 'Aho byose bikorwa',
+    'about.location.text':
+      'Umushinga uherereye mu Ntara y\'Iburengerazuba, Akarere ka Nyamasheke, Umurenge wa Kirimbi, Akagari ka Karengera, Umudugudu wa Karambi.',
+    'about.timeline.start.title': 'Umushinga utangira',
+    'about.timeline.start.text':
+      'RW0164 EMLR Nyabinaga watangiye akazi, utangiriye ku bagenerwa 210.',
+    'about.timeline.activity.title': 'Imiryango yinjira',
+    'about.timeline.activity.text':
+      'Imiryango yatangiye kwitabira ibikorwa by\'umushinga.',
+    'about.timeline.today.date': 'Uyu munsi',
+    'about.timeline.today.title': 'Abagenerwa 264 bikomeza gukura',
+    'about.timeline.today.text':
+      'Binyuze mu gukura imbere, guhindurwa no guhuza na CSP, umushinga ubu ufasha abagenerwa 264.',
+    'about.facilities.eyebrow': 'Ibikorwa remezo',
+    'about.facilities.title': 'Ahantu hagenewe abantu',
+    'about.facilities.f1':
+      'Inyubako y\'abakozi ifite ibiro 8 n\'icyumba kimwe cya "survival" (ubufasha bw\'ihutirwa / kurinda abana)',
+    'about.facilities.f2':
+      'Ishuri ry\'incuke rifite ibyumba 18 n\'ibiro by\'ishuri, bikoreshwa mu gikorwa cy\'amasomo ku wa gatandatu',
+    'about.facilities.saturday':
+      'Buri wa gatandatu, umushinga ukora umunsi wuzuye: amasomo y\'abana, ifunguro ryateguwe n\'akazi k\'ibikorwa remezo n\'ubuyobozi.',
+    'about.people.eyebrow': 'Abantu bacu',
+    'about.people.title': 'Abakozi, abateguzi n\'amakomite',
+    'about.people.sub':
+      'Umushinga ukorwa n\'abakozi b\'umwete, abateguzi n\'amakomite y\'umuryango.',
+    'about.staff.daily': 'Abakozi b\'iminsi yose',
+    'about.staff.teachers': 'Abarimu b\'abateguzi',
+    'about.staff.cooks': 'Abateka (batekera abana ku wa gatandatu)',
+    'about.staff.facilities': 'Abakozi b\'ibikorwa remezo / ubworozi',
+    'about.staff.project': 'Abanyamuryango b\'ikomite ry\'umushinga',
+    'about.staff.parents': 'Abanyamuryango b\'ikomite ry\'ababyeyi',
+    'about.staff.youth': 'Abanyamuryango b\'ikomite ry\'urubyiruko',
+    'about.cta.title': 'Reba akazi kacu mu bikorwa',
+    'about.cta.sub': 'Shakisha amatsinda 13 y\'ubuzima akora kwihangana buri munsi.',
+    'about.cta.button': 'Amatsinda',
+
+    'groups.eyebrow': 'Amatsinda — Amatsinda',
+    'groups.title': 'Amatsinda 13 akora kwihangana',
+    'groups.subtitle':
+      'Buri tsinda rikora ibikorwa byaryo by\'inyungu — ubuhinzi, ubworozi, ubucuruzi cyangwa ubukorikori — hamwe n\'ubwizigame bw\'itsinda.',
+    'groups.intro':
+      'Imiryango ifashwa na RW0164 EMLR Nyabinaga itegurwa mu matsinda 13 y\'ubuzima. 11 muri yo yanditswe mu buryo bwemewe ku rwego rw\'umurenge; 1 rindi rikora nk\'isosiyete yanditswe. Itsinda rimwe ntiryanditswe kuko abanyamuryango bayo bava mu gikorwa cya Survival / ihutirwa.',
+    'groups.registered.eyebrow': 'Byanditswe mu buryo bwemewe',
+    'groups.registered.title': 'Amatsinda afite amategeko yemewe',
+    'groups.registered.sub': 'Amatsinda akurikira afite amategeko yemewe yanditse.',
+
+    'youth.eyebrow': 'Gahunda z\'urubyiruko',
+    'youth.title': 'Gufasha urubyiruko kubona inzira',
+    'youth.subtitle':
+      'Uretse gufasha imiryango, RW0164 EMLR Nyabinaga ukora gahunda y\'urubyiruko ifasha urubyiruko kubona impano, kubona amahugurwa y\'umwuga no gutangira udushya tw\'ubucuruzi.',
+    'youth.group.title': 'Itsinda ry\'urubyiruko: Ubwiza bw\'Iwacu',
+    'youth.group.desc': 'Itsinda ry\'urubyiruko rikora ibikorwa byaryo.',
+    'youth.group.a1': 'Ubworozi bw\'ingurube',
+    'youth.group.a2': 'Gukora imisoro / ibikoresho by\'ubukorikori (masaro)',
+    'youth.blacksmith.title': 'Gukora ibyuma (Ubucuzi)',
+    'youth.blacksmith.i1': 'Gukora no kugurisha amapanga, imipanga n\'ibindi ("Male")',
+    'youth.blacksmith.i2': 'Gukora no kugurisha ibikoresho byo guteka kuri makara ("Imbabura")',
+    'youth.blacksmith.note': 'Bigurishwa ku isoko rya Karengera.',
+    'youth.talent.title': 'Kubona no gushimira impano',
+    'youth.talent.desc':
+      'Gahunda yo kubona impano z\'abana, kuzishimangira no guhemba abana bafite imyitwarire myiza n\'amasomo meza.',
+    'youth.businesses.eyebrow': 'Udushya tw\'urubyiruko',
+    'youth.businesses.title': 'Byatangijwe n\'ubufasha bwacu',
+    'youth.businesses.sub': 'Urubyiruko rwafashijwe gutangira udushya tw\'ubucuruzi.',
+    'youth.businesses.b1': 'Ubucuruzi bwa airtime na Mobile Money (MoMo)',
+    'youth.businesses.b2': 'Ubucuruzi bw\'imyenda / boutique',
+    'youth.businesses.b3': 'Ubucuruzi bw\'imbuto',
+    'youth.businesses.b4': 'Ubucuruzi bw\'ibikoresho bya ICT',
+    'youth.vocational.eyebrow': 'Amahugurwa y\'umwuga — Imyuga',
+    'youth.vocational.title': 'Ubumenyi bwo kubona ubuzima',
+    'youth.vocational.sub': 'Urubyiruko rwiyandikisha mu mahugurwa y\'umwuga.',
+    'youth.vocational.tailoring': 'Ubudozi',
+    'youth.vocational.shoemaking': 'Gukora inkweto',
+    'youth.vocational.carpentry': 'Ububaji',
+    'youth.vocational.entrepreneurship': 'Ubumenyingiro',
+    'youth.vocational.weaving': 'Ububoshyi n\'imisoro',
+
+    'children.eyebrow': 'Gahunda y\'abana',
+    'children.title': 'Amasomo, ibiryo n\'umutekano',
+    'children.subtitle':
+      'Gahunda yacu y\'abana ihuza amashuri, igikorwa cy\'ibiryo ku wa gatandatu n\'ahantu hizewe ku bana bakeneye ubufasha bw\'ihutirwa.',
+    'children.f1.title': 'Ibyumba 18 by\'amasomo',
+    'children.f1.text':
+      'Ishuri ry\'incuke rifite ibyumba 18 n\'ibiro by\'ishuri, mu mutima w\'umuryango.',
+    'children.f2.title': 'Amasomo ku wa gatandatu',
+    'children.f2.text':
+      'Buri wa gatandatu, abarimu b\'abateguzi batanga amasomo yo gushimangira kwiga kw\'abana.',
+    'children.f3.title': 'Ifunguro ryateguwe',
+    'children.f3.text': 'Abateka bane bategura ifunguro ryumutse ku bana buri wa gatandatu.',
+    'children.survival.eyebrow': 'Ahantu hizewe',
+    'children.survival.title': 'Icyumba cya "survival"',
+    'children.survival.text':
+      'Inyubako y\'abakozi ifite icyumba cya "survival" cy\'ubufasha bw\'ihutirwa ku bana — ahantu hizewe aho abana bakeneye ubufasha bwihuse bashobora kubungabungwa.',
+    'children.impact.stat': '0',
+    'children.impact.title':
+      'abana bafite imyaka 15+ bari mu mashuri abanza basize ishuri',
+    'children.impact.sub':
+      'Nta muntu wasize ishuri muri iyi itsinda. Ku miryango 2 itararangiza "kwiyandikisha", imibare y\'amasomo y\'abana ikomeje kuba nziza.',
+    'children.cta.title': 'Shakisha gahunda y\'urubyiruko',
+    'children.cta.sub': 'Reba uko dufasha urubyiruko kwiga imyuga no gutangira udushya.',
+    'children.cta.button': 'Gahunda z\'urubyiruko',
+
+    'impact.eyebrow': 'Ingaruka n\'imibare',
+    'impact.title': 'Igipimo cy\'iterambere ryacu',
+    'impact.subtitle':
+      'Imibare nyayo y\'umuryango nyawe — kuva ku bagenerwa kugeza ku mutungo amatsinda yubakanye hamwe.',
+    'impact.h1.label': 'Abagenerwa bafashwa uyu munsi',
+    'impact.h1.from': 'bavuye kuri 210 mu gutangira mu 2011',
+    'impact.h2.label': 'Amatsinda y\'ubuzima',
+    'impact.h2.from': '12 afite amategeko yemewe',
+    'impact.h3.label': 'Umutungo wose w\'amatsinda (FRW)',
+    'impact.h3.from': 'wubatswe n\'ubwizigame n\'akazi k\'itsinda',
+    'impact.h4.label': 'Ibyumba by\'ishuri ry\'incuke',
+    'impact.h4.from': 'hamwe n\'igikorwa cy\'amasomo ku wa gatandatu',
+    'impact.chart.eyebrow': 'Umutungo ku itsinda',
+    'impact.chart.title': 'Icyo buri tsinda cyubatse (FRW)',
+    'impact.chart.sub': 'Umutungo wose w\'amatsinda ni 72,826,010 FRW.',
+    'impact.table.eyebrow': 'Ishusho yose',
+    'impact.table.title': 'Imibare y\'ingenzi',
+    'impact.m1': 'Abagenerwa bose',
+    'impact.m2': 'Abagenerwa mu gutangira (2011)',
+    'impact.m3': 'Umubare w\'amatsinda y\'ubuzima',
+    'impact.m4': 'Amatsinda yanditswe mu buryo bwemewe',
+    'impact.m5': 'Umutungo wose w\'amatsinda yose',
+    'impact.m6': '— muri byo, umutungo w\'itsinda ry\'urubyiruko',
+    'impact.m7': '— muri byo, umutungo w\'amatsinda y\'imiryango',
+    'impact.m8': 'Itariki yo gutangira umushinga',
+    'impact.m9': 'Itariki y\'igikorwa cya mbere cy\'umuryango',
+    'impact.m10': 'Ibyumba by\'ishuri ry\'incuke',
+    'impact.m11': 'Ibiro by\'abakozi',
+    'impact.m12': 'Abakozi b\'iminsi yose',
+    'impact.m13': 'Abarimu b\'abateguzi',
+    'impact.m14': 'Abateka b\'igikorwa cy\'umunsi w\'isabato',
+
+    'gallery.eyebrow': 'Amafoto',
+    'gallery.title': 'Imyanya, akazi n\'ubuzima mu muryango wacu',
+    'gallery.subtitle':
+      'Idirishya ku bantu, amatsinda, ibikorwa n\'abana ba RW0164 EMLR Nyabinaga.',
+    'gallery.admin.title': 'Kohereza amafoto (umuyobozi)',
+    'gallery.admin.sub':
+      'Ongeraho amafoto mu ishusho. Amafoto abikwa muri uyu mushakisha kandi agaragara hejuru y\'urubuga.',
+    'gallery.admin.drop': 'Kurura amafoto hano, cyangwa kanda ushakishe',
+    'gallery.admin.hint': 'JPEG / PNG — amafoto manini ahindurwa ubunini ku rubuga.',
+    'gallery.admin.saved': 'ifoto zashyizweho · zabitswe muri uyu mushakisha.',
+
+    'contact.eyebrow': 'Twandikire',
+    'contact.title': 'Twishimiye kumva ibivuye kuri wewe',
+    'contact.subtitle':
+      'Waba ushaka kumenya byinshi, gukorana natwe cyangwa gufasha itsinda, twandikire — urugo rwacu rufunguye.',
+    'contact.getInTouch': 'Twandikire',
+    'contact.visit': 'Tugane cyangwa twandikire',
+    'contact.location': 'Aho duherereye',
+    'contact.email': 'Imeli',
+    'contact.name': 'Izina',
+    'contact.namePlaceholder': 'Izina ryawe',
+    'contact.emailPlaceholder': 'wowe@urugero.com',
+    'contact.message': 'Ubutumwa',
+    'contact.messagePlaceholder': 'Dushobora kugufasha dute?',
+    'contact.formNote': 'Ibi bifungura porogaramu yawe ya imeli. Kohereza ku rubuga birashobora kongerwaho nyuma.',
+
+    'notFound.title': 'Paji ntiboneka',
+    'notFound.sub': 'Paji ushaka ntibaho cyangwa yimuriwe.',
+
+    'auth.restricted': 'Ibirimo bifite ibanga',
+    'auth.restrictedSub':
+      'Andika ijambo ry\'ibanga kugira ngo urebe amakuru y\'imari y\'iri tsinda.',
+    'auth.adminTitle': 'Kwinjira kw\'umuyobozi',
+    'auth.adminSub':
+      'Andika ijambo ry\'ibanga ry\'umuyobozi kugira ngo ucunge amafoto kandi urebe ibisobanuro byose.',
+    'auth.password': 'Ijambo ry\'ibanga',
+    'auth.unlock': 'Fungura',
+    'auth.login': 'Injira',
+    'auth.wrongPassword': 'Ijambo ry\'ibanga siyo. Ongera ugerageze.',
+    'auth.close': 'Funga',
+  },
+}
+
+// Nav route keys mapped to translation keys (order preserved).
+export const navRouteKeys = [
+  { to: '/', key: 'nav.home' },
+  { to: '/about', key: 'nav.about' },
+  { to: '/groups', key: 'nav.groups' },
+  { to: '/youth', key: 'nav.youth' },
+  { to: '/children', key: 'nav.children' },
+  { to: '/impact', key: 'nav.impact' },
+  { to: '/gallery', key: 'nav.gallery' },
+  { to: '/contact', key: 'nav.contact' },
+]

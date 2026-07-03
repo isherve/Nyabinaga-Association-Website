@@ -7,7 +7,7 @@ import { useSettings } from '../context/SettingsContext'
 import PasswordModal from './PasswordModal'
 import ThemeToggle from './ThemeToggle'
 import LanguageSelector from './LanguageSelector'
-import { Menu, Close, Lock, Unlock, ChevronDown, Users, Book, ArrowRight, Coins, Spark, Mail, Heart, Message } from './Icons'
+import { Menu, Close, Lock, Unlock, ChevronDown, Users, Book, ArrowRight, Coins, Spark, Mail, Heart, Message, ClipboardList, Calendar } from './Icons'
 
 const routeByPath = Object.fromEntries(navRouteKeys.map((r) => [r.to, r]))
 const pick = (...paths) => paths.map((p) => routeByPath[p]).filter(Boolean)
@@ -240,6 +240,28 @@ export default function Navbar() {
               </Link>
             )}
 
+            {isAdmin && (
+              <Link
+                to="/admin/daily"
+                className="hidden items-center gap-1.5 rounded-full bg-forest-700 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-forest-800 dark:bg-forest-600 dark:hover:bg-forest-500 md:inline-flex"
+                title="Daily Work Report"
+              >
+                <ClipboardList className="h-4 w-4" />
+                <span className="hidden xl:inline">Daily</span>
+              </Link>
+            )}
+
+            {isAdmin && (
+              <Link
+                to="/admin/meetings"
+                className="hidden items-center gap-1.5 rounded-full bg-gold-500 px-3 py-2 text-xs font-semibold text-forest-900 transition-colors hover:bg-gold-400 md:inline-flex"
+                title="Meeting Management"
+              >
+                <Calendar className="h-4 w-4" />
+                <span className="hidden xl:inline">Meetings</span>
+              </Link>
+            )}
+
             {isAdmin ? (
               <button
                 type="button"
@@ -364,6 +386,40 @@ export default function Navbar() {
                       }
                     >
                       <Coins className="h-4 w-4" /> IGA Reports
+                    </NavLink>
+                  </li>
+                )}
+                {isAdmin && (
+                  <li>
+                    <NavLink
+                      to="/admin/daily"
+                      onClick={() => setMobileOpen(false)}
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                          isActive
+                            ? 'bg-forest-600 text-white'
+                            : 'text-forest-700 hover:bg-earth-100 dark:text-forest-100 dark:hover:bg-forest-800'
+                        }`
+                      }
+                    >
+                      <ClipboardList className="h-4 w-4" /> Daily Work Report
+                    </NavLink>
+                  </li>
+                )}
+                {isAdmin && (
+                  <li>
+                    <NavLink
+                      to="/admin/meetings"
+                      onClick={() => setMobileOpen(false)}
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                          isActive
+                            ? 'bg-forest-600 text-white'
+                            : 'text-forest-700 hover:bg-earth-100 dark:text-forest-100 dark:hover:bg-forest-800'
+                        }`
+                      }
+                    >
+                      <Calendar className="h-4 w-4" /> Meeting Management
                     </NavLink>
                   </li>
                 )}

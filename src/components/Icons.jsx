@@ -286,6 +286,34 @@ export function Download(props) {
   )
 }
 
+export function Calendar(props) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3" y="5" width="18" height="16" rx="2" />
+      <path d="M3 9h18M8 3v4M16 3v4" />
+    </svg>
+  )
+}
+
+export function Clock(props) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </svg>
+  )
+}
+
+export function ClipboardList(props) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="6" y="4" width="12" height="17" rx="2" />
+      <path d="M9 4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V4Z" />
+      <path d="M9 11h6M9 15h4" />
+    </svg>
+  )
+}
+
 export const iconMap = {
   sprout: Sprout,
   book: Book,

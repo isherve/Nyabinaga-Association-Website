@@ -128,53 +128,63 @@ async function sendViaTwilio({ to, message }) {
   }
 }
 
-// MTN API Marketplace (MADAPI). Uses OAuth2 client-credentials to get a bearer
-// token, then posts the SMS. Endpoint URLs are configurable because MTN assigns
-// them per app/environment — copy them from your app's docs.
+// MTN API Marketplace (MADAPI) — SMS v3 for Rwanda.
+// Docs: https://developers.mtn.com/products/sms-v3-api
+async function mtnGetToken(key, secret, tokenUrl) {
+  const body = new URLSearchParams({ client_id: key, client_secret: secret })
+  const res = await fetch(tokenUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: 'application/json',
+    },
+    body: body.toString(),
+  })
+  const data = await res.json().catch(() => ({}))
+  return { res, data, token: data?.access_token || data?.accessToken || null }
+}
+
 async function sendViaMtn({ to, message }) {
   const key = process.env.MTN_CONSUMER_KEY
   const secret = process.env.MTN_CONSUMER_SECRET
+  // Optional: MADAPI SMS v3 authenticates with the bearer token alone, but some
+  // gateway configs also expect an APIM subscription key — sent only if present.
   const subKey = process.env.MTN_SUBSCRIPTION_KEY
-  const tokenUrl = process.env.MTN_TOKEN_URL
-  const smsUrl = process.env.MTN_SMS_URL
+  const smsUrl = process.env.MTN_SMS_URL || 'https://api.mtn.com/v3/sms/messages/sms/outbound'
   const senderId = process.env.MTN_SENDER_ID
 
   const missing = []
   if (!key) missing.push('MTN_CONSUMER_KEY')
   if (!secret) missing.push('MTN_CONSUMER_SECRET')
-  if (!tokenUrl) missing.push('MTN_TOKEN_URL')
-  if (!smsUrl) missing.push('MTN_SMS_URL')
   if (missing.length) {
     return { ok: false, status: 'failed', response: `MTN not configured: ${missing.join(', ')}` }
   }
 
-  // 1) Get an access token (client_credentials, HTTP Basic auth).
-  const basic = Buffer.from(`${key}:${secret}`).toString('base64')
-  const tokenHeaders = {
-    Authorization: `Basic ${basic}`,
-    'Content-Type': 'application/x-www-form-urlencoded',
-    Accept: 'application/json',
-  }
-  if (subKey) tokenHeaders['Ocp-Apim-Subscription-Key'] = subKey
+  // 1) OAuth token. The portal documents two token-URL variants; try the
+  // configured one first (if any), then the known fallbacks.
+  const tokenUrls = [
+    process.env.MTN_TOKEN_URL,
+    'https://api.mtn.com/v1/oauth/access_token?grant_type=client_credentials',
+    'https://api.mtn.com/v1/oauth/access_token/accesstoken?grant_type=client_credentials',
+  ].filter(Boolean)
 
-  const tokenRes = await fetch(tokenUrl, {
-    method: 'POST',
-    headers: tokenHeaders,
-    body: 'grant_type=client_credentials',
-  })
-  const tokenData = await tokenRes.json().catch(() => ({}))
-  const accessToken = tokenData?.access_token || tokenData?.accessToken
-  if (!tokenRes.ok || !accessToken) {
-    return {
-      ok: false,
-      status: 'failed',
-      response: `MTN auth failed: ${tokenData?.error_description || tokenData?.message || `HTTP ${tokenRes.status}`}`,
-      raw: tokenData,
+  let accessToken = null
+  let lastAuthMsg = 'unknown error'
+  for (const url of tokenUrls) {
+    // eslint-disable-next-line no-await-in-loop
+    const { res, data, token } = await mtnGetToken(key, secret, url)
+    if (res.ok && token) {
+      accessToken = token
+      break
     }
+    lastAuthMsg = data?.error_description || data?.message || data?.fault?.faultstring || `HTTP ${res.status}`
   }
 
-  // 2) Send the SMS. Body shape follows the common MADAPI outbound-SMS schema;
-  // adjust field names here if your product's docs differ.
+  if (!accessToken) {
+    return { ok: false, status: 'failed', response: `MTN auth failed: ${lastAuthMsg}` }
+  }
+
+  // 2) Send SMS (one recipient per request).
   const smsHeaders = {
     Authorization: `Bearer ${accessToken}`,
     'Content-Type': 'application/json',
@@ -183,13 +193,15 @@ async function sendViaMtn({ to, message }) {
   if (subKey) smsHeaders['Ocp-Apim-Subscription-Key'] = subKey
 
   const payload = {
-    senderAddress: senderId || undefined,
     receiverAddress: [to],
     message,
     clientCorrelatorId: `nyabinaga-${Date.now()}`,
-    serviceCode: undefined,
     requestDeliveryReceipt: false,
   }
+  // The SMS v3 schema requires a serviceCode (short code) unless a senderAddress
+  // is used; include whichever your MTN account was provisioned with.
+  if (process.env.MTN_SERVICE_CODE) payload.serviceCode = process.env.MTN_SERVICE_CODE
+  if (senderId) payload.senderAddress = senderId
 
   const smsRes = await fetch(smsUrl, {
     method: 'POST',
@@ -212,6 +224,7 @@ async function sendViaMtn({ to, message }) {
       smsData?.statusMessage ||
       smsData?.message ||
       smsData?.description ||
+      smsData?.supportMessage ||
       (ok ? 'Success' : `HTTP ${smsRes.status}`),
     raw: smsData,
   }

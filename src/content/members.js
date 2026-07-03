@@ -81,6 +81,23 @@ export function removeAddedMember(groupId, id) {
   return getGroupMembers(groupId)
 }
 
+/** Add many members at once (e.g. from an Excel import). Returns the new list. */
+export function addGroupMembersBulk(groupId, rows) {
+  const all = readLocal()
+  const entries = (Array.isArray(rows) ? rows : [])
+    .map((r) => ({
+      id: uid(),
+      name: String(r.name || '').trim(),
+      phone: String(r.phone || '').trim(),
+      role: String(r.role || '').trim(),
+      added: true,
+    }))
+    .filter((m) => m.name || m.phone)
+  all[groupId] = [...(all[groupId] || []), ...entries]
+  writeLocal(all)
+  return { members: getGroupMembers(groupId), added: entries.length }
+}
+
 // Tidy Rwandan phone numbers for display; leave anything else as typed.
 export function formatPhone(raw) {
   const s = String(raw || '').trim()

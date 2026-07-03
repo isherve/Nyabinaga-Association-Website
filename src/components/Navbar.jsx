@@ -7,17 +7,17 @@ import { useSettings } from '../context/SettingsContext'
 import PasswordModal from './PasswordModal'
 import ThemeToggle from './ThemeToggle'
 import LanguageSelector from './LanguageSelector'
-import { Menu, Close, Lock, Unlock, ChevronDown, Users, Book, ArrowRight, Coins, Spark, Mail, Heart, Message, ClipboardList, Calendar } from './Icons'
+import { Menu, Close, Lock, Unlock, ChevronDown, Users, Book, ArrowRight, Coins, Spark, Mail, Heart, Message, ClipboardList, Calendar, Megaphone } from './Icons'
 
 const routeByPath = Object.fromEntries(navRouteKeys.map((r) => [r.to, r]))
 const pick = (...paths) => paths.map((p) => routeByPath[p]).filter(Boolean)
 
 const mainRoutes = pick('/', '/about', '/groups')
 const programRoutes = pick('/youth', '/children')
-const moreRoutes = pick('/impact', '/gallery', '/team', '/contact')
+const moreRoutes = pick('/impact', '/gallery', '/pastors-room', '/team', '/contact')
 
 const programIcons = { '/youth': Users, '/children': Book }
-const moreIcons = { '/impact': Coins, '/gallery': Spark, '/team': Users, '/contact': Mail }
+const moreIcons = { '/impact': Coins, '/gallery': Spark, '/pastors-room': Megaphone, '/team': Users, '/contact': Mail }
 
 // Admin-only tools, grouped into a single dropdown to keep the bar uncluttered.
 const adminTools = [

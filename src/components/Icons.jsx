@@ -314,6 +314,25 @@ export function ClipboardList(props) {
   )
 }
 
+export function Megaphone(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M3 11v2a1 1 0 0 0 1 1h2l9 5V5L6 10H4a1 1 0 0 0-1 1Z" />
+      <path d="M15 8a4 4 0 0 1 0 8" />
+      <path d="M7 14v4a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-2" />
+    </svg>
+  )
+}
+
+export function Pin(props) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 17v5" />
+      <path d="M9 3h6l-1 6 3 3H7l3-3-1-6Z" />
+    </svg>
+  )
+}
+
 export const iconMap = {
   sprout: Sprout,
   book: Book,

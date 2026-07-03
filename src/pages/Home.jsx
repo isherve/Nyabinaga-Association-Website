@@ -88,30 +88,34 @@ export default function Home() {
       {pinned.length > 0 && (
         <section className="section surface-muted">
           <div className="container-page">
-            <Reveal className="mx-auto max-w-4xl">
-              <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
-                <span className="inline-flex items-center gap-2 rounded-full bg-gold-100 px-4 py-1.5 text-sm font-semibold text-earth-700 dark:bg-gold-900/30 dark:text-gold-300">
-                  <Megaphone className="h-4 w-4" /> {t('home.announcements.eyebrow')}
-                </span>
-                <Link to="/pastors-room" className="text-sm font-semibold text-forest-600 hover:underline dark:text-gold-300">
-                  {t('home.announcements.viewAll')} <ArrowRight className="inline h-4 w-4" />
-                </Link>
-              </div>
-              <div className="mt-6 space-y-4">
-                {pinned.map((a) => (
-                  <article key={a.id} className="card p-6 ring-2 ring-gold-400/50">
-                    <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-gold-100 px-2.5 py-0.5 text-xs font-semibold text-earth-700 dark:bg-gold-900/30 dark:text-gold-300">
+            <Reveal className="mx-auto max-w-2xl text-center">
+              <span className="inline-flex items-center gap-2 rounded-full bg-gold-100 px-4 py-1.5 text-sm font-semibold text-earth-700 dark:bg-gold-900/30 dark:text-gold-300">
+                <Megaphone className="h-4 w-4" /> {t('home.announcements.eyebrow')}
+              </span>
+            </Reveal>
+
+            <div className="mt-8 flex flex-wrap justify-center gap-6">
+              {pinned.map((a, i) => (
+                <Reveal key={a.id} delay={(i % 3) * 90}>
+                  <article className="flex h-full w-72 flex-col rounded-3xl border border-gold-300/60 bg-white p-6 shadow-md ring-1 ring-gold-400/40 dark:border-forest-700 dark:bg-forest-900">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-100 text-earth-700 dark:bg-gold-900/30 dark:text-gold-300">
+                      <Megaphone className="h-6 w-6" />
+                    </span>
+                    <span className="mt-4 inline-flex w-fit items-center gap-1 rounded-full bg-gold-100 px-2.5 py-0.5 text-xs font-semibold text-earth-700 dark:bg-gold-900/30 dark:text-gold-300">
                       <Pin className="h-3.5 w-3.5" /> {t('pastors.pinned')}
                     </span>
-                    <h3 className="font-display text-xl font-bold text-forest-900 dark:text-forest-50">{a.title}</h3>
+                    <h3 className="mt-3 font-display text-xl font-bold text-forest-900 dark:text-forest-50">{a.title}</h3>
                     <p className="mt-1 text-sm text-muted">
                       {a.author ? `${a.author} · ` : ''}{fmtDate(a.date)}
                     </p>
-                    {a.body && <p className="mt-3 whitespace-pre-line leading-relaxed text-forest-800 dark:text-forest-100">{a.body}</p>}
+                    {a.body && <p className="mt-3 flex-1 whitespace-pre-line leading-relaxed text-forest-800 dark:text-forest-100">{a.body}</p>}
+                    <Link to="/pastors-room" className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-forest-600 hover:underline dark:text-gold-300">
+                      {t('home.announcements.viewAll')} <ArrowRight className="h-4 w-4" />
+                    </Link>
                   </article>
-                ))}
-              </div>
-            </Reveal>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
       )}

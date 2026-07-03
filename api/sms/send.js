@@ -51,8 +51,8 @@ async function sendViaAfricasTalking({ to, message }) {
       : 'https://api.sandbox.africastalking.com/version1/messaging'
 
   const params = new URLSearchParams({ username, to, message })
-  const from = senderId || (env === 'sandbox' ? 'Sandbox' : '')
-  if (from) params.set('from', from)
+  // Sandbox: omit `from` unless you set AT_SENDER_ID (some accounts reject "Sandbox").
+  if (senderId) params.set('from', senderId)
 
   const res = await fetch(endpoint, {
     method: 'POST',

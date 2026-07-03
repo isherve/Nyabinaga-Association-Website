@@ -255,6 +255,7 @@ export const translations = {
     'gallery.admin.saved': 'uploaded photo(s) · saved in this browser.',
     'gallery.filter.all': 'All Photos',
     'gallery.filter.recent': 'Recently Added',
+    'gallery.download': 'Download photo',
 
     // Team
     'team.eyebrow': 'Our Team',
@@ -576,6 +577,7 @@ export const translations = {
     'gallery.admin.saved': 'photo(s) téléversée(s) · enregistrée(s) dans ce navigateur.',
     'gallery.filter.all': 'Toutes les photos',
     'gallery.filter.recent': 'Récemment ajoutées',
+    'gallery.download': 'Télécharger la photo',
 
     'team.eyebrow': 'Notre équipe',
     'team.title': 'Les personnes derrière le travail',
@@ -892,6 +894,7 @@ export const translations = {
     'gallery.admin.saved': 'ifoto zashyizweho · zabitswe muri uyu mushakisha.',
     'gallery.filter.all': 'Amafoto yose',
     'gallery.filter.recent': 'Ayongewe vuba',
+    'gallery.download': 'Kuramo ifoto',
 
     'team.eyebrow': 'Ikipe yacu',
     'team.title': 'Abantu bari inyuma y\'akazi',

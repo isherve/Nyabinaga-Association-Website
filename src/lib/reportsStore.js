@@ -5,7 +5,12 @@
 // admin's browser (localStorage) — same approach as the SMS Center, so it works
 // with no extra database. Swap these functions for API/DB calls later if needed.
 
+import { igaReportsSeed } from '../content/igaReportsSeed'
+
 const REPORTS_KEY = 'nyabinaga_iga_reports_v1'
+// Set once after the initial spreadsheet data is loaded, so clearing all
+// entries later does not silently re-add the seed.
+const SEEDED_KEY = 'nyabinaga_iga_reports_seeded_v1'
 
 // Field definitions drive the form, table, totals and Excel columns so the
 // whole feature stays in sync from one place.
@@ -65,7 +70,27 @@ function write(value) {
 const uid = () => `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`
 
 export function getReports() {
-  return read()
+  const stored = read()
+  if (stored.length > 0) return stored
+
+  // First run: load the spreadsheet data once.
+  let seeded = false
+  try {
+    seeded = localStorage.getItem(SEEDED_KEY) === '1'
+  } catch {
+    /* ignore */
+  }
+  if (!seeded && igaReportsSeed.length) {
+    const initial = igaReportsSeed.map((r) => normalizeEntry(r))
+    write(initial)
+    try {
+      localStorage.setItem(SEEDED_KEY, '1')
+    } catch {
+      /* ignore */
+    }
+    return initial
+  }
+  return stored
 }
 
 export function saveReports(reports) {

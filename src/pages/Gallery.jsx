@@ -4,7 +4,7 @@ import { galleryImages, featuredImages } from '../content/site'
 import { useAuth } from '../context/AuthContext'
 import { useSettings } from '../context/SettingsContext'
 import { useGalleryUploads } from '../hooks/useGalleryUploads'
-import { Close, ArrowRight, Upload, Trash } from '../components/Icons'
+import { Close, ArrowRight, Upload, Trash, Download } from '../components/Icons'
 
 export default function Gallery() {
   const { isAdmin } = useAuth()
@@ -69,6 +69,37 @@ export default function Gallery() {
     await addFiles(fileList)
     setBusy(false)
   }
+
+  const downloadImage = useCallback(async (img) => {
+    if (!img?.src) return
+    const guessName = () => {
+      const fromPath = img.src.split('/').pop()?.split('?')[0]
+      if (fromPath && fromPath.includes('.') && !img.src.startsWith('data:')) return fromPath
+      return `nyabinaga-${img.id || Date.now()}.jpg`
+    }
+    try {
+      const res = await fetch(img.src)
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = guessName()
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      URL.revokeObjectURL(url)
+    } catch {
+      // Fallback: open in a new tab so the user can save manually.
+      const a = document.createElement('a')
+      a.href = img.src
+      a.download = guessName()
+      a.target = '_blank'
+      a.rel = 'noopener'
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+    }
+  }, [])
 
   return (
     <>
@@ -181,6 +212,15 @@ export default function Gallery() {
                     {t('common.new')}
                   </span>
                 )}
+                <button
+                  type="button"
+                  onClick={() => downloadImage(img)}
+                  className="absolute bottom-2 right-2 rounded-full bg-white/90 p-2 text-forest-700 opacity-0 shadow transition-opacity hover:bg-white group-hover:opacity-100 focus:opacity-100 dark:bg-forest-900/90 dark:text-forest-100"
+                  aria-label={t('gallery.download')}
+                  title={t('gallery.download')}
+                >
+                  <Download className="h-4 w-4" />
+                </button>
                 {isAdmin && img.uploaded && (
                   <button
                     type="button"
@@ -229,6 +269,15 @@ export default function Gallery() {
         <div className="animate-fade-in fixed inset-0 z-[100] flex items-center justify-center bg-forest-900/95 p-4" role="dialog" aria-modal="true" onClick={close}>
           <button type="button" onClick={close} className="absolute right-4 top-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20" aria-label={t('auth.close')}>
             <Close className="h-6 w-6" />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); downloadImage(images[index]) }}
+            className="absolute right-16 top-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"
+            aria-label={t('gallery.download')}
+            title={t('gallery.download')}
+          >
+            <Download className="h-6 w-6" />
           </button>
           <button type="button" onClick={(e) => { e.stopPropagation(); prev() }} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white hover:bg-white/20 sm:left-6" aria-label="Previous">
             <ArrowRight className="h-6 w-6 rotate-180" />

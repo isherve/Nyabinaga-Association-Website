@@ -19,6 +19,14 @@ const moreRoutes = pick('/impact', '/gallery', '/team', '/contact')
 const programIcons = { '/youth': Users, '/children': Book }
 const moreIcons = { '/impact': Coins, '/gallery': Spark, '/team': Users, '/contact': Mail }
 
+// Admin-only tools, grouped into a single dropdown to keep the bar uncluttered.
+const adminTools = [
+  { to: '/admin/sms', label: 'SMS Center', desc: 'Send bulk text messages', Icon: Message },
+  { to: '/admin/reports', label: 'IGA Reports', desc: 'Income-generating activities', Icon: Coins },
+  { to: '/admin/daily', label: 'Daily Work Report', desc: 'Log daily staff activities', Icon: ClipboardList },
+  { to: '/admin/meetings', label: 'Meeting Management', desc: 'Schedule staff meetings', Icon: Calendar },
+]
+
 function NavItem({ to, label, end, onClick, className = '', pill = true }) {
   return (
     <NavLink
@@ -44,8 +52,10 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [programsOpen, setProgramsOpen] = useState(false)
   const [moreOpen, setMoreOpen] = useState(false)
+  const [adminOpen, setAdminOpen] = useState(false)
   const programsRef = useRef(null)
   const moreRef = useRef(null)
+  const adminRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   const [adminLogin, setAdminLogin] = useState(false)
   const location = useLocation()
@@ -54,17 +64,19 @@ export default function Navbar() {
     setMobileOpen(false)
     setProgramsOpen(false)
     setMoreOpen(false)
+    setAdminOpen(false)
   }, [location.pathname])
 
   useEffect(() => {
-    if (!programsOpen && !moreOpen) return
+    if (!programsOpen && !moreOpen && !adminOpen) return
     const onClick = (e) => {
       if (programsRef.current && !programsRef.current.contains(e.target)) setProgramsOpen(false)
       if (moreRef.current && !moreRef.current.contains(e.target)) setMoreOpen(false)
+      if (adminRef.current && !adminRef.current.contains(e.target)) setAdminOpen(false)
     }
     document.addEventListener('mousedown', onClick)
     return () => document.removeEventListener('mousedown', onClick)
-  }, [programsOpen, moreOpen])
+  }, [programsOpen, moreOpen, adminOpen])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -82,6 +94,7 @@ export default function Navbar() {
 
   const programsActive = programRoutes.some((r) => location.pathname === r.to)
   const moreActive = moreRoutes.some((r) => location.pathname === r.to)
+  const adminActive = adminTools.some((r) => location.pathname === r.to)
 
   return (
     <header
@@ -219,64 +232,67 @@ export default function Navbar() {
             <span className="mx-0.5 hidden h-6 w-px bg-earth-200 dark:bg-forest-700 md:block" />
 
             {isAdmin && (
-              <Link
-                to="/admin/sms"
-                className="hidden items-center gap-1.5 rounded-full bg-forest-600 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-forest-700 dark:bg-forest-500 dark:hover:bg-forest-400 md:inline-flex"
-                title="SMS Center"
-              >
-                <Message className="h-4 w-4" />
-                <span className="hidden xl:inline">SMS</span>
-              </Link>
+              <div className="relative hidden md:block" ref={adminRef}>
+                <button
+                  type="button"
+                  onClick={() => setAdminOpen((v) => !v)}
+                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-2 text-xs font-semibold transition-colors ${
+                    adminActive || adminOpen
+                      ? 'bg-forest-600 text-white shadow-sm dark:bg-forest-500'
+                      : 'bg-forest-100 text-forest-700 hover:bg-forest-200 dark:bg-forest-800 dark:text-forest-100 dark:hover:bg-forest-700'
+                  }`}
+                  aria-expanded={adminOpen}
+                  title="Admin tools"
+                >
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
+                  </span>
+                  <span>Admin</span>
+                  <ChevronDown className={`h-3.5 w-3.5 transition-transform ${adminOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {adminOpen && (
+                  <div className="absolute right-0 top-full z-50 mt-3 w-72 overflow-hidden rounded-2xl border border-earth-100 bg-white p-1.5 shadow-xl dark:border-forest-700 dark:bg-forest-900">
+                    <p className="px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-earth-500 dark:text-forest-400">Admin tools</p>
+                    {adminTools.map(({ to, label, desc, Icon }) => (
+                      <NavLink
+                        key={to}
+                        to={to}
+                        onClick={() => setAdminOpen(false)}
+                        className={({ isActive }) =>
+                          `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
+                            isActive
+                              ? 'bg-forest-50 font-semibold text-forest-800 dark:bg-forest-800 dark:text-gold-300'
+                              : 'text-forest-700 hover:bg-earth-50 dark:text-forest-100 dark:hover:bg-forest-800'
+                          }`
+                        }
+                      >
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-forest-100 text-forest-600 dark:bg-forest-950 dark:text-gold-400">
+                          <Icon className="h-5 w-5" />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block truncate font-medium">{label}</span>
+                          <span className="block truncate text-xs text-earth-500 dark:text-forest-400">{desc}</span>
+                        </span>
+                      </NavLink>
+                    ))}
+                    <div className="my-1 h-px bg-earth-100 dark:bg-forest-800" />
+                    <button
+                      type="button"
+                      onClick={() => { setAdminOpen(false); logout() }}
+                      className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-forest-700 transition-colors hover:bg-earth-50 dark:text-forest-100 dark:hover:bg-forest-800"
+                    >
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-earth-100 text-earth-600 dark:bg-forest-950 dark:text-forest-300">
+                        <Unlock className="h-5 w-5" />
+                      </span>
+                      {t('nav.adminLogout')}
+                    </button>
+                  </div>
+                )}
+              </div>
             )}
 
-            {isAdmin && (
-              <Link
-                to="/admin/reports"
-                className="hidden items-center gap-1.5 rounded-full bg-earth-600 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-earth-700 dark:bg-earth-500 dark:hover:bg-earth-400 md:inline-flex"
-                title="IGA Reports"
-              >
-                <Coins className="h-4 w-4" />
-                <span className="hidden xl:inline">Reports</span>
-              </Link>
-            )}
-
-            {isAdmin && (
-              <Link
-                to="/admin/daily"
-                className="hidden items-center gap-1.5 rounded-full bg-forest-700 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-forest-800 dark:bg-forest-600 dark:hover:bg-forest-500 md:inline-flex"
-                title="Daily Work Report"
-              >
-                <ClipboardList className="h-4 w-4" />
-                <span className="hidden xl:inline">Daily</span>
-              </Link>
-            )}
-
-            {isAdmin && (
-              <Link
-                to="/admin/meetings"
-                className="hidden items-center gap-1.5 rounded-full bg-gold-500 px-3 py-2 text-xs font-semibold text-forest-900 transition-colors hover:bg-gold-400 md:inline-flex"
-                title="Meeting Management"
-              >
-                <Calendar className="h-4 w-4" />
-                <span className="hidden xl:inline">Meetings</span>
-              </Link>
-            )}
-
-            {isAdmin ? (
-              <button
-                type="button"
-                onClick={logout}
-                className="hidden items-center gap-1.5 rounded-full bg-forest-100 px-3 py-2 text-xs font-semibold text-forest-700 transition-colors hover:bg-forest-200 dark:bg-forest-800 dark:text-forest-100 dark:hover:bg-forest-700 md:inline-flex"
-                title={t('nav.adminLogout')}
-              >
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500" />
-                </span>
-                <Unlock className="h-4 w-4" />
-                <span className="hidden xl:inline">{t('nav.adminLogout')}</span>
-              </button>
-            ) : (
+            {!isAdmin && (
               <button
                 type="button"
                 onClick={() => setAdminLogin(true)}
@@ -355,75 +371,32 @@ export default function Navbar() {
                       />
                     </li>
                   ))}
-                {isAdmin && (
-                  <li>
-                    <NavLink
-                      to="/admin/sms"
-                      onClick={() => setMobileOpen(false)}
-                      className={({ isActive }) =>
-                        `flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
-                          isActive
-                            ? 'bg-forest-600 text-white'
-                            : 'text-forest-700 hover:bg-earth-100 dark:text-forest-100 dark:hover:bg-forest-800'
-                        }`
-                      }
-                    >
-                      <Message className="h-4 w-4" /> SMS Center
-                    </NavLink>
-                  </li>
-                )}
-                {isAdmin && (
-                  <li>
-                    <NavLink
-                      to="/admin/reports"
-                      onClick={() => setMobileOpen(false)}
-                      className={({ isActive }) =>
-                        `flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
-                          isActive
-                            ? 'bg-forest-600 text-white'
-                            : 'text-forest-700 hover:bg-earth-100 dark:text-forest-100 dark:hover:bg-forest-800'
-                        }`
-                      }
-                    >
-                      <Coins className="h-4 w-4" /> IGA Reports
-                    </NavLink>
-                  </li>
-                )}
-                {isAdmin && (
-                  <li>
-                    <NavLink
-                      to="/admin/daily"
-                      onClick={() => setMobileOpen(false)}
-                      className={({ isActive }) =>
-                        `flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
-                          isActive
-                            ? 'bg-forest-600 text-white'
-                            : 'text-forest-700 hover:bg-earth-100 dark:text-forest-100 dark:hover:bg-forest-800'
-                        }`
-                      }
-                    >
-                      <ClipboardList className="h-4 w-4" /> Daily Work Report
-                    </NavLink>
-                  </li>
-                )}
-                {isAdmin && (
-                  <li>
-                    <NavLink
-                      to="/admin/meetings"
-                      onClick={() => setMobileOpen(false)}
-                      className={({ isActive }) =>
-                        `flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
-                          isActive
-                            ? 'bg-forest-600 text-white'
-                            : 'text-forest-700 hover:bg-earth-100 dark:text-forest-100 dark:hover:bg-forest-800'
-                        }`
-                      }
-                    >
-                      <Calendar className="h-4 w-4" /> Meeting Management
-                    </NavLink>
-                  </li>
-                )}
               </ul>
+
+              {isAdmin && (
+                <div className="mt-4 border-t border-earth-100 pt-4 dark:border-forest-800">
+                  <p className="px-4 pb-1 text-[11px] font-semibold uppercase tracking-wide text-earth-500 dark:text-forest-400">Admin tools</p>
+                  <ul className="space-y-1">
+                    {adminTools.map(({ to, label, Icon }) => (
+                      <li key={to}>
+                        <NavLink
+                          to={to}
+                          onClick={() => setMobileOpen(false)}
+                          className={({ isActive }) =>
+                            `flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                              isActive
+                                ? 'bg-forest-600 text-white'
+                                : 'text-forest-700 hover:bg-earth-100 dark:text-forest-100 dark:hover:bg-forest-800'
+                            }`
+                          }
+                        >
+                          <Icon className="h-4 w-4" /> {label}
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </nav>
 
             <div className="space-y-3 border-t border-earth-100 p-4 dark:border-forest-800">

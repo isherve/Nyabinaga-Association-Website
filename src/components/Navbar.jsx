@@ -229,6 +229,17 @@ export default function Navbar() {
               </Link>
             )}
 
+            {isAdmin && (
+              <Link
+                to="/admin/reports"
+                className="hidden items-center gap-1.5 rounded-full bg-earth-600 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-earth-700 dark:bg-earth-500 dark:hover:bg-earth-400 md:inline-flex"
+                title="IGA Reports"
+              >
+                <Coins className="h-4 w-4" />
+                <span className="hidden xl:inline">Reports</span>
+              </Link>
+            )}
+
             {isAdmin ? (
               <button
                 type="button"
@@ -336,6 +347,23 @@ export default function Navbar() {
                       }
                     >
                       <Message className="h-4 w-4" /> SMS Center
+                    </NavLink>
+                  </li>
+                )}
+                {isAdmin && (
+                  <li>
+                    <NavLink
+                      to="/admin/reports"
+                      onClick={() => setMobileOpen(false)}
+                      className={({ isActive }) =>
+                        `flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                          isActive
+                            ? 'bg-forest-600 text-white'
+                            : 'text-forest-700 hover:bg-earth-100 dark:text-forest-100 dark:hover:bg-forest-800'
+                        }`
+                      }
+                    >
+                      <Coins className="h-4 w-4" /> IGA Reports
                     </NavLink>
                   </li>
                 )}

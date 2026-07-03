@@ -3,7 +3,7 @@ import PageHeader from '../components/PageHeader'
 import PasswordModal from '../components/PasswordModal'
 import { useAuth } from '../context/AuthContext'
 import { featuredImages } from '../content/site'
-import { Lock, Coins, Upload, Download, Trash, Check, Close, ArrowRight } from '../components/Icons'
+import { Lock, Coins, Upload, Download, Trash, Check, Close, ArrowRight, Book } from '../components/Icons'
 import {
   REPORT_FIELDS,
   NUMERIC_FIELDS,
@@ -17,6 +17,22 @@ import {
   computeTotals,
 } from '../lib/reportsStore'
 import { exportReports, parseReportsFile, downloadReportTemplate } from '../lib/reportsIO'
+import { igaOutcomes, igaReportMeta } from '../content/igaOutcomes'
+
+// Forward-fill merged outcome/goal/indicator cells for display.
+const filledOutcomes = (() => {
+  let outcome = ''
+  let goal = ''
+  let indicator = ''
+  return igaOutcomes.map((row) => {
+    outcome = row.outcome || outcome
+    goal = row.goal || goal
+    indicator = row.indicator || indicator
+    return { ...row, outcome, goal, indicator }
+  })
+})()
+
+const reportFileHref = `${import.meta.env.BASE_URL}${igaReportMeta.fileUrl}`
 
 const emptyForm = () => {
   const f = {}
@@ -48,6 +64,8 @@ export default function ReportsAdmin() {
   const [dateFilter, setDateFilter] = useState('')
   const [preview, setPreview] = useState(null)
   const [importError, setImportError] = useState('')
+  const [fullReportOpen, setFullReportOpen] = useState(false)
+  const [viewEntry, setViewEntry] = useState(null)
   const fileRef = useRef(null)
 
   const persist = (next) => {
@@ -182,6 +200,9 @@ export default function ReportsAdmin() {
                 )}
               </div>
               <div className="flex flex-wrap gap-2">
+                <button type="button" onClick={() => setFullReportOpen(true)} className="btn-gold text-sm">
+                  <Book className="h-4 w-4" /> View full report
+                </button>
                 <button type="button" onClick={openNew} className="btn-primary text-sm">
                   <ArrowRight className="h-4 w-4" /> New report
                 </button>
@@ -241,8 +262,9 @@ export default function ReportsAdmin() {
                           </td>
                         ))}
                         <td className="whitespace-nowrap px-3 py-2.5">
-                          <div className="flex gap-2">
-                            <button type="button" onClick={() => openEdit(r)} className="text-forest-600 hover:underline dark:text-gold-300">Edit</button>
+                          <div className="flex items-center gap-3">
+                            <button type="button" onClick={() => setViewEntry(r)} className="font-medium text-forest-600 hover:underline dark:text-gold-300">View</button>
+                            <button type="button" onClick={() => openEdit(r)} className="font-medium text-forest-600 hover:underline dark:text-gold-300">Edit</button>
                             <button
                               type="button"
                               onClick={() => persist(removeReport(reports, r.id))}
@@ -350,7 +372,145 @@ export default function ReportsAdmin() {
           </div>
         </Modal>
       )}
+
+      {/* Single entry detail view */}
+      {viewEntry && (
+        <Modal onClose={() => setViewEntry(null)} title={`Report — ${viewEntry.clusterName || viewEntry.pf || 'Details'}`}>
+          <dl className="grid max-h-[65vh] gap-x-6 gap-y-3 overflow-y-auto p-1 sm:grid-cols-2">
+            {REPORT_FIELDS.map((f) => (
+              <div key={f.key} className={f.type === 'textarea' ? 'sm:col-span-2' : ''}>
+                <dt className="text-xs font-semibold uppercase tracking-wide text-earth-500 dark:text-forest-400">{f.label}</dt>
+                <dd className={`mt-0.5 text-forest-900 dark:text-forest-50 ${f.type === 'number' ? 'font-mono' : ''}`}>
+                  {cellValue(viewEntry, f) || <span className="text-earth-400">—</span>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <div className="mt-6 flex justify-end gap-3">
+            <button type="button" onClick={() => { const e = viewEntry; setViewEntry(null); openEdit(e) }} className="btn-outline">Edit</button>
+            <button type="button" onClick={() => setViewEntry(null)} className="btn-primary">Close</button>
+          </div>
+        </Modal>
+      )}
+
+      {/* Full report view (both sheets) */}
+      {fullReportOpen && (
+        <Modal onClose={() => setFullReportOpen(false)} title={igaReportMeta.title}>
+          <div className="max-h-[70vh] space-y-6 overflow-y-auto p-1">
+            <div className="rounded-2xl bg-forest-50 p-4 dark:bg-forest-900/60">
+              <div className="grid gap-2 sm:grid-cols-2">
+                <Meta label="Cycle" value={igaReportMeta.cycle} />
+                <Meta label="Quarter" value={igaReportMeta.quarter} />
+                <Meta label="PF / Manager" value={igaReportMeta.pf} />
+                <Meta label="Cluster" value={igaReportMeta.cluster} />
+              </div>
+              <a href={reportFileHref} download className="btn-outline mt-4 text-sm">
+                <Download className="h-4 w-4" /> Download original Excel
+              </a>
+            </div>
+
+            {/* Part 1: IGA financial entries */}
+            <div>
+              <h4 className="mb-2 font-display text-lg font-bold text-forest-900 dark:text-forest-50">Part 1 — IGA financial summary</h4>
+              {reports.length === 0 ? (
+                <p className="text-sm text-muted">No entries yet.</p>
+              ) : (
+                <div className="overflow-x-auto rounded-xl border border-earth-100 dark:border-forest-800">
+                  <table className="w-full text-left text-xs">
+                    <thead className="bg-earth-50 text-forest-700 dark:bg-forest-900 dark:text-forest-100">
+                      <tr>
+                        <th className="px-2 py-1.5">PF</th>
+                        <th className="px-2 py-1.5">Cluster</th>
+                        <th className="px-2 py-1.5 text-right">Assoc.</th>
+                        <th className="px-2 py-1.5 text-right">Members</th>
+                        <th className="px-2 py-1.5 text-right">Loans</th>
+                        <th className="px-2 py-1.5 text-right">Cash</th>
+                        <th className="px-2 py-1.5 text-right">General Total</th>
+                        <th className="px-2 py-1.5">Best assoc.</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reports.map((r) => (
+                        <tr key={r.id} className="border-t border-earth-50 dark:border-forest-900">
+                          <td className="px-2 py-1.5">{r.pf}</td>
+                          <td className="px-2 py-1.5">{r.clusterName}</td>
+                          <td className="px-2 py-1.5 text-right font-mono">{fmtNum(r.totalAssociations)}</td>
+                          <td className="px-2 py-1.5 text-right font-mono">{fmtNum(r.totalMembers)}</td>
+                          <td className="px-2 py-1.5 text-right font-mono">{fmtMoney(r.totalLoans)}</td>
+                          <td className="px-2 py-1.5 text-right font-mono">{fmtMoney(r.totalCash)}</td>
+                          <td className="px-2 py-1.5 text-right font-mono">{fmtMoney(r.generalTotalValue)}</td>
+                          <td className="px-2 py-1.5">{r.bestAssociation}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+
+            {/* Part 2: Outcomes & indicators */}
+            <div>
+              <h4 className="mb-2 font-display text-lg font-bold text-forest-900 dark:text-forest-50">Part 2 — Outcomes &amp; indicators</h4>
+              <div className="space-y-4">
+                {groupByOutcome(filledOutcomes).map((group) => (
+                  <div key={group.outcome} className="overflow-hidden rounded-xl border border-earth-100 dark:border-forest-800">
+                    <div className="bg-forest-600 px-3 py-2 text-sm font-bold text-white dark:bg-forest-700">{group.outcome}</div>
+                    <table className="w-full text-left text-xs">
+                      <thead className="bg-earth-50 text-forest-700 dark:bg-forest-900 dark:text-forest-100">
+                        <tr>
+                          <th className="w-10 px-2 py-1.5">No</th>
+                          <th className="px-2 py-1.5">Indicator</th>
+                          <th className="px-2 py-1.5">Activity target</th>
+                          <th className="w-14 px-2 py-1.5 text-right">Number</th>
+                          <th className="px-2 py-1.5">Narrative</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {group.rows.map((row) => (
+                          <tr key={row.no} className="border-t border-earth-50 align-top dark:border-forest-900">
+                            <td className="px-2 py-1.5 font-mono font-semibold">{row.no}</td>
+                            <td className="px-2 py-1.5 text-forest-800 dark:text-forest-100">{row.indicator}</td>
+                            <td className="px-2 py-1.5 text-earth-600 dark:text-forest-300">{row.target}</td>
+                            <td className="px-2 py-1.5 text-right font-mono">{row.numbers || '—'}</td>
+                            <td className="px-2 py-1.5 text-forest-700 dark:text-forest-200">{row.narrative || '—'}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="mt-6 flex justify-end">
+            <button type="button" onClick={() => setFullReportOpen(false)} className="btn-primary">Close</button>
+          </div>
+        </Modal>
+      )}
     </>
+  )
+}
+
+// Group forward-filled outcome rows by their outcome heading.
+function groupByOutcome(rows) {
+  const groups = []
+  for (const row of rows) {
+    let g = groups.find((x) => x.outcome === row.outcome)
+    if (!g) {
+      g = { outcome: row.outcome, rows: [] }
+      groups.push(g)
+    }
+    g.rows.push(row)
+  }
+  return groups
+}
+
+function Meta({ label, value }) {
+  return (
+    <div>
+      <p className="text-xs font-semibold uppercase tracking-wide text-earth-500 dark:text-forest-400">{label}</p>
+      <p className="text-forest-900 dark:text-forest-50">{value}</p>
+    </div>
   )
 }
 

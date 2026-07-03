@@ -8,7 +8,7 @@
 //   SMS_SEND_PASSWORD   A shared secret the admin types in the UI at send time.
 //                       Requests without the correct value are rejected. This is
 //                       what stops the public endpoint from being abused.
-//   SMS_PROVIDER        "africastalking" (default) or "twilio".
+//   SMS_PROVIDER        "africastalking" (default), "twilio", or "mtn".
 //
 //   For Africa's Talking:
 //     AT_API_KEY        Your API key.
@@ -20,6 +20,16 @@
 //     TWILIO_ACCOUNT_SID
 //     TWILIO_AUTH_TOKEN
 //     TWILIO_FROM       Your Twilio phone number in E.164 (e.g. +1512...).
+//
+//   For MTN API Marketplace / MADAPI (developers.mtn.com):
+//     MTN_CONSUMER_KEY      Consumer Key (client id) from your approved app.
+//     MTN_CONSUMER_SECRET   Consumer Secret.
+//     MTN_SUBSCRIPTION_KEY  Ocp-Apim-Subscription-Key for the SMS product.
+//     MTN_TOKEN_URL         OAuth2 token endpoint from the docs (client_credentials).
+//     MTN_SMS_URL           SMS "send" endpoint URL from the SMS product docs.
+//     MTN_SENDER_ID         Your assigned sender ID / short code (the "from").
+//     All URLs must be copied exactly from YOUR app's documentation, because MTN
+//     assigns different hosts/versions per environment.
 
 // Best-effort in-memory rate limiter (per warm serverless instance). For strict,
 // global limits you'd back this with a shared store (Redis/Upstash).
@@ -118,6 +128,95 @@ async function sendViaTwilio({ to, message }) {
   }
 }
 
+// MTN API Marketplace (MADAPI). Uses OAuth2 client-credentials to get a bearer
+// token, then posts the SMS. Endpoint URLs are configurable because MTN assigns
+// them per app/environment — copy them from your app's docs.
+async function sendViaMtn({ to, message }) {
+  const key = process.env.MTN_CONSUMER_KEY
+  const secret = process.env.MTN_CONSUMER_SECRET
+  const subKey = process.env.MTN_SUBSCRIPTION_KEY
+  const tokenUrl = process.env.MTN_TOKEN_URL
+  const smsUrl = process.env.MTN_SMS_URL
+  const senderId = process.env.MTN_SENDER_ID
+
+  const missing = []
+  if (!key) missing.push('MTN_CONSUMER_KEY')
+  if (!secret) missing.push('MTN_CONSUMER_SECRET')
+  if (!tokenUrl) missing.push('MTN_TOKEN_URL')
+  if (!smsUrl) missing.push('MTN_SMS_URL')
+  if (missing.length) {
+    return { ok: false, status: 'failed', response: `MTN not configured: ${missing.join(', ')}` }
+  }
+
+  // 1) Get an access token (client_credentials, HTTP Basic auth).
+  const basic = Buffer.from(`${key}:${secret}`).toString('base64')
+  const tokenHeaders = {
+    Authorization: `Basic ${basic}`,
+    'Content-Type': 'application/x-www-form-urlencoded',
+    Accept: 'application/json',
+  }
+  if (subKey) tokenHeaders['Ocp-Apim-Subscription-Key'] = subKey
+
+  const tokenRes = await fetch(tokenUrl, {
+    method: 'POST',
+    headers: tokenHeaders,
+    body: 'grant_type=client_credentials',
+  })
+  const tokenData = await tokenRes.json().catch(() => ({}))
+  const accessToken = tokenData?.access_token || tokenData?.accessToken
+  if (!tokenRes.ok || !accessToken) {
+    return {
+      ok: false,
+      status: 'failed',
+      response: `MTN auth failed: ${tokenData?.error_description || tokenData?.message || `HTTP ${tokenRes.status}`}`,
+      raw: tokenData,
+    }
+  }
+
+  // 2) Send the SMS. Body shape follows the common MADAPI outbound-SMS schema;
+  // adjust field names here if your product's docs differ.
+  const smsHeaders = {
+    Authorization: `Bearer ${accessToken}`,
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  }
+  if (subKey) smsHeaders['Ocp-Apim-Subscription-Key'] = subKey
+
+  const payload = {
+    senderAddress: senderId || undefined,
+    receiverAddress: [to],
+    message,
+    clientCorrelatorId: `nyabinaga-${Date.now()}`,
+    serviceCode: undefined,
+    requestDeliveryReceipt: false,
+  }
+
+  const smsRes = await fetch(smsUrl, {
+    method: 'POST',
+    headers: smsHeaders,
+    body: JSON.stringify(payload),
+  })
+  const smsData = await smsRes.json().catch(() => ({}))
+  const ok = smsRes.ok
+
+  return {
+    ok,
+    status: ok ? 'sent' : 'failed',
+    messageId:
+      smsData?.data?.transactionId ||
+      smsData?.transactionId ||
+      smsData?.messageId ||
+      smsData?.id ||
+      null,
+    response:
+      smsData?.statusMessage ||
+      smsData?.message ||
+      smsData?.description ||
+      (ok ? 'Success' : `HTTP ${smsRes.status}`),
+    raw: smsData,
+  }
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST')
@@ -161,10 +260,10 @@ export default async function handler(req, res) {
   const provider = (process.env.SMS_PROVIDER || 'africastalking').toLowerCase()
 
   try {
-    const result =
-      provider === 'twilio'
-        ? await sendViaTwilio({ to, message })
-        : await sendViaAfricasTalking({ to, message })
+    let result
+    if (provider === 'twilio') result = await sendViaTwilio({ to, message })
+    else if (provider === 'mtn') result = await sendViaMtn({ to, message })
+    else result = await sendViaAfricasTalking({ to, message })
 
     return res.status(result.ok ? 200 : 502).json({
       ok: result.ok,

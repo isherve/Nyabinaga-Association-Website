@@ -23,9 +23,62 @@ export const groupMembers = {
   'ejo-heza': [],
 }
 
-/** Members for one group (empty array if none listed yet). */
+// Members added by visitors through the public "Members" form are kept in the
+// browser (localStorage) and merged with the built-in list above. They persist
+// on this device only — a shared backend would be needed to sync across devices.
+const LOCAL_KEY = 'nyabinaga_group_members_added_v1'
+
+function readLocal() {
+  try {
+    const raw = localStorage.getItem(LOCAL_KEY)
+    return raw ? JSON.parse(raw) : {}
+  } catch {
+    return {}
+  }
+}
+
+function writeLocal(value) {
+  try {
+    localStorage.setItem(LOCAL_KEY, JSON.stringify(value))
+  } catch {
+    /* storage unavailable — ignore */
+  }
+}
+
+const uid = () => `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`
+
+/** Members added locally for one group. */
+export function getAddedMembers(groupId) {
+  return readLocal()[groupId] || []
+}
+
+/** Built-in members plus any added on this device. */
 export function getGroupMembers(groupId) {
-  return groupMembers[groupId] || []
+  const seed = (groupMembers[groupId] || []).map((m, i) => ({ id: `seed-${groupId}-${i}`, ...m }))
+  return [...seed, ...getAddedMembers(groupId)]
+}
+
+/** Add a member to a group (saved in this browser). Returns the new list. */
+export function addGroupMember(groupId, { name, phone, role }) {
+  const all = readLocal()
+  const entry = {
+    id: uid(),
+    name: String(name || '').trim(),
+    phone: String(phone || '').trim(),
+    role: String(role || '').trim(),
+    added: true,
+  }
+  all[groupId] = [...(all[groupId] || []), entry]
+  writeLocal(all)
+  return getGroupMembers(groupId)
+}
+
+/** Remove a locally-added member by id. Returns the new list. */
+export function removeAddedMember(groupId, id) {
+  const all = readLocal()
+  all[groupId] = (all[groupId] || []).filter((m) => m.id !== id)
+  writeLocal(all)
+  return getGroupMembers(groupId)
 }
 
 // Tidy Rwandan phone numbers for display; leave anything else as typed.

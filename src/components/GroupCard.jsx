@@ -1,11 +1,11 @@
 import { useAuth } from '../context/AuthContext'
 import { useSettings } from '../context/SettingsContext'
 import PasswordModal from './PasswordModal'
-import { ChevronDown, Check, Coins, Users, Lock, Phone } from './Icons'
+import { ChevronDown, Check, Coins, Users, Lock, Phone, Trash } from './Icons'
 import { formatRWF } from '../content/groups'
 import { tp } from '../content/groupTranslations'
-import { getGroupMembers, formatPhone } from '../content/members'
-import { useMemo, useState } from 'react'
+import { getGroupMembers, addGroupMember, removeAddedMember, formatPhone } from '../content/members'
+import { useState } from 'react'
 
 export default function GroupCard({ group }) {
   const { t, lang } = useSettings()
@@ -17,7 +17,19 @@ export default function GroupCard({ group }) {
   const membersPanelId = `group-members-${group.id}`
 
   // Public member list (name + phone) — visible to everyone, no password.
-  const members = useMemo(() => getGroupMembers(group.id), [group.id])
+  const [members, setMembers] = useState(() => getGroupMembers(group.id))
+  const [form, setForm] = useState({ name: '', phone: '', role: '' })
+
+  const handleAddMember = (e) => {
+    e.preventDefault()
+    if (!form.name.trim() && !form.phone.trim()) return
+    setMembers(addGroupMember(group.id, form))
+    setForm({ name: '', phone: '', role: '' })
+  }
+
+  const handleRemoveMember = (id) => {
+    setMembers(removeAddedMember(group.id, id))
+  }
 
   const handleToggle = () => {
     if (open) {
@@ -120,7 +132,7 @@ export default function GroupCard({ group }) {
           </button>
         </div>
 
-        {/* Members panel — public, no password required */}
+        {/* Members panel — public, no password required. Opens straight to a form. */}
         <div
           id={membersPanelId}
           className={`grid transition-all duration-300 ease-out ${
@@ -128,30 +140,70 @@ export default function GroupCard({ group }) {
           }`}
         >
           <div className="overflow-hidden">
-            {members.length > 0 ? (
-              <ul className="max-h-56 divide-y divide-earth-100 overflow-y-auto rounded-xl border border-earth-100 dark:divide-forest-800 dark:border-forest-800">
-                {members.map((m, i) => (
-                  <li key={`${m.name}-${i}`} className="flex items-center justify-between gap-4 px-4 py-2 text-sm">
+            {/* Add member form */}
+            <form onSubmit={handleAddMember} className="rounded-xl border border-earth-100 bg-earth-50/60 p-3 dark:border-forest-800 dark:bg-forest-900/40">
+              <p className="mb-2 text-xs font-bold uppercase tracking-wider text-earth-500 dark:text-forest-400">
+                {t('common.addMember')}
+              </p>
+              <div className="space-y-2">
+                <input
+                  type="text"
+                  value={form.name}
+                  onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
+                  placeholder={t('common.memberName')}
+                  className="w-full rounded-lg border border-earth-200 bg-white px-3 py-2 text-sm text-forest-900 focus:border-forest-500 focus:outline-none dark:border-forest-700 dark:bg-forest-950 dark:text-forest-50"
+                />
+                <div className="flex gap-2">
+                  <input
+                    type="tel"
+                    value={form.phone}
+                    onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))}
+                    placeholder={t('common.memberPhone')}
+                    className="min-w-0 flex-1 rounded-lg border border-earth-200 bg-white px-3 py-2 text-sm text-forest-900 focus:border-forest-500 focus:outline-none dark:border-forest-700 dark:bg-forest-950 dark:text-forest-50"
+                  />
+                  <button
+                    type="submit"
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-forest-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-forest-700 dark:bg-forest-500 dark:hover:bg-forest-400"
+                  >
+                    <Check className="h-4 w-4" /> {t('common.add')}
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            {/* Existing member list */}
+            {members.length > 0 && (
+              <ul className="mt-3 max-h-56 divide-y divide-earth-100 overflow-y-auto rounded-xl border border-earth-100 dark:divide-forest-800 dark:border-forest-800">
+                {members.map((m) => (
+                  <li key={m.id} className="flex items-center justify-between gap-3 px-4 py-2 text-sm">
                     <span className="min-w-0 truncate text-forest-800 dark:text-forest-100">
                       {m.name || '—'}
                       {m.role && <span className="ml-1.5 text-xs text-earth-500 dark:text-forest-400">· {m.role}</span>}
                     </span>
-                    {m.phone && (
-                      <a
-                        href={`tel:${String(m.phone).replace(/[^\d+]/g, '')}`}
-                        className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap font-mono text-forest-700 hover:text-forest-900 hover:underline dark:text-forest-200 dark:hover:text-white"
-                      >
-                        <Phone className="h-3.5 w-3.5 text-forest-500" />
-                        {formatPhone(m.phone)}
-                      </a>
-                    )}
+                    <span className="flex shrink-0 items-center gap-2">
+                      {m.phone && (
+                        <a
+                          href={`tel:${String(m.phone).replace(/[^\d+]/g, '')}`}
+                          className="inline-flex items-center gap-1.5 whitespace-nowrap font-mono text-forest-700 hover:text-forest-900 hover:underline dark:text-forest-200 dark:hover:text-white"
+                        >
+                          <Phone className="h-3.5 w-3.5 text-forest-500" />
+                          {formatPhone(m.phone)}
+                        </a>
+                      )}
+                      {m.added && (
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveMember(m.id)}
+                          className="text-earth-400 transition-colors hover:text-red-600"
+                          aria-label={t('common.remove')}
+                        >
+                          <Trash className="h-4 w-4" />
+                        </button>
+                      )}
+                    </span>
                   </li>
                 ))}
               </ul>
-            ) : (
-              <p className="rounded-xl border border-dashed border-earth-200 px-4 py-3 text-sm text-muted dark:border-forest-700">
-                {t('common.noMembers')}
-              </p>
             )}
           </div>
         </div>

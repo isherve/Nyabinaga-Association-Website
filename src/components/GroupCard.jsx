@@ -1,10 +1,11 @@
 import { useAuth } from '../context/AuthContext'
 import { useSettings } from '../context/SettingsContext'
 import PasswordModal from './PasswordModal'
-import { ChevronDown, Check, Coins, Users, Lock } from './Icons'
+import { ChevronDown, Check, Coins, Users, Lock, Phone } from './Icons'
 import { formatRWF } from '../content/groups'
 import { tp } from '../content/groupTranslations'
-import { useState } from 'react'
+import { getGroupMembers, formatPhone } from '../lib/membersStore'
+import { useMemo, useState } from 'react'
 
 export default function GroupCard({ group }) {
   const { t, lang } = useSettings()
@@ -12,6 +13,9 @@ export default function GroupCard({ group }) {
   const [open, setOpen] = useState(false)
   const [askPassword, setAskPassword] = useState(false)
   const panelId = `group-panel-${group.id}`
+
+  // Members are private; only read them once the details panel is unlocked.
+  const members = useMemo(() => (open ? getGroupMembers(group.id) : []), [open, group.id])
 
   const handleToggle = () => {
     if (open) {
@@ -148,6 +152,33 @@ export default function GroupCard({ group }) {
                 <span className="font-display text-lg font-bold">
                   {formatRWF(group.totalAssets, lang)}
                 </span>
+              </div>
+            )}
+
+            {members.length > 0 && (
+              <div className="mt-4">
+                <h4 className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-earth-500 dark:text-forest-400">
+                  <Users className="h-3.5 w-3.5" /> {t('common.memberList')} ({members.length})
+                </h4>
+                <ul className="mt-2 divide-y divide-earth-100 rounded-xl border border-earth-100 dark:divide-forest-800 dark:border-forest-800">
+                  {members.map((m) => (
+                    <li key={m.id} className="flex items-center justify-between gap-4 px-4 py-2 text-sm">
+                      <span className="min-w-0 truncate text-forest-800 dark:text-forest-100">
+                        {m.name || '—'}
+                        {m.role && <span className="ml-1.5 text-xs text-earth-500 dark:text-forest-400">· {m.role}</span>}
+                      </span>
+                      {m.phone && (
+                        <a
+                          href={`tel:${m.phone.replace(/[^\d+]/g, '')}`}
+                          className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap font-mono text-forest-700 hover:text-forest-900 hover:underline dark:text-forest-200 dark:hover:text-white"
+                        >
+                          <Phone className="h-3.5 w-3.5 text-forest-500" />
+                          {formatPhone(m.phone)}
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>

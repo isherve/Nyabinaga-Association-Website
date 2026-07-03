@@ -23,6 +23,7 @@ const moreIcons = { '/impact': Coins, '/gallery': Spark, '/team': Users, '/conta
 const adminTools = [
   { to: '/admin/sms', label: 'SMS Center', desc: 'Send bulk text messages', Icon: Message },
   { to: '/admin/reports', label: 'IGA Reports', desc: 'Income-generating activities', Icon: Coins },
+  { to: '/admin/members', label: 'Group Members', desc: 'Member names & phone numbers', Icon: Users },
   { to: '/admin/daily', label: 'Daily Work Report', desc: 'Log daily staff activities', Icon: ClipboardList },
   { to: '/admin/meetings', label: 'Meeting Management', desc: 'Schedule staff meetings', Icon: Calendar },
 ]

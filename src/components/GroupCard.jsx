@@ -1,11 +1,11 @@
 import { useAuth } from '../context/AuthContext'
 import { useSettings } from '../context/SettingsContext'
 import PasswordModal from './PasswordModal'
-import { ChevronDown, Check, Coins, Users, Lock, Phone, Trash } from './Icons'
+import { ChevronDown, Check, Coins, Users, Lock, Phone, Trash, Upload } from './Icons'
 import { formatRWF } from '../content/groups'
 import { tp } from '../content/groupTranslations'
-import { getGroupMembers, addGroupMember, removeAddedMember, formatPhone } from '../content/members'
-import { useState } from 'react'
+import { getGroupMembers, addGroupMember, addGroupMembersBulk, removeAddedMember, formatPhone } from '../content/members'
+import { useRef, useState } from 'react'
 
 export default function GroupCard({ group }) {
   const { t, lang } = useSettings()
@@ -19,6 +19,8 @@ export default function GroupCard({ group }) {
   // Public member list (name + phone) — visible to everyone, no password.
   const [members, setMembers] = useState(() => getGroupMembers(group.id))
   const [form, setForm] = useState({ name: '', phone: '', role: '' })
+  const [importMsg, setImportMsg] = useState('')
+  const fileRef = useRef(null)
 
   const handleAddMember = (e) => {
     e.preventDefault()
@@ -29,6 +31,40 @@ export default function GroupCard({ group }) {
 
   const handleRemoveMember = (id) => {
     setMembers(removeAddedMember(group.id, id))
+  }
+
+  const handleImport = async (e) => {
+    const file = e.target.files?.[0]
+    if (fileRef.current) fileRef.current.value = ''
+    if (!file) return
+    setImportMsg('')
+    try {
+      const XLSX = await import('xlsx')
+      const buf = await file.arrayBuffer()
+      const wb = XLSX.read(buf, { type: 'array' })
+      const sheet = wb.Sheets[wb.SheetNames[0]]
+      const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' })
+      const parsed = rows
+        .map((row) => {
+          const lower = {}
+          Object.entries(row).forEach(([k, v]) => { lower[String(k).trim().toLowerCase()] = v })
+          return {
+            name: lower.name || lower['full name'] || lower.names || lower.member || lower.amazina || '',
+            phone: lower.phone || lower['phone number'] || lower.tel || lower.telephone || lower.nimero || '',
+            role: lower.role || lower.position || lower.inshingano || '',
+          }
+        })
+        .filter((m) => String(m.name).trim() || String(m.phone).trim())
+      if (parsed.length === 0) {
+        setImportMsg(t('common.importNone'))
+        return
+      }
+      const { members: next, added } = addGroupMembersBulk(group.id, parsed)
+      setMembers(next)
+      setImportMsg(`${added} ${t('common.importDone')}`)
+    } catch {
+      setImportMsg(t('common.importError'))
+    }
   }
 
   const handleToggle = () => {
@@ -142,9 +178,28 @@ export default function GroupCard({ group }) {
           <div className="overflow-hidden">
             {/* Add member form */}
             <form onSubmit={handleAddMember} className="rounded-xl border border-earth-100 bg-earth-50/60 p-3 dark:border-forest-800 dark:bg-forest-900/40">
-              <p className="mb-2 text-xs font-bold uppercase tracking-wider text-earth-500 dark:text-forest-400">
-                {t('common.addMember')}
-              </p>
+              <div className="mb-2 flex items-center justify-between gap-2">
+                <p className="text-xs font-bold uppercase tracking-wider text-earth-500 dark:text-forest-400">
+                  {t('common.addMember')}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-forest-300 px-2.5 py-1 text-xs font-semibold text-forest-700 transition-colors hover:bg-forest-50 dark:border-forest-600 dark:text-forest-200 dark:hover:bg-forest-800"
+                >
+                  <Upload className="h-3.5 w-3.5" /> {t('common.importExcel')}
+                </button>
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept=".xlsx,.xls,.csv"
+                  onChange={handleImport}
+                  className="hidden"
+                />
+              </div>
+              {importMsg && (
+                <p className="mb-2 text-xs font-medium text-forest-600 dark:text-gold-300">{importMsg}</p>
+              )}
               <div className="space-y-2">
                 <input
                   type="text"
@@ -169,6 +224,7 @@ export default function GroupCard({ group }) {
                   </button>
                 </div>
               </div>
+              <p className="mt-2 text-[11px] leading-snug text-earth-500 dark:text-forest-400">{t('common.importHint')}</p>
             </form>
 
             {/* Existing member list */}

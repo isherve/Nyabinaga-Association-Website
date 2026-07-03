@@ -19,6 +19,8 @@ const Contact = lazy(() => import('./pages/Contact'))
 const Donate = lazy(() => import('./pages/Donate'))
 const SmsAdmin = lazy(() => import('./pages/SmsAdmin'))
 const ReportsAdmin = lazy(() => import('./pages/ReportsAdmin'))
+const DailyReportAdmin = lazy(() => import('./pages/DailyReportAdmin'))
+const MeetingsAdmin = lazy(() => import('./pages/MeetingsAdmin'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function PageLoader() {
@@ -49,6 +51,8 @@ export default function App() {
             <Route path="/donate" element={<Donate />} />
             <Route path="/admin/sms" element={<SmsAdmin />} />
             <Route path="/admin/reports" element={<ReportsAdmin />} />
+            <Route path="/admin/daily" element={<DailyReportAdmin />} />
+            <Route path="/admin/meetings" element={<MeetingsAdmin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>

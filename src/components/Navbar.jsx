@@ -34,7 +34,7 @@ function NavItem({ to, label, end, onClick, className = '', pill = true }) {
       end={end}
       onClick={onClick}
       className={({ isActive }) =>
-        `${pill ? 'rounded-full px-3.5 py-2' : 'block rounded-xl px-4 py-3'} text-sm font-medium transition-colors ${className} ${
+        `${pill ? 'whitespace-nowrap rounded-full px-3.5 py-2' : 'block rounded-xl px-4 py-3'} text-sm font-medium transition-colors ${className} ${
           isActive
             ? 'bg-forest-600 text-white shadow-sm dark:bg-forest-500'
             : 'text-forest-700 hover:bg-earth-100 hover:text-forest-900 dark:text-forest-100 dark:hover:bg-forest-800 dark:hover:text-white'
@@ -110,7 +110,7 @@ export default function Navbar() {
       <div className="container-page">
         <div className="flex h-16 items-center justify-between gap-3 lg:h-[4.5rem]">
           {/* Brand */}
-          <Link to="/" className="group flex min-w-0 shrink-0 items-center gap-3">
+          <Link to="/" className="group flex min-w-0 shrink-0 items-center gap-3 lg:-ml-3">
             <img
               src="/images/logo.png"
               alt={`${site.name} logo`}

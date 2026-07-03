@@ -21,6 +21,7 @@ const SmsAdmin = lazy(() => import('./pages/SmsAdmin'))
 const ReportsAdmin = lazy(() => import('./pages/ReportsAdmin'))
 const DailyReportAdmin = lazy(() => import('./pages/DailyReportAdmin'))
 const MeetingsAdmin = lazy(() => import('./pages/MeetingsAdmin'))
+const PastorsRoom = lazy(() => import('./pages/PastorsRoom'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 
 function PageLoader() {
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="/children" element={<Children />} />
             <Route path="/impact" element={<Impact />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/pastors-room" element={<PastorsRoom />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/donate" element={<Donate />} />
             <Route path="/admin/sms" element={<SmsAdmin />} />

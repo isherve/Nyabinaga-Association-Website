@@ -26,6 +26,10 @@ export const translations = {
     'nav.donate': 'Donate',
     'nav.pastors': 'Pastors Room',
 
+    // Home announcements
+    'home.announcements.eyebrow': 'Announcements',
+    'home.announcements.viewAll': 'View all',
+
     // Pastors Room
     'pastors.eyebrow': 'Pastors Room',
     'pastors.title': 'Pastors Room',
@@ -396,6 +400,9 @@ export const translations = {
     'nav.donate': 'Faire un don',
     'nav.pastors': 'Salle des Pasteurs',
 
+    'home.announcements.eyebrow': 'Annonces',
+    'home.announcements.viewAll': 'Voir tout',
+
     'pastors.eyebrow': 'Salle des Pasteurs',
     'pastors.title': 'Salle des Pasteurs',
     'pastors.subtitle': 'Annonces et messages de nos pasteurs au personnel et à la communauté.',
@@ -748,6 +755,9 @@ export const translations = {
     'nav.team': 'Ikipe yacu',
     'nav.donate': 'Tanga inkunga',
     'nav.pastors': 'Icyumba cy\'Abapasitori',
+
+    'home.announcements.eyebrow': 'Amatangazo',
+    'home.announcements.viewAll': 'Reba byose',
 
     'pastors.eyebrow': 'Icyumba cy\'Abapasitori',
     'pastors.title': 'Icyumba cy\'Abapasitori',

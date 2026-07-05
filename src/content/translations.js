@@ -29,6 +29,12 @@ export const translations = {
     // Home announcements
     'home.announcements.eyebrow': 'Announcements',
     'home.announcements.viewAll': 'View all',
+    'home.announcements.office': 'Pastors Room',
+    'home.announcements.notice': 'Notice',
+    'home.announcements.official': 'Official announcement',
+    'home.announcements.pinnedLabel': 'Pinned',
+    'home.announcements.close': 'Close',
+    'home.announcements.next': 'Next',
 
     // Pastors Room
     'pastors.eyebrow': 'Pastors Room',
@@ -402,6 +408,12 @@ export const translations = {
 
     'home.announcements.eyebrow': 'Annonces',
     'home.announcements.viewAll': 'Voir tout',
+    'home.announcements.office': 'Salle des Pasteurs',
+    'home.announcements.notice': 'Avis',
+    'home.announcements.official': 'Annonce officielle',
+    'home.announcements.pinnedLabel': 'Épinglé',
+    'home.announcements.close': 'Fermer',
+    'home.announcements.next': 'Suivant',
 
     'pastors.eyebrow': 'Salle des Pasteurs',
     'pastors.title': 'Salle des Pasteurs',
@@ -758,6 +770,12 @@ export const translations = {
 
     'home.announcements.eyebrow': 'Amatangazo',
     'home.announcements.viewAll': 'Reba byose',
+    'home.announcements.office': 'Icyumba cy\'Abapasitori',
+    'home.announcements.notice': 'Itangazo',
+    'home.announcements.official': 'Itangazo rya mbere',
+    'home.announcements.pinnedLabel': 'Ryamamajwe',
+    'home.announcements.close': 'Funga',
+    'home.announcements.next': 'Ibikurikira',
 
     'pastors.eyebrow': 'Icyumba cy\'Abapasitori',
     'pastors.title': 'Icyumba cy\'Abapasitori',

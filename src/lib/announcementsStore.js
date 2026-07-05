@@ -35,6 +35,7 @@ export function normalizeAnnouncement(raw) {
     body: String(raw.body || '').trim(),
     author: String(raw.author || '').trim(),
     date: raw.date || new Date().toISOString().slice(0, 10),
+    createdAt: raw.createdAt || new Date().toISOString(),
     pinned: Boolean(raw.pinned),
     published: raw.published !== false, // locally-created posts are "published"
   }
@@ -50,8 +51,26 @@ function sortPosts(list) {
 
 /** Seed + locally published announcements, sorted for display. */
 export function getAnnouncements() {
-  const seed = announcementsSeed.map((a) => ({ ...a, published: true, seed: true }))
+  const seed = announcementsSeed.map((a) => ({
+    ...a,
+    createdAt: a.createdAt || `${a.date}T00:00:00.000Z`,
+    published: true,
+    seed: true,
+  }))
   return sortPosts([...read(), ...seed])
+}
+
+/**
+ * Announcements to surface on the homepage: only those posted within the last
+ * `hours` (default 24). After that window they automatically disappear until a
+ * newer announcement is posted.
+ */
+export function getHomepageAnnouncements(hours = 24) {
+  const cutoff = Date.now() - hours * 60 * 60 * 1000
+  return getAnnouncements().filter((a) => {
+    const ts = Date.parse(a.createdAt || a.date)
+    return Number.isFinite(ts) && ts >= cutoff
+  })
 }
 
 export function addAnnouncement(raw) {

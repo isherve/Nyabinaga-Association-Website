@@ -8,8 +8,9 @@ import { useSettings } from '../context/SettingsContext'
 import Reveal from '../components/Reveal'
 import AnimatedNumber from '../components/AnimatedNumber'
 import HeroSlideshow from '../components/HeroSlideshow'
-import { iconMap, ArrowRight, MapPin, Megaphone, Pin } from '../components/Icons'
-import { getAnnouncements } from '../lib/announcementsStore'
+import AnnouncementModal from '../components/AnnouncementModal'
+import { iconMap, ArrowRight, MapPin } from '../components/Icons'
+import { getHomepageAnnouncements } from '../lib/announcementsStore'
 
 const whatWeDoKeys = [
   { icon: 'sprout', title: 'home.whatWeDo.livelihood.title', text: 'home.whatWeDo.livelihood.text' },
@@ -25,21 +26,13 @@ const statLabelKeys = [
   'home.stats.assets',
 ]
 
-const fmtDate = (d) => {
-  try {
-    return new Date(`${d}T00:00:00`).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
-  } catch {
-    return d
-  }
-}
-
 export default function Home() {
   const { t, lang } = useSettings()
-  // Show pinned announcements from the Pastors Room to all visitors.
-  const [pinned] = useState(() => getAnnouncements().filter((a) => a.pinned))
+  const [recent] = useState(() => getHomepageAnnouncements(24))
 
   return (
     <>
+      <AnnouncementModal announcements={recent} />
       <section className="relative overflow-hidden">
         <HeroSlideshow />
 
@@ -84,41 +77,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      {pinned.length > 0 && (
-        <section className="section surface-muted">
-          <div className="container-page">
-            <Reveal className="mx-auto max-w-2xl text-center">
-              <span className="inline-flex items-center gap-2 rounded-full bg-gold-100 px-4 py-1.5 text-sm font-semibold text-earth-700 dark:bg-gold-900/30 dark:text-gold-300">
-                <Megaphone className="h-4 w-4" /> {t('home.announcements.eyebrow')}
-              </span>
-            </Reveal>
-
-            <div className="mt-8 flex flex-wrap justify-center gap-6">
-              {pinned.map((a, i) => (
-                <Reveal key={a.id} delay={(i % 3) * 90}>
-                  <article className="flex h-full w-72 flex-col rounded-3xl border border-gold-300/60 bg-white p-6 shadow-md ring-1 ring-gold-400/40 dark:border-forest-700 dark:bg-forest-900">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-100 text-earth-700 dark:bg-gold-900/30 dark:text-gold-300">
-                      <Megaphone className="h-6 w-6" />
-                    </span>
-                    <span className="mt-4 inline-flex w-fit items-center gap-1 rounded-full bg-gold-100 px-2.5 py-0.5 text-xs font-semibold text-earth-700 dark:bg-gold-900/30 dark:text-gold-300">
-                      <Pin className="h-3.5 w-3.5" /> {t('pastors.pinned')}
-                    </span>
-                    <h3 className="mt-3 font-display text-xl font-bold text-forest-900 dark:text-forest-50">{a.title}</h3>
-                    <p className="mt-1 text-sm text-muted">
-                      {a.author ? `${a.author} · ` : ''}{fmtDate(a.date)}
-                    </p>
-                    {a.body && <p className="mt-3 flex-1 whitespace-pre-line leading-relaxed text-forest-800 dark:text-forest-100">{a.body}</p>}
-                    <Link to="/pastors-room" className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-forest-600 hover:underline dark:text-gold-300">
-                      {t('home.announcements.viewAll')} <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </article>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       <section className="section">
         <div className="container-page">

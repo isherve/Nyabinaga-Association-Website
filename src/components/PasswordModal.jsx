@@ -4,13 +4,14 @@ import { useSettings } from '../context/SettingsContext'
 import { Close, Lock } from './Icons'
 
 export default function PasswordModal({ open, mode = 'details', onClose, onSuccess }) {
-  const { unlockDetails, loginAdmin } = useAuth()
+  const { unlockDetails, loginAdmin, loginPastors } = useAuth()
   const { t } = useSettings()
   const [password, setPassword] = useState('')
   const [error, setError] = useState(false)
   const inputRef = useRef(null)
 
   const isAdmin = mode === 'admin'
+  const isPastors = mode === 'pastors'
 
   useEffect(() => {
     if (open) {
@@ -36,7 +37,7 @@ export default function PasswordModal({ open, mode = 'details', onClose, onSucce
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const ok = isAdmin ? loginAdmin(password) : unlockDetails(password)
+    const ok = isAdmin ? loginAdmin(password) : isPastors ? loginPastors(password) : unlockDetails(password)
     if (ok) {
       onSuccess?.()
       onClose()
@@ -45,12 +46,16 @@ export default function PasswordModal({ open, mode = 'details', onClose, onSucce
     }
   }
 
+  const title = isAdmin ? t('auth.adminTitle') : isPastors ? t('auth.pastorsTitle') : t('auth.restricted')
+  const subtitle = isAdmin ? t('auth.adminSub') : isPastors ? t('auth.pastorsSub') : t('auth.restrictedSub')
+  const submitLabel = isAdmin || isPastors ? t('auth.login') : t('auth.unlock')
+
   return (
     <div
       className="animate-fade-in fixed inset-0 z-[110] flex items-center justify-center bg-forest-900/80 p-4 dark:bg-black/70"
       role="dialog"
       aria-modal="true"
-      aria-label={isAdmin ? t('auth.adminTitle') : t('auth.restricted')}
+      aria-label={title}
       onClick={onClose}
     >
       <div
@@ -72,10 +77,10 @@ export default function PasswordModal({ open, mode = 'details', onClose, onSucce
         </div>
 
         <h2 className="mt-4 font-display text-xl font-bold text-forest-900 dark:text-forest-50">
-          {isAdmin ? t('auth.adminTitle') : t('auth.restricted')}
+          {title}
         </h2>
         <p className="mt-2 text-sm text-muted">
-          {isAdmin ? t('auth.adminSub') : t('auth.restrictedSub')}
+          {subtitle}
         </p>
 
         <form onSubmit={handleSubmit} className="mt-5">
@@ -104,7 +109,7 @@ export default function PasswordModal({ open, mode = 'details', onClose, onSucce
             </p>
           )}
           <button type="submit" className="btn-primary mt-4 w-full">
-            {isAdmin ? t('auth.login') : t('auth.unlock')}
+            {submitLabel}
           </button>
         </form>
       </div>

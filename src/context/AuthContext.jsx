@@ -5,18 +5,21 @@ import { ACCESS } from '../config/access'
 // (e.g. after changing a password). Old unlocked sessions become invalid.
 const DETAILS_KEY = 'nyabinaga_details_unlocked_v2'
 const ADMIN_KEY = 'nyabinaga_admin_v2'
+const PASTORS_KEY = 'nyabinaga_pastors_v1'
 
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
   const [detailsUnlocked, setDetailsUnlocked] = useState(false)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [isPastors, setIsPastors] = useState(false)
 
   // Restore session state (persists until the browser tab is closed).
   useEffect(() => {
     try {
       setDetailsUnlocked(sessionStorage.getItem(DETAILS_KEY) === '1')
       setIsAdmin(sessionStorage.getItem(ADMIN_KEY) === '1')
+      setIsPastors(sessionStorage.getItem(PASTORS_KEY) === '1')
     } catch {
       /* sessionStorage unavailable — stay locked */
     }
@@ -50,27 +53,49 @@ export function AuthProvider({ children }) {
     return false
   }, [])
 
+  const loginPastors = useCallback((password) => {
+    if (password === ACCESS.pastorsPassword) {
+      setIsPastors(true)
+      try {
+        sessionStorage.setItem(PASTORS_KEY, '1')
+      } catch {
+        /* ignore */
+      }
+      return true
+    }
+    return false
+  }, [])
+
   const logout = useCallback(() => {
     setIsAdmin(false)
     setDetailsUnlocked(false)
+    setIsPastors(false)
     try {
       sessionStorage.removeItem(ADMIN_KEY)
       sessionStorage.removeItem(DETAILS_KEY)
+      sessionStorage.removeItem(PASTORS_KEY)
     } catch {
       /* ignore */
     }
   }, [])
+
+  const canAccessPastors = isPastors || isAdmin
+  const canPublishPastors = isPastors || isAdmin
 
   const value = useMemo(
     () => ({
       // Admins can always see details; members can unlock details separately.
       canViewDetails: detailsUnlocked || isAdmin,
       isAdmin,
+      isPastors,
+      canAccessPastors,
+      canPublishPastors,
       unlockDetails,
       loginAdmin,
+      loginPastors,
       logout,
     }),
-    [detailsUnlocked, isAdmin, unlockDetails, loginAdmin, logout],
+    [detailsUnlocked, isAdmin, isPastors, unlockDetails, loginAdmin, loginPastors, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

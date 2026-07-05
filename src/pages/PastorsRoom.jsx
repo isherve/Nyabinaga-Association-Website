@@ -5,7 +5,7 @@ import Reveal from '../components/Reveal'
 import { useAuth } from '../context/AuthContext'
 import { useSettings } from '../context/SettingsContext'
 import { featuredImages } from '../content/site'
-import { Megaphone, Pin, Lock, Unlock, Check, Close, Trash } from '../components/Icons'
+import { Megaphone, Pin, Lock, Check, Close, Trash } from '../components/Icons'
 import {
   getAnnouncements,
   addAnnouncement,
@@ -33,7 +33,7 @@ const inputCls =
   'w-full rounded-xl border border-earth-200 bg-earth-50 px-3 py-2 text-forest-900 focus:border-forest-500 focus:outline-none dark:border-forest-700 dark:bg-forest-950 dark:text-forest-50'
 
 export default function PastorsRoom() {
-  const { isAdmin } = useAuth()
+  const { canAccessPastors, canPublishPastors } = useAuth()
   const { t } = useSettings()
   const [loginOpen, setLoginOpen] = useState(false)
   const [posts, setPosts] = useState(() => getAnnouncements())
@@ -66,6 +66,36 @@ export default function PastorsRoom() {
     if (confirm(t('pastors.confirmDelete'))) setPosts(removeAnnouncement(id))
   }
 
+  if (!canAccessPastors) {
+    return (
+      <>
+        <PageHeader
+          eyebrow={t('pastors.eyebrow')}
+          title={t('pastors.title')}
+          subtitle={t('pastors.subtitle')}
+          image={featuredImages.about}
+        />
+        <section className="section">
+          <div className="container-page">
+            <div className="card mx-auto max-w-md p-10 text-center">
+              <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-forest-100 text-forest-600 dark:bg-forest-800 dark:text-gold-400">
+                <Lock className="h-8 w-8" />
+              </span>
+              <h2 className="mt-5 font-display text-2xl font-bold text-forest-900 dark:text-forest-50">
+                {t('pastors.lockedTitle')}
+              </h2>
+              <p className="mt-2 text-muted">{t('pastors.lockedSub')}</p>
+              <button type="button" onClick={() => setLoginOpen(true)} className="btn-primary mx-auto mt-6">
+                <Lock className="h-4 w-4" /> {t('pastors.signIn')}
+              </button>
+            </div>
+          </div>
+        </section>
+        <PasswordModal open={loginOpen} mode="pastors" onClose={() => setLoginOpen(false)} />
+      </>
+    )
+  }
+
   return (
     <>
       <PageHeader
@@ -86,17 +116,13 @@ export default function PastorsRoom() {
               <div>
                 <h2 className="font-display text-lg font-bold text-forest-900 dark:text-forest-50">{t('pastors.boardTitle')}</h2>
                 <p className="mt-0.5 text-sm text-muted">
-                  {isAdmin ? t('pastors.canPublish') : t('pastors.readOnly')}
+                  {canPublishPastors ? t('pastors.canPublish') : t('pastors.readOnly')}
                 </p>
               </div>
             </div>
-            {isAdmin ? (
+            {canPublishPastors && (
               <button type="button" onClick={openNew} className="btn-primary shrink-0 text-sm">
                 <Megaphone className="h-4 w-4" /> {t('pastors.newPost')}
-              </button>
-            ) : (
-              <button type="button" onClick={() => setLoginOpen(true)} className="btn-outline shrink-0 text-sm">
-                <Unlock className="h-4 w-4" /> {t('pastors.signInToPublish')}
               </button>
             )}
           </div>
@@ -124,7 +150,7 @@ export default function PastorsRoom() {
                           {p.author ? `${p.author} · ` : ''}{fmtDate(p.date)}
                         </p>
                       </div>
-                      {isAdmin && (
+                      {canPublishPastors && (
                         <div className="flex shrink-0 items-center gap-3">
                           <button type="button" onClick={() => openEdit(p)} className="text-sm font-medium text-forest-600 hover:underline dark:text-gold-300">
                             {t('pastors.edit')}
@@ -195,7 +221,6 @@ export default function PastorsRoom() {
         </div>
       )}
 
-      <PasswordModal open={loginOpen} mode="admin" onClose={() => setLoginOpen(false)} />
     </>
   )
 }

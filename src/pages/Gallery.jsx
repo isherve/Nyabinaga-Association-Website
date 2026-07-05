@@ -6,6 +6,11 @@ import { useSettings } from '../context/SettingsContext'
 import { useGalleryUploads } from '../hooks/useGalleryUploads'
 import { Close, ArrowRight, Upload, Trash, Download } from '../components/Icons'
 
+const galleryDownloadBtn =
+  'rounded-full bg-forest-600/85 p-2.5 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-forest-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60'
+const galleryCloseBtn =
+  'rounded-full bg-red-600/85 p-2.5 text-white shadow-md backdrop-blur-sm transition-colors hover:bg-red-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60'
+
 export default function Gallery() {
   const { isAdmin } = useAuth()
   const { t } = useSettings()
@@ -215,7 +220,7 @@ export default function Gallery() {
                 <button
                   type="button"
                   onClick={() => downloadImage(img)}
-                  className="absolute bottom-2 right-2 rounded-full bg-white/90 p-2 text-forest-700 opacity-0 shadow transition-opacity hover:bg-white group-hover:opacity-100 focus:opacity-100 dark:bg-forest-900/90 dark:text-forest-100"
+                  className={`absolute bottom-2 right-2 ${galleryDownloadBtn}`}
                   aria-label={t('gallery.download')}
                   title={t('gallery.download')}
                 >
@@ -267,17 +272,17 @@ export default function Gallery() {
 
       {isOpen && (
         <div className="animate-fade-in fixed inset-0 z-[100] flex items-center justify-center bg-forest-900/95 p-4" role="dialog" aria-modal="true" onClick={close}>
-          <button type="button" onClick={close} className="absolute right-4 top-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20" aria-label={t('auth.close')}>
-            <Close className="h-6 w-6" />
-          </button>
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); downloadImage(images[index]) }}
-            className="absolute right-16 top-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"
+            className={`absolute right-16 top-4 ${galleryDownloadBtn}`}
             aria-label={t('gallery.download')}
             title={t('gallery.download')}
           >
             <Download className="h-6 w-6" />
+          </button>
+          <button type="button" onClick={close} className={`absolute right-4 top-4 ${galleryCloseBtn}`} aria-label={t('auth.close')}>
+            <Close className="h-6 w-6" />
           </button>
           <button type="button" onClick={(e) => { e.stopPropagation(); prev() }} className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white hover:bg-white/20 sm:left-6" aria-label="Previous">
             <ArrowRight className="h-6 w-6 rotate-180" />

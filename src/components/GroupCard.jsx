@@ -9,7 +9,7 @@ import { useRef, useState } from 'react'
 
 export default function GroupCard({ group }) {
   const { t, lang } = useSettings()
-  const { canViewDetails } = useAuth()
+  const { canViewDetails, isAdmin } = useAuth()
   const [open, setOpen] = useState(false)
   const [membersOpen, setMembersOpen] = useState(false)
   const [askPassword, setAskPassword] = useState(false)
@@ -246,7 +246,7 @@ export default function GroupCard({ group }) {
                           {formatPhone(m.phone)}
                         </a>
                       )}
-                      {m.added && (
+                      {isAdmin && m.added && (
                         <button
                           type="button"
                           onClick={() => handleRemoveMember(m.id)}

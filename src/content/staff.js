@@ -1,17 +1,37 @@
 // Staff, volunteers and committees serving RW0164 EMLR Nyabinaga.
+//
+// LEADERSHIP — shown on the Team page with photo, name, and role.
+// Photos live in public/images/team/
 
-// Named leadership. Fill in real names (and optional photo paths under
-// /public/images) to show them on the Team page. Leave `name` empty to hide
-// a card. `photo` is optional — a placeholder avatar shows when it's blank.
 export const leadership = [
-  { name: '', role: 'Project Director', photo: '' },
-  { name: '', role: 'Deputy Director', photo: '' },
-  { name: '', role: 'Project Coordinator', photo: '' },
-  { name: '', role: 'Finance / Savings Lead', photo: '' },
-  { name: '', role: 'Youth Program Lead', photo: '' },
-  { name: '', role: "Children's Program Lead", photo: '' },
+  {
+    name: 'Munyansanga Jerome',
+    role: 'Project Director',
+    photo: '/images/team/munyansanga-jerome.png',
+  },
+  {
+    name: 'Nyirahabimana Patricie',
+    role: 'Health social worker',
+    photo: '/images/team/nyirahabimana-patricie.png',
+  },
+  {
+    name: 'Murorukwere Mariam',
+    role: 'Implementor survival',
+    photo: '/images/team/murorukwere-mariam.png',
+  },
+  {
+    name: 'Bizumutimana Jean Marie',
+    role: 'Communication social worker',
+    photo: '/images/team/bizumutimana-jean-marie.png',
+  },
+  {
+    name: 'Muhimpundu Yvonne',
+    role: 'Account',
+    photo: '/images/team/muhimpundu-yvonne.png',
+  },
 ]
 
+// Staff roles & committees — head-count shown on the Team page only.
 export const staffRoles = [
   { role: 'Daily operations staff', number: 5 },
   { role: 'Volunteer teachers', number: 4 },

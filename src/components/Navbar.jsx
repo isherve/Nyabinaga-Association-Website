@@ -14,10 +14,10 @@ const pick = (...paths) => paths.map((p) => routeByPath[p]).filter(Boolean)
 
 const mainRoutes = pick('/', '/about', '/groups')
 const programRoutes = pick('/youth', '/children')
-const moreRoutes = pick('/impact', '/gallery', '/pastors-room', '/team', '/contact')
+const moreRoutes = pick('/impact', '/gallery', '/pastors-room', '/contact')
 
 const programIcons = { '/youth': Users, '/children': Book }
-const moreIcons = { '/impact': Coins, '/gallery': Spark, '/pastors-room': Megaphone, '/team': Users, '/contact': Mail }
+const moreIcons = { '/impact': Coins, '/gallery': Spark, '/pastors-room': Megaphone, '/contact': Mail }
 
 // Admin-only tools, grouped into a single dropdown to keep the bar uncluttered.
 const adminTools = [

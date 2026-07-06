@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import PageHeader from '../components/PageHeader'
 import Reveal from '../components/Reveal'
+import TeamSection from '../components/TeamSection'
 import { featuredImages } from '../content/site'
 import { tp } from '../content/groupTranslations'
 import { useSettings } from '../context/SettingsContext'
@@ -13,16 +14,6 @@ export default function About() {
     { date: tp('November 1, 2011', lang), title: t('about.timeline.start.title'), text: t('about.timeline.start.text') },
     { date: tp('November 19, 2011', lang), title: t('about.timeline.activity.title'), text: t('about.timeline.activity.text') },
     { date: t('about.timeline.today.date'), title: t('about.timeline.today.title'), text: t('about.timeline.today.text') },
-  ]
-
-  const staffRoles = [
-    { role: t('about.staff.daily'), number: 5 },
-    { role: t('about.staff.teachers'), number: 4 },
-    { role: t('about.staff.cooks'), number: 4 },
-    { role: t('about.staff.facilities'), number: 1 },
-    { role: t('about.staff.project'), number: 5 },
-    { role: t('about.staff.parents'), number: 5 },
-    { role: t('about.staff.youth'), number: 8 },
   ]
 
   const facilities = [t('about.facilities.f1'), t('about.facilities.f2')]
@@ -94,25 +85,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="section bg-forest-900 text-forest-50 dark:bg-forest-950">
-        <div className="container-page">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <span className="inline-block rounded-full bg-gold-400/20 px-4 py-1 text-sm font-semibold uppercase tracking-widest text-gold-200">
-              {t('about.people.eyebrow')}
-            </span>
-            <h2 className="mt-3 text-3xl font-bold text-white">{t('about.people.title')}</h2>
-            <p className="mt-4 text-lg text-forest-100/80">{t('about.people.sub')}</p>
-          </Reveal>
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {staffRoles.map((role, i) => (
-              <Reveal key={role.role} delay={i * 70} className="flex items-center gap-4 rounded-2xl bg-forest-800/60 p-5 dark:bg-forest-900/80">
-                <span className="font-display text-3xl font-extrabold text-gold-300">{role.number}</span>
-                <span className="text-sm font-medium text-forest-50/90">{role.role}</span>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TeamSection />
 
       <section className="section">
         <div className="container-page">

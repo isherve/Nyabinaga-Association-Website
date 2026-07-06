@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import ScrollToTop from './components/ScrollToTop'
@@ -9,7 +9,6 @@ import Home from './pages/Home'
 // Route-level code splitting keeps the initial bundle small; heavier pages
 // (e.g. Impact with Recharts) are only loaded when visited.
 const About = lazy(() => import('./pages/About'))
-const Team = lazy(() => import('./pages/Team'))
 const Groups = lazy(() => import('./pages/Groups'))
 const Youth = lazy(() => import('./pages/Youth'))
 const Children = lazy(() => import('./pages/Children'))
@@ -42,7 +41,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/team" element={<Team />} />
+            <Route path="/team" element={<Navigate to="/about#team" replace />} />
             <Route path="/groups" element={<Groups />} />
             <Route path="/youth" element={<Youth />} />
             <Route path="/children" element={<Children />} />

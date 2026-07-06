@@ -1,11 +1,23 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
-// Scroll to the top of the page on every route change.
 export default function ScrollToTop() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
+
   useEffect(() => {
+    if (hash) {
+      const id = hash.replace('#', '')
+      const scrollToHash = () => {
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        else window.scrollTo({ top: 0, behavior: 'auto' })
+      }
+      // Allow lazy-loaded About content to mount before scrolling.
+      const timer = setTimeout(scrollToHash, 100)
+      return () => clearTimeout(timer)
+    }
     window.scrollTo({ top: 0, behavior: 'auto' })
-  }, [pathname])
+  }, [pathname, hash])
+
   return null
 }

@@ -5,8 +5,9 @@ import { leadership, staffRoles } from '../content/staff'
 import { useSettings } from '../context/SettingsContext'
 import { Users } from '../components/Icons'
 
-function initials(name) {
-  return name
+function initials(name, role) {
+  const source = name.trim() || role
+  return source
     .split(' ')
     .filter(Boolean)
     .slice(0, 2)
@@ -14,12 +15,35 @@ function initials(name) {
     .join('')
 }
 
+function TeamPhoto({ leader, size = 'md', t }) {
+  const hasName = Boolean(leader.name?.trim())
+  const hasPhoto = Boolean(leader.photo?.trim())
+  const sizeCls = size === 'lg' ? 'h-44 w-44 sm:h-52 sm:w-52' : 'h-36 w-36'
+
+  return (
+    <div
+      className={`relative mx-auto shrink-0 overflow-hidden rounded-full bg-earth-100 shadow-lg ring-4 ring-white dark:bg-forest-800 dark:ring-forest-700 ${sizeCls}`}
+    >
+      {hasPhoto ? (
+        <img
+          src={leader.photo}
+          alt={hasName ? leader.name : leader.role}
+          className="h-full w-full object-cover object-top"
+          loading="lazy"
+        />
+      ) : (
+        <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-forest-700 to-forest-900 px-3 text-center">
+          <span className="font-display text-3xl font-bold text-white/90">{initials(leader.name, leader.role)}</span>
+          <p className="mt-2 text-[10px] font-medium uppercase tracking-wide text-gold-300/80">{t('team.photoPending')}</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Team() {
   const { t } = useSettings()
-  const namedLeaders = leadership.filter((l) => l.name.trim())
-  const showLeaders = namedLeaders.length > 0
-
-  const totalTeam = staffRoles.reduce((sum, r) => sum + r.number, 0)
+  const [director, ...management] = leadership
 
   return (
     <>
@@ -30,35 +54,61 @@ export default function Team() {
         image={featuredImages.about}
       />
 
-      {showLeaders && (
-        <section className="section">
-          <div className="container-page">
-            <Reveal>
-              <span className="eyebrow">{t('team.leadership.eyebrow')}</span>
-              <h2 className="mt-3 text-3xl font-bold text-forest-900 dark:text-forest-50">
-                {t('team.leadership.title')}
-              </h2>
-            </Reveal>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {namedLeaders.map((leader, i) => (
-                <Reveal key={leader.name} delay={i * 80}>
-                  <div className="card flex flex-col items-center p-7 text-center">
-                    {leader.photo ? (
-                      <img
-                        src={leader.photo}
-                        alt={leader.name}
-                        className="h-28 w-28 rounded-full object-cover ring-4 ring-forest-100 dark:ring-forest-800"
-                      />
-                    ) : (
-                      <span className="flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-forest-600 to-forest-800 font-display text-3xl font-bold text-white ring-4 ring-gold-400/30">
-                        {initials(leader.name)}
-                      </span>
-                    )}
-                    <h3 className="mt-5 font-display text-lg font-bold text-forest-900 dark:text-forest-50">
-                      {leader.name}
+      {/* Featured director — UTB-style leadership spotlight */}
+      <section className="section">
+        <div className="container-page">
+          <Reveal className="mx-auto max-w-2xl text-center">
+            <span className="eyebrow">{t('team.leadership.eyebrow')}</span>
+            <h2 className="mt-3 text-3xl font-bold text-forest-900 dark:text-forest-50 sm:text-4xl">
+              {t('team.leadership.title')}
+            </h2>
+            <p className="mt-4 text-muted">{t('team.leadership.sub')}</p>
+          </Reveal>
+
+          {director && (
+            <Reveal className="mt-12">
+              <article className="card mx-auto max-w-4xl overflow-hidden">
+                <div className="flex flex-col items-center gap-8 p-8 text-center sm:flex-row sm:p-10 sm:text-left">
+                  <TeamPhoto leader={director} size="lg" t={t} />
+                  <div className="min-w-0 flex-1">
+                    <span className="inline-block rounded-full bg-forest-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-forest-700 dark:bg-forest-800 dark:text-gold-300">
+                      {t('team.director.eyebrow')}
+                    </span>
+                    <h3 className="mt-4 font-display text-2xl font-bold text-forest-900 dark:text-forest-50 sm:text-3xl">
+                      {director.name || t('team.namePending')}
                     </h3>
-                    <p className="mt-1 text-sm font-medium text-forest-600 dark:text-gold-400">{leader.role}</p>
+                    <p className="mt-2 text-lg font-semibold text-forest-600 dark:text-gold-400">{director.role}</p>
                   </div>
+                </div>
+              </article>
+            </Reveal>
+          )}
+        </div>
+      </section>
+
+      {/* Management team — uniform circular photos, same size for everyone */}
+      {management.length > 0 && (
+        <section className="section bg-earth-100/60 dark:bg-forest-900/40">
+          <div className="container-page">
+            <div className="mb-10 rounded-2xl bg-forest-800 px-6 py-4 text-center dark:bg-forest-950">
+              <h2 className="font-display text-lg font-bold uppercase tracking-widest text-white">
+                {t('team.management.title')}
+              </h2>
+            </div>
+            <Reveal>
+              <p className="mx-auto max-w-2xl text-center text-muted">{t('team.management.sub')}</p>
+            </Reveal>
+
+            <div className="mt-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+              {management.map((leader, i) => (
+                <Reveal key={leader.name || leader.role} delay={(i % 4) * 70}>
+                  <article className="flex flex-col items-center text-center">
+                    <TeamPhoto leader={leader} t={t} />
+                    <h3 className="mt-5 font-display text-lg font-bold text-forest-900 dark:text-forest-50">
+                      {leader.name || t('team.namePending')}
+                    </h3>
+                    <p className="mt-1 text-sm font-semibold text-forest-600 dark:text-gold-400">{leader.role}</p>
+                  </article>
                 </Reveal>
               ))}
             </div>
@@ -66,7 +116,8 @@ export default function Team() {
         </section>
       )}
 
-      <section className={`section ${showLeaders ? 'bg-earth-100/60 dark:bg-forest-900/40' : ''}`}>
+      {/* Committees & volunteers */}
+      <section className="section">
         <div className="container-page">
           <Reveal>
             <span className="eyebrow">{t('team.structure.eyebrow')}</span>
@@ -76,27 +127,19 @@ export default function Team() {
             <p className="mt-4 max-w-2xl text-muted">{t('team.structure.sub')}</p>
           </Reveal>
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {staffRoles.map((role, i) => (
-              <Reveal key={role.role} delay={i * 60}>
-                <div className="card flex items-center gap-4 p-6">
-                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-forest-100 font-display text-xl font-bold text-forest-700 dark:bg-forest-800 dark:text-gold-400">
-                    {role.number}
+          <div className="mt-10 flex flex-wrap gap-3">
+            {staffRoles.map((item, i) => (
+              <Reveal key={item.role} delay={i * 40}>
+                <span className="inline-flex items-center gap-2 rounded-full border border-forest-200 bg-white px-4 py-2.5 text-sm font-medium text-forest-800 shadow-sm dark:border-forest-700 dark:bg-forest-900 dark:text-forest-100">
+                  <Users className="h-4 w-4 shrink-0 text-forest-500 dark:text-gold-400" />
+                  <span>{item.role}</span>
+                  <span className="shrink-0 rounded-full bg-forest-100 px-1.5 py-0.5 text-xs font-bold tabular-nums text-forest-700 dark:bg-forest-800 dark:text-gold-300">
+                    {item.number}
                   </span>
-                  <span className="font-medium text-forest-800 dark:text-forest-100">{role.role}</span>
-                </div>
+                </span>
               </Reveal>
             ))}
           </div>
-
-          <Reveal>
-            <div className="mt-10 flex items-center gap-4 rounded-3xl bg-forest-600 p-7 text-white dark:bg-forest-700">
-              <Users className="h-10 w-10 shrink-0 text-gold-300" />
-              <p className="text-lg font-semibold">
-                {totalTeam} {t('team.total')}
-              </p>
-            </div>
-          </Reveal>
         </div>
       </section>
     </>

@@ -13,7 +13,7 @@ import { iconMap, ArrowRight, MapPin } from '../components/Icons'
 import { getHomepageAnnouncements } from '../lib/announcementsStore'
 
 const whatWeDoKeys = [
-  { icon: 'sprout', title: 'home.whatWeDo.livelihood.title', text: 'home.whatWeDo.livelihood.text' },
+  { icon: 'sprout', title: 'home.whatWeDo.livehood.title', text: 'home.whatWeDo.livehood.text' },
   { icon: 'book', title: 'home.whatWeDo.children.title', text: 'home.whatWeDo.children.text' },
   { icon: 'users', title: 'home.whatWeDo.youth.title', text: 'home.whatWeDo.youth.text' },
   { icon: 'coins', title: 'home.whatWeDo.savings.title', text: 'home.whatWeDo.savings.text' },

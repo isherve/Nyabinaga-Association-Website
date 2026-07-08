@@ -49,7 +49,7 @@ function buildMetricValues(lang) {
     '264',
     '210',
     '13',
-    '12',
+    '13',
     formatRWF(72826010, lang),
     formatRWF(2205000, lang),
     formatRWF(70624480, lang),

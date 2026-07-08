@@ -1,4 +1,4 @@
-// Public member lists for each livelihood group (name + phone number).
+// Public member lists for each livehood group (name + phone number).
 //
 // This data ships with the site, so every visitor sees the same members on
 // every device (unlike the old browser-only admin storage). To update a group,

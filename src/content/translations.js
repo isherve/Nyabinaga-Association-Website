@@ -117,15 +117,15 @@ export const translations = {
     'home.hero.ctaGroups': 'See Our Groups',
     'home.hero.ctaContact': 'Contact Us',
     'home.stats.beneficiaries': 'Beneficiaries supported',
-    'home.stats.groups': 'Livelihood groups',
+    'home.stats.groups': 'Livehood groups',
     'home.stats.registered': 'Groups formally registered',
     'home.stats.assets': 'Total combined group assets',
     'home.whatWeDo.eyebrow': 'What we do',
     'home.whatWeDo.title': 'Four ways we walk alongside families',
     'home.whatWeDo.sub':
       'Every part of our work is designed to help families stand on their own — through shared savings, productive work, and education for the next generation.',
-    'home.whatWeDo.livelihood.title': 'Livelihood Groups',
-    'home.whatWeDo.livelihood.text':
+    'home.whatWeDo.livehood.title': 'Livehood Groups',
+    'home.whatWeDo.livehood.text':
       'Families are organized into savings and income-generating groups — farming, livestock, trade, and crafts.',
     'home.whatWeDo.children.title': "Children's Education Support",
     'home.whatWeDo.children.text':
@@ -137,7 +137,7 @@ export const translations = {
     'home.whatWeDo.savings.text':
       'Every group practices weekly or monthly group savings and internal lending.',
     'home.groups.eyebrow': 'The families behind the numbers',
-    'home.groups.title': 'Meet a few of our livelihood groups',
+    'home.groups.title': 'Meet a few of our livehood groups',
     'home.groups.viewAll': 'View all 13 groups',
     'home.cta.title': 'Discover the families and groups behind these numbers.',
     'home.cta.button': 'Explore Our Groups',
@@ -187,16 +187,16 @@ export const translations = {
     'about.staff.parents': "Parents' Committee members",
     'about.staff.youth': 'Youth Committee members',
     'about.cta.title': 'See our work in action',
-    'about.cta.sub': 'Explore the 13 livelihood groups building self-reliance every day.',
+    'about.cta.sub': 'Explore the 13 livehood groups building self-reliance every day.',
     'about.cta.button': 'Our Groups',
 
     // Groups
     'groups.eyebrow': 'Our Groups — Amatsinda',
-    'groups.title': '13 livelihood Association building self-reliance',
+    'groups.title': '13 livehood Association building self-reliance',
     'groups.subtitle':
       'Each group runs its own income-generating activities — farming, livestock, trade, or crafts — alongside a group savings scheme.',
     'groups.intro':
-      'Families supported by RW0164 EMLR Nyabinaga are organized into 13 livelihood groups. 11 of these groups are officially registered at the Sector level and hold a certificate; 1 additional entity operates as a registered company. One group has not yet registered because its members come directly from the Survival / emergency program.',
+      'Families supported by RW0164 EMLR Nyabinaga are organized into 13 livehood groups. 11 of these groups are officially registered at the Sector level and hold a certificate; 1 additional entity operates as a registered company. One group has not yet registered because its members come directly from the Survival / emergency program.',
     'groups.registered.eyebrow': 'Officially Registered',
     'groups.registered.title': 'Groups with legal, notarized statutes',
     'groups.registered.sub': 'The following groups all hold legal, notarized statutes.',
@@ -207,7 +207,7 @@ export const translations = {
     'youth.subtitle':
       'Beyond supporting families, RW0164 EMLR Nyabinaga runs a dedicated youth program helping young people discover their talents, get vocational training, and start small businesses.',
     'youth.group.title': 'Youth Group: Ubwiza bw\'Iwacu',
-    'youth.group.desc': 'A dedicated youth livelihood group running its own activities.',
+    'youth.group.desc': 'A dedicated youth livehood group running its own activities.',
     'youth.group.a1': 'Pig farming',
     'youth.group.a2': 'Bead / jewelry weaving (masaro — traditional woven ornaments)',
     'youth.blacksmith.title': 'Blacksmithing & Metalwork (Ubucuzi)',
@@ -225,7 +225,7 @@ export const translations = {
     'youth.businesses.b3': 'Fruit trade',
     'youth.businesses.b4': 'ICT equipment trade',
     'youth.vocational.eyebrow': 'Vocational Training — Imyuga',
-    'youth.vocational.title': 'Skills for a livelihood',
+    'youth.vocational.title': 'Skills for a livehood',
     'youth.vocational.sub': 'Youth are enrolled in hands-on vocational skills training.',
     'youth.vocational.tailoring': 'Tailoring',
     'youth.vocational.shoemaking': 'Shoemaking / cobbling',
@@ -266,8 +266,8 @@ export const translations = {
       'Real numbers from a real community — from beneficiaries served to the assets our groups have built together.',
     'impact.h1.label': 'Beneficiaries supported today',
     'impact.h1.from': 'up from 210 at launch in 2011',
-    'impact.h2.label': 'Livelihood groups',
-    'impact.h2.from': '12 with notarized legal statutes',
+    'impact.h2.label': 'Livehood groups',
+    'impact.h2.from': '13 with notarized legal statutes',
     'impact.h3.label': 'Total group assets (RWF)',
     'impact.h3.from': 'built from savings & shared work',
     'impact.h4.label': 'Primary school classrooms',
@@ -279,11 +279,11 @@ export const translations = {
     'impact.table.title': 'Key metrics at a glance',
     'impact.m1': 'Total beneficiaries',
     'impact.m2': 'Beneficiaries at project start (2011)',
-    'impact.m3': 'Number of livelihood groups',
+    'impact.m3': 'Number of livehood groups',
     'impact.m4': 'Groups formally registered (notarized statutes)',
     'impact.m5': 'Total combined assets across all groups',
     'impact.m6': '— of which, youth group assets',
-    'impact.m7': '— of which, family livelihood group assets',
+    'impact.m7': '— of which, family livehood group assets',
     'impact.m8': 'Project start date',
     'impact.m9': 'First community activity date',
     'impact.m10': 'Classrooms in primary school',
@@ -508,8 +508,8 @@ export const translations = {
     'home.whatWeDo.title': "Quatre façons d'accompagner les familles",
     'home.whatWeDo.sub':
       "Chaque aspect de notre travail vise à aider les familles à devenir autonomes — par l'épargne collective, le travail productif et l'éducation des jeunes générations.",
-    'home.whatWeDo.livelihood.title': 'Groupes de subsistance',
-    'home.whatWeDo.livelihood.text':
+    'home.whatWeDo.livehood.title': 'Groupes de subsistance',
+    'home.whatWeDo.livehood.text':
       "Les familles sont organisées en groupes d'épargne et de revenus — agriculture, élevage, commerce et artisanat.",
     'home.whatWeDo.children.title': "Soutien à l'éducation des enfants",
     'home.whatWeDo.children.text':
@@ -646,7 +646,7 @@ export const translations = {
     'impact.h1.label': 'Bénéficiaires soutenus aujourd\'hui',
     'impact.h1.from': 'contre 210 au lancement en 2011',
     'impact.h2.label': 'Groupes de subsistance',
-    'impact.h2.from': '12 avec statuts légaux notariés',
+    'impact.h2.from': '13 avec statuts légaux notariés',
     'impact.h3.label': 'Actifs totaux des groupes (FRW)',
     'impact.h3.from': 'construits par l\'épargne et le travail collectif',
     'impact.h4.label': 'Salles de classe primaire',
@@ -881,8 +881,8 @@ export const translations = {
     'home.whatWeDo.title': 'Uburyo bune bwo gufasha imiryango',
     'home.whatWeDo.sub':
       'Buri gice cy\'akazi kacu cyagenewe gufasha imiryango kwihanganira — binyuze mu bwizigame, akazi k\'ingirakamaro n\'uburezi bw\'urubyiruko ruzaza.',
-    'home.whatWeDo.livelihood.title': 'Amatsinda y\'ubuzima',
-    'home.whatWeDo.livelihood.text':
+    'home.whatWeDo.livehood.title': 'Amatsinda y\'ubuzima',
+    'home.whatWeDo.livehood.text':
       'Imiryango itegurwa mu matsinda y\'ubwizigame n\'inyungu — ubuhinzi, ubworozi, ubucuruzi n\'ubukorikori.',
     'home.whatWeDo.children.title': 'Gufasha abana mu masomo',
     'home.whatWeDo.children.text':
@@ -1019,7 +1019,7 @@ export const translations = {
     'impact.h1.label': 'Abagenerwa bafashwa uyu munsi',
     'impact.h1.from': 'bavuye kuri 210 mu gutangira mu 2011',
     'impact.h2.label': 'Amatsinda y\'ubuzima',
-    'impact.h2.from': '12 afite amategeko yemewe',
+    'impact.h2.from': '13 afite amategeko yemewe',
     'impact.h3.label': 'Umutungo wose w\'amatsinda (FRW)',
     'impact.h3.from': 'wubatswe n\'ubwizigame n\'akazi k\'itsinda',
     'impact.h4.label': 'Ibyumba by\'ishuri ry\'incuke',

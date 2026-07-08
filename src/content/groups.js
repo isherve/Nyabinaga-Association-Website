@@ -1,4 +1,4 @@
-// The 13 livelihood groups ("amatsinda") supported by RW0164 EMLR Nyabinaga.
+// The 13 livehood groups ("amatsinda") supported by RW0164 EMLR Nyabinaga.
 // Content is kept structured (not hardcoded inline in components) so it is easy
 // to edit later and to translate (e.g. adding a Kinyarwanda toggle).
 //
@@ -273,14 +273,14 @@ export const groups = [
   {
     id: 'ejo-heza',
     name: 'Ejo Heza',
-    activity: 'Registered livelihood group',
+    activity: 'Registered livehood group',
     tags: ['Registered'],
     image: '/images/image3.jpeg',
     highlight: 'A legally registered member group',
     totalAssets: 0,
     registered: true,
     details:
-      'A registered livelihood group and one of the legally registered groups with notarized statutes. Detailed financials were not itemized in the source material, but it operates alongside the other member groups.',
+      'A registered livehood group and one of the legally registered groups with notarized statutes. Detailed financials were not itemized in the source material, but it operates alongside the other member groups.',
     breakdown: [],
   },
 ]

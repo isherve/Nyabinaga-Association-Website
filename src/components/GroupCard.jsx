@@ -4,8 +4,21 @@ import PasswordModal from './PasswordModal'
 import { ChevronDown, Check, Coins, Users, Lock, Phone, Trash, Upload } from './Icons'
 import { formatRWF } from '../content/groups'
 import { tp } from '../content/groupTranslations'
-import { getGroupMembers, addGroupMember, addGroupMembersBulk, removeAddedMember, formatPhone } from '../content/members'
-import { useRef, useState } from 'react'
+import {
+  addGroupMember,
+  addGroupMembersBulk,
+  getGroupMembers,
+  removeAddedMember,
+  formatPhone,
+} from '../content/members'
+import {
+  addSharedMember,
+  addSharedMembersBulk,
+  fetchSharedMembers,
+  removeSharedMember,
+  syncLocalMembersToServer,
+} from '../lib/membersClient'
+import { useEffect, useRef, useState } from 'react'
 
 export default function GroupCard({ group }) {
   const { t, lang } = useSettings()
@@ -16,28 +29,106 @@ export default function GroupCard({ group }) {
   const panelId = `group-panel-${group.id}`
   const membersPanelId = `group-members-${group.id}`
 
-  // Public member list (name + phone) — visible to everyone, no password.
-  const [members, setMembers] = useState(() => getGroupMembers(group.id))
+  const [sharedStore, setSharedStore] = useState(null)
+  const [fromServer, setFromServer] = useState(false)
+  const [membersLoading, setMembersLoading] = useState(true)
   const [form, setForm] = useState({ name: '', phone: '', role: '' })
   const [importMsg, setImportMsg] = useState('')
+  const [saveError, setSaveError] = useState('')
   const fileRef = useRef(null)
 
-  const handleAddMember = (e) => {
+  const members =
+    sharedStore === null
+      ? []
+      : getGroupMembers(group.id, sharedStore, fromServer)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadMembers() {
+      setMembersLoading(true)
+      const { members: remote, shared } = await fetchSharedMembers()
+      if (cancelled) return
+      setSharedStore(remote)
+      setFromServer(shared)
+      setMembersLoading(false)
+    }
+
+    loadMembers()
+    return () => {
+      cancelled = true
+    }
+  }, [group.id])
+
+  useEffect(() => {
+    if (!isAdmin || !fromServer) return
+    let cancelled = false
+
+    syncLocalMembersToServer()
+      .then((synced) => {
+        if (!cancelled && synced) setSharedStore(synced)
+      })
+      .catch(() => {
+        /* local data stays on device until sync succeeds */
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [isAdmin, fromServer])
+
+  const handleAddMember = async (e) => {
     e.preventDefault()
-    if (!form.name.trim() && !form.phone.trim()) return
-    setMembers(addGroupMember(group.id, form))
+    if (!isAdmin || (!form.name.trim() && !form.phone.trim())) return
+    setSaveError('')
+    setImportMsg('')
+
+    if (fromServer) {
+      try {
+        const data = await addSharedMember(group.id, form)
+        setSharedStore(data.members)
+        setForm({ name: '', phone: '', role: '' })
+        return
+      } catch (err) {
+        setSaveError(err.message || 'Failed to save member')
+        return
+      }
+    }
+
+    addGroupMember(group.id, form)
+    setSharedStore((prev) => {
+      const base = prev || {}
+      return { ...base, [group.id]: getGroupMembers(group.id, base, false).filter((m) => m.added) }
+    })
+    setFromServer(false)
     setForm({ name: '', phone: '', role: '' })
   }
 
-  const handleRemoveMember = (id) => {
-    setMembers(removeAddedMember(group.id, id))
+  const handleRemoveMember = async (id) => {
+    setSaveError('')
+    if (fromServer) {
+      try {
+        const data = await removeSharedMember(group.id, id)
+        setSharedStore(data.members)
+      } catch (err) {
+        setSaveError(err.message || 'Failed to remove member')
+      }
+      return
+    }
+    removeAddedMember(group.id, id)
+    setSharedStore((prev) => {
+      const base = { ...(prev || {}) }
+      base[group.id] = getGroupMembers(group.id, base, false).filter((m) => m.added)
+      return base
+    })
   }
 
   const handleImport = async (e) => {
     const file = e.target.files?.[0]
     if (fileRef.current) fileRef.current.value = ''
-    if (!file) return
+    if (!file || !isAdmin) return
     setImportMsg('')
+    setSaveError('')
     try {
       const XLSX = await import('xlsx')
       const buf = await file.arrayBuffer()
@@ -47,7 +138,9 @@ export default function GroupCard({ group }) {
       const parsed = rows
         .map((row) => {
           const lower = {}
-          Object.entries(row).forEach(([k, v]) => { lower[String(k).trim().toLowerCase()] = v })
+          Object.entries(row).forEach(([k, v]) => {
+            lower[String(k).trim().toLowerCase()] = v
+          })
           return {
             name: lower.name || lower['full name'] || lower.names || lower.member || lower.amazina || '',
             phone: lower.phone || lower['phone number'] || lower.tel || lower.telephone || lower.nimero || '',
@@ -59,11 +152,20 @@ export default function GroupCard({ group }) {
         setImportMsg(t('common.importNone'))
         return
       }
+
+      if (fromServer) {
+        const data = await addSharedMembersBulk(group.id, parsed)
+        setSharedStore(data.members)
+        setImportMsg(`${parsed.length} ${t('common.importDone')}`)
+        return
+      }
+
       const { members: next, added } = addGroupMembersBulk(group.id, parsed)
-      setMembers(next)
-      setImportMsg(`${added} ${t('common.importDone')}`)
-    } catch {
-      setImportMsg(t('common.importError'))
+      setSharedStore({ [group.id]: next.filter((m) => m.added) })
+      setFromServer(false)
+      setImportMsg(`${added} ${t('common.importDone')} (${t('common.membersLocalOnly')})`)
+    } catch (err) {
+      setImportMsg(err?.message ? `${t('common.importError')} — ${err.message}` : t('common.importError'))
     }
   }
 
@@ -176,59 +278,68 @@ export default function GroupCard({ group }) {
           }`}
         >
           <div className="overflow-hidden">
-            {/* Add member form */}
-            <form onSubmit={handleAddMember} className="rounded-xl border border-earth-100 bg-earth-50/60 p-3 dark:border-forest-800 dark:bg-forest-900/40">
-              <div className="mb-2 flex items-center justify-between gap-2">
-                <p className="text-xs font-bold uppercase tracking-wider text-earth-500 dark:text-forest-400">
-                  {t('common.addMember')}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => fileRef.current?.click()}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-forest-300 px-2.5 py-1 text-xs font-semibold text-forest-700 transition-colors hover:bg-forest-50 dark:border-forest-600 dark:text-forest-200 dark:hover:bg-forest-800"
-                >
-                  <Upload className="h-3.5 w-3.5" /> {t('common.importExcel')}
-                </button>
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept=".xlsx,.xls,.csv"
-                  onChange={handleImport}
-                  className="hidden"
-                />
-              </div>
-              {importMsg && (
-                <p className="mb-2 text-xs font-medium text-forest-600 dark:text-gold-300">{importMsg}</p>
-              )}
-              <div className="space-y-2">
-                <input
-                  type="text"
-                  value={form.name}
-                  onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
-                  placeholder={t('common.memberName')}
-                  className="w-full rounded-lg border border-earth-200 bg-white px-3 py-2 text-sm text-forest-900 focus:border-forest-500 focus:outline-none dark:border-forest-700 dark:bg-forest-950 dark:text-forest-50"
-                />
-                <div className="flex gap-2">
-                  <input
-                    type="tel"
-                    value={form.phone}
-                    onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))}
-                    placeholder={t('common.memberPhone')}
-                    className="min-w-0 flex-1 rounded-lg border border-earth-200 bg-white px-3 py-2 text-sm text-forest-900 focus:border-forest-500 focus:outline-none dark:border-forest-700 dark:bg-forest-950 dark:text-forest-50"
-                  />
+            {isAdmin ? (
+              <form onSubmit={handleAddMember} className="rounded-xl border border-earth-100 bg-earth-50/60 p-3 dark:border-forest-800 dark:bg-forest-900/40">
+                <div className="mb-2 flex items-center justify-between gap-2">
+                  <p className="text-xs font-bold uppercase tracking-wider text-earth-500 dark:text-forest-400">
+                    {t('common.addMember')}
+                  </p>
                   <button
-                    type="submit"
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-forest-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-forest-700 dark:bg-forest-500 dark:hover:bg-forest-400"
+                    type="button"
+                    onClick={() => fileRef.current?.click()}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-forest-300 px-2.5 py-1 text-xs font-semibold text-forest-700 transition-colors hover:bg-forest-50 dark:border-forest-600 dark:text-forest-200 dark:hover:bg-forest-800"
                   >
-                    <Check className="h-4 w-4" /> {t('common.add')}
+                    <Upload className="h-3.5 w-3.5" /> {t('common.importExcel')}
                   </button>
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept=".xlsx,.xls,.csv"
+                    onChange={handleImport}
+                    className="hidden"
+                  />
                 </div>
-              </div>
-              <p className="mt-2 text-[11px] leading-snug text-earth-500 dark:text-forest-400">{t('common.importHint')}</p>
-            </form>
+                {importMsg && (
+                  <p className="mb-2 text-xs font-medium text-forest-600 dark:text-gold-300">{importMsg}</p>
+                )}
+                {saveError && (
+                  <p className="mb-2 text-xs font-medium text-red-600 dark:text-red-400">{saveError}</p>
+                )}
+                <div className="space-y-2">
+                  <input
+                    type="text"
+                    value={form.name}
+                    onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
+                    placeholder={t('common.memberName')}
+                    className="w-full rounded-lg border border-earth-200 bg-white px-3 py-2 text-sm text-forest-900 focus:border-forest-500 focus:outline-none dark:border-forest-700 dark:bg-forest-950 dark:text-forest-50"
+                  />
+                  <div className="flex gap-2">
+                    <input
+                      type="tel"
+                      value={form.phone}
+                      onChange={(e) => setForm((s) => ({ ...s, phone: e.target.value }))}
+                      placeholder={t('common.memberPhone')}
+                      className="min-w-0 flex-1 rounded-lg border border-earth-200 bg-white px-3 py-2 text-sm text-forest-900 focus:border-forest-500 focus:outline-none dark:border-forest-700 dark:bg-forest-950 dark:text-forest-50"
+                    />
+                    <button
+                      type="submit"
+                      className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-forest-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-forest-700 dark:bg-forest-500 dark:hover:bg-forest-400"
+                    >
+                      <Check className="h-4 w-4" /> {t('common.add')}
+                    </button>
+                  </div>
+                </div>
+                <p className="mt-2 text-[11px] leading-snug text-earth-500 dark:text-forest-400">{t('common.importHint')}</p>
+              </form>
+            ) : (
+              <p className="rounded-xl border border-earth-100 bg-earth-50/60 px-3 py-2 text-xs text-muted dark:border-forest-800 dark:bg-forest-900/40">
+                {t('common.membersAdminOnly')}
+              </p>
+            )}
 
-            {/* Existing member list */}
-            {members.length > 0 && (
+            {membersLoading ? (
+              <p className="mt-3 text-center text-sm text-muted">{t('common.loading')}</p>
+            ) : members.length > 0 ? (
               <ul className="mt-3 max-h-56 divide-y divide-earth-100 overflow-y-auto rounded-xl border border-earth-100 dark:divide-forest-800 dark:border-forest-800">
                 {members.map((m) => (
                   <li key={m.id} className="flex items-center justify-between gap-3 px-4 py-2 text-sm">
@@ -260,6 +371,10 @@ export default function GroupCard({ group }) {
                   </li>
                 ))}
               </ul>
+            ) : (
+              <p className="mt-3 rounded-xl border border-dashed border-earth-200 px-4 py-6 text-center text-sm text-muted dark:border-forest-700">
+                {t('common.noMembers')}
+              </p>
             )}
           </div>
         </div>

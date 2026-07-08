@@ -2,7 +2,7 @@
 
 export const youthGroup = {
   name: "Ubwiza bw'Iwacu",
-  description: 'A dedicated youth livelihood group running its own activities.',
+  description: 'A dedicated youth livehood group running its own activities.',
   activities: ['Pig farming', 'Bead / jewelry weaving (masaro \u2014 traditional woven ornaments)'],
 }
 

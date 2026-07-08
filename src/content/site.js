@@ -71,7 +71,7 @@ export const navItems = [
 export const whatWeDo = [
   {
     icon: 'sprout',
-    title: 'Livelihood Groups',
+    title: 'Livehood Groups',
     text: 'Families are organized into savings and income-generating groups \u2014 farming, livestock, trade, and crafts.',
   },
   {

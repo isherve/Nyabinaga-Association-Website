@@ -71,7 +71,7 @@ export const phraseTranslations = {
     fr: 'Petit commerce de détail collectif',
     rw: 'Ubucuruzi buto rusange bw\'ubudandaza',
   },
-  'Registered livelihood group': {
+  'Registered livehood group': {
     fr: 'Groupe de subsistance enregistré',
     rw: 'Itsinda ry\'ubuzima ryanditswe',
   },
@@ -217,7 +217,7 @@ export const phraseTranslations = {
       fr: '11 membres, épargnant 5 100 FRW/mois par membre. Le groupe gère un petit commerce commun vendant haricots, riz, soja, huile de cuisine, arachides, légumes et fruits.',
       rw: 'Abanyamuryango 11, bazigama 5,100 FRW/ukwezi kuri buri wese. Itsinda rikora ubucuruzi buto rusange bugurisha ibishyimbo, umuceri, soya, amavuta yo guteka, ubunyobwa, imboga n\'imbuto.',
     },
-  'A registered livelihood group and one of the legally registered groups with notarized statutes. Detailed financials were not itemized in the source material, but it operates alongside the other member groups.':
+  'A registered livehood group and one of the legally registered groups with notarized statutes. Detailed financials were not itemized in the source material, but it operates alongside the other member groups.':
     {
       fr: 'Un groupe de subsistance enregistré, parmi les groupes légalement enregistrés avec statuts notariés. Les détails financiers n\'étaient pas ventilés dans le document source, mais il opère aux côtés des autres groupes membres.',
       rw: 'Itsinda ry\'ubuzima ryanditswe kandi rimwe mu matsinda yanditswe mu buryo bwemewe afite amategeko yanditse. Amakuru arambuye y\'imari ntiyatondekanijwe mu nyandiko y\'inkomoko, ariko rikorana n\'ayandi matsinda anyamuryango.',

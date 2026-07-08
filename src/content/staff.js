@@ -32,7 +32,7 @@ export const leadership = [
     name: 'Muhimpundu Yvonne',
     role: 'Account',
     photo: '/images/team/muhimpundu-yvonne.png',
-    bio: 'Manages financial records, group savings tracking, and reporting so that resources are used transparently and groups can plan their livelihood activities with confidence.',
+    bio: 'Manages financial records, group savings tracking, and reporting so that resources are used transparently and groups can plan their livehood activities with confidence.',
   },
 ]
 

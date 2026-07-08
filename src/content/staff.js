@@ -37,13 +37,13 @@ export const leadership = [
 ]
 
 export const staffRoles = [
-  { role: 'Daily operations staff', number: 5 },
-  { role: 'Volunteer teachers', number: 4 },
-  { role: 'Cooks (prepare Saturday meals for children)', number: 4 },
-  { role: 'Facilities / animal care staff', number: 1 },
-  { role: 'Project Committee members', number: 5 },
-  { role: "Parents' Committee members", number: 5 },
-  { role: 'Youth Committee members', number: 8 },
+  { id: 'daily-ops', roleKey: 'about.staff.daily', role: 'Daily operations staff', number: 5 },
+  { id: 'volunteer-teachers', roleKey: 'about.staff.teachers', role: 'Volunteer teachers', number: 4 },
+  { id: 'cooks', roleKey: 'about.staff.cooks', role: 'Cooks (prepare Saturday meals for children)', number: 4 },
+  { id: 'facilities', roleKey: 'about.staff.facilities', role: 'Facilities / animal care staff', number: 1 },
+  { id: 'project-committee', roleKey: 'about.staff.project', role: 'Project Committee members', number: 5 },
+  { id: 'parents-committee', roleKey: 'about.staff.parents', role: "Parents' Committee members", number: 5 },
+  { id: 'youth-committee', roleKey: 'about.staff.youth', role: 'Youth Committee members', number: 8 },
 ]
 
 export const facilities = [

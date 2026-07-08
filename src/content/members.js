@@ -1,11 +1,9 @@
 // Public member lists for each livehood group (name + phone number).
 //
-// This data ships with the site, so every visitor sees the same members on
-// every device (unlike the old browser-only admin storage). To update a group,
-// edit its array below: each member is { name, phone, role? }.
-//
-// Phone numbers can be written in any of these forms — they are auto-formatted
-// for display: "+250788123456", "0788123456", or "+250 788 123 456".
+// Built-in seed arrays below ship with the site. Shared members (added by an
+// admin or imported from Excel) are stored on the server via /api/members so
+// every visitor sees the same list. If the API is unavailable (local dev),
+// added members fall back to browser localStorage on that device only.
 
 export const groupMembers = {
   abahamya: [],
@@ -52,10 +50,18 @@ export function getAddedMembers(groupId) {
   return readLocal()[groupId] || []
 }
 
-/** Built-in members plus any added on this device. */
-export function getGroupMembers(groupId) {
+/** Built-in seed members plus shared or local additions. */
+export function getGroupMembers(groupId, sharedStore = null, fromServer = false) {
   const seed = (groupMembers[groupId] || []).map((m, i) => ({ id: `seed-${groupId}-${i}`, ...m }))
-  return [...seed, ...getAddedMembers(groupId)]
+  const added = fromServer
+    ? (sharedStore?.[groupId] || [])
+    : getAddedMembers(groupId)
+  const normalized = added.map((m) => ({
+    ...m,
+    id: m.id || `remote-${groupId}-${m.name}-${m.phone}`,
+    added: m.added !== false,
+  }))
+  return [...seed, ...normalized]
 }
 
 /** Add a member to a group (saved in this browser). Returns the new list. */

@@ -48,6 +48,7 @@ export function AuthProvider({ children }) {
       } catch {
         /* ignore */
       }
+      import('../lib/membersClient').then(({ storeAdminPassword }) => storeAdminPassword(password))
       return true
     }
     return false
@@ -77,6 +78,7 @@ export function AuthProvider({ children }) {
     } catch {
       /* ignore */
     }
+    import('../lib/membersClient').then(({ storeAdminPassword }) => storeAdminPassword(''))
   }, [])
 
   const canAccessPastors = isPastors || isAdmin

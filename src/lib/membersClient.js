@@ -103,6 +103,10 @@ export async function removeSharedMember(groupId, id) {
   return postMembers({ action: 'remove', groupId, id })
 }
 
+export async function updateSharedMember(groupId, id, member) {
+  return postMembers({ action: 'update', groupId, id, member })
+}
+
 /** One-time upload of browser-only members so everyone can see them. */
 export async function syncLocalMembersToServer() {
   if (wasSynced()) return null

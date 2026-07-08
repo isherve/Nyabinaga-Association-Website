@@ -16,6 +16,7 @@ import {
   addSharedMember,
   addSharedMembersBulk,
   fetchSharedMembers,
+  isLocalDev,
   removeSharedMember,
   syncLocalMembersToServer,
   updateSharedMember,
@@ -65,21 +66,54 @@ export default function GroupCard({ group }) {
   }, [group.id])
 
   useEffect(() => {
-    if (!isAdmin || !fromServer) return
+    if (!membersOpen) return
+    let cancelled = false
+
+    async function refreshMembers() {
+      const { members: remote, shared } = await fetchSharedMembers()
+      if (cancelled) return
+      setSharedStore(remote)
+      setFromServer(shared)
+    }
+
+    refreshMembers()
+    return () => {
+      cancelled = true
+    }
+  }, [membersOpen, group.id])
+
+  useEffect(() => {
+    if (!isAdmin || !membersOpen) return
     let cancelled = false
 
     syncLocalMembersToServer()
       .then((synced) => {
-        if (!cancelled && synced) setSharedStore(synced)
+        if (!cancelled && synced) {
+          setSharedStore(synced)
+          setFromServer(true)
+        }
       })
       .catch(() => {
-        /* local data stays on device until sync succeeds */
+        /* retry next time the panel opens */
       })
 
     return () => {
       cancelled = true
     }
-  }, [isAdmin, fromServer])
+  }, [isAdmin, membersOpen])
+
+  const saveToServer = async (request) => {
+    try {
+      const data = await request()
+      setSharedStore(data.members)
+      setFromServer(true)
+      return data
+    } catch (err) {
+      if (isLocalDev()) throw err
+      setSaveError(err.message || 'Failed to save members for all visitors')
+      throw err
+    }
+  }
 
   const handleAddMember = async (e) => {
     e.preventDefault()
@@ -87,16 +121,21 @@ export default function GroupCard({ group }) {
     setSaveError('')
     setImportMsg('')
 
-    if (fromServer) {
-      try {
-        const data = await addSharedMember(group.id, form)
-        setSharedStore(data.members)
+    try {
+      if (!isLocalDev()) {
+        await saveToServer(() => addSharedMember(group.id, form))
         setForm({ name: '', phone: '', role: '' })
-        return
-      } catch (err) {
-        setSaveError(err.message || 'Failed to save member')
+        setImportMsg(t('common.membersShared'))
         return
       }
+      if (fromServer) {
+        await saveToServer(() => addSharedMember(group.id, form))
+        setForm({ name: '', phone: '', role: '' })
+        setImportMsg(t('common.membersShared'))
+        return
+      }
+    } catch {
+      if (!isLocalDev()) return
     }
 
     addGroupMember(group.id, form)
@@ -111,15 +150,17 @@ export default function GroupCard({ group }) {
   const handleRemoveMember = async (id) => {
     setSaveError('')
     if (editingId === id) setEditingId(null)
-    if (fromServer) {
-      try {
-        const data = await removeSharedMember(group.id, id)
+
+    try {
+      if (!isLocalDev() || fromServer) {
+        const data = await saveToServer(() => removeSharedMember(group.id, id))
         setSharedStore(data.members)
-      } catch (err) {
-        setSaveError(err.message || 'Failed to remove member')
+        return
       }
-      return
+    } catch {
+      if (!isLocalDev()) return
     }
+
     removeAddedMember(group.id, id)
     setSharedStore((prev) => {
       const base = { ...(prev || {}) }
@@ -143,16 +184,16 @@ export default function GroupCard({ group }) {
     if (!isAdmin) return
     setSaveError('')
 
-    if (fromServer) {
-      try {
-        const data = await updateSharedMember(group.id, id, editForm)
+    try {
+      if (!isLocalDev() || fromServer) {
+        const data = await saveToServer(() => updateSharedMember(group.id, id, editForm))
         setSharedStore(data.members)
         setEditingId(null)
         setEditForm({ name: '', phone: '', role: '' })
-      } catch (err) {
-        setSaveError(err.message || 'Failed to update member')
+        return
       }
-      return
+    } catch {
+      if (!isLocalDev()) return
     }
 
     updateAddedMember(group.id, id, editForm)
@@ -195,11 +236,19 @@ export default function GroupCard({ group }) {
         return
       }
 
-      if (fromServer) {
-        const data = await addSharedMembersBulk(group.id, parsed)
-        setSharedStore(data.members)
-        setImportMsg(`${parsed.length} ${t('common.importDone')}`)
-        return
+      try {
+        if (!isLocalDev()) {
+          await saveToServer(() => addSharedMembersBulk(group.id, parsed))
+          setImportMsg(`${parsed.length} ${t('common.importDone')} ${t('common.membersShared')}`)
+          return
+        }
+        if (fromServer) {
+          await saveToServer(() => addSharedMembersBulk(group.id, parsed))
+          setImportMsg(`${parsed.length} ${t('common.importDone')} ${t('common.membersShared')}`)
+          return
+        }
+      } catch {
+        if (!isLocalDev()) return
       }
 
       const { members: next, added } = addGroupMembersBulk(group.id, parsed)

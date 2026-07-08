@@ -6,6 +6,12 @@ const LOCAL_KEY = 'nyabinaga_group_members_added_v1'
 const SYNCED_KEY = 'nyabinaga_group_members_synced_v1'
 const ADMIN_PW_KEY = 'nyabinaga_admin_pw_v1'
 
+export function isLocalDev() {
+  if (typeof window === 'undefined') return false
+  const host = window.location.hostname
+  return host === 'localhost' || host === '127.0.0.1'
+}
+
 export function getStoredAdminPassword() {
   try {
     return sessionStorage.getItem(ADMIN_PW_KEY) || ''
@@ -48,30 +54,33 @@ function wasSynced() {
   }
 }
 
-/** Load shared members from the API, with static JSON fallback. */
+/** Load shared members from the API. */
 export async function fetchSharedMembers() {
   try {
     const res = await fetch('/api/members', { cache: 'no-store' })
     if (res.ok) {
       const data = await res.json()
-      if (data?.members && typeof data.members === 'object') {
-        return { members: data.members, shared: Boolean(data.shared) }
+      return {
+        members: data?.members && typeof data.members === 'object' ? data.members : {},
+        shared: Boolean(data?.shared),
       }
     }
   } catch {
     /* API unavailable in local dev — fall through */
   }
 
-  try {
-    const res = await fetch('/data/group-members.json', { cache: 'no-store' })
-    if (res.ok) {
-      const members = await res.json()
-      if (members && typeof members === 'object') {
-        return { members, shared: false }
+  if (isLocalDev()) {
+    try {
+      const res = await fetch('/data/group-members.json', { cache: 'no-store' })
+      if (res.ok) {
+        const members = await res.json()
+        if (members && typeof members === 'object') {
+          return { members, shared: false }
+        }
       }
+    } catch {
+      /* ignore */
     }
-  } catch {
-    /* ignore */
   }
 
   return { members: {}, shared: false }
@@ -107,7 +116,7 @@ export async function updateSharedMember(groupId, id, member) {
   return postMembers({ action: 'update', groupId, id, member })
 }
 
-/** One-time upload of browser-only members so everyone can see them. */
+/** Upload browser-only members so everyone can see them. */
 export async function syncLocalMembersToServer() {
   if (wasSynced()) return null
   const local = readLocalStore()
@@ -116,7 +125,11 @@ export async function syncLocalMembersToServer() {
     markSynced()
     return null
   }
-  const data = await postMembers({ action: 'sync', store: local })
-  markSynced()
-  return data.members
+  try {
+    const data = await postMembers({ action: 'sync', store: local })
+    markSynced()
+    return data.members
+  } catch {
+    return null
+  }
 }

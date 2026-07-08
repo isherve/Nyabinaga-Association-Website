@@ -87,6 +87,23 @@ export function removeAddedMember(groupId, id) {
   return getGroupMembers(groupId)
 }
 
+/** Update a locally-added member by id. Returns the new list. */
+export function updateAddedMember(groupId, id, { name, phone, role }) {
+  const all = readLocal()
+  all[groupId] = (all[groupId] || []).map((m) =>
+    m.id === id
+      ? {
+          ...m,
+          name: String(name ?? m.name).trim(),
+          phone: String(phone ?? m.phone).trim(),
+          role: String(role ?? m.role).trim(),
+        }
+      : m,
+  )
+  writeLocal(all)
+  return getGroupMembers(groupId)
+}
+
 /** Add many members at once (e.g. from an Excel import). Returns the new list. */
 export function addGroupMembersBulk(groupId, rows) {
   const all = readLocal()

@@ -144,6 +144,21 @@ export default async function handler(req, res) {
       store[groupId] = [...list, ...entries]
     } else if (action === 'remove') {
       store[groupId] = list.filter((m) => m.id !== id)
+    } else if (action === 'update') {
+      if (!id) {
+        return res.status(400).json({ ok: false, error: 'id is required' })
+      }
+      const idx = list.findIndex((m) => m.id === id)
+      if (idx === -1) {
+        return res.status(404).json({ ok: false, error: 'Member not found' })
+      }
+      const entry = normalizeMember({ ...list[idx], ...(member || {}) }, id)
+      if (!entry.name && !entry.phone) {
+        return res.status(400).json({ ok: false, error: 'Name or phone is required' })
+      }
+      const next = [...list]
+      next[idx] = entry
+      store[groupId] = next
     } else {
       return res.status(400).json({ ok: false, error: 'Unknown action' })
     }

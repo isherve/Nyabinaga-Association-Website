@@ -192,7 +192,7 @@ export const translations = {
 
     // Groups
     'groups.eyebrow': 'Our Groups — Amatsinda',
-    'groups.title': '13 livelihood groups building self-reliance',
+    'groups.title': '13 livelihood Association building self-reliance',
     'groups.subtitle':
       'Each group runs its own income-generating activities — farming, livestock, trade, or crafts — alongside a group savings scheme.',
     'groups.intro':

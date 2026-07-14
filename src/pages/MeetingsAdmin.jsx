@@ -149,7 +149,7 @@ export default function MeetingsAdmin() {
   if (!isAdmin) {
     return (
       <>
-        <PageHeader eyebrow="Staff" title="Meeting Management" subtitle="Schedule and organize meetings between the Director, PCD, Accountant and Doctor." image={featuredImages.impact} />
+        <PageHeader eyebrow="Staff" title="Meeting Management" subtitle="Schedule and organize meetings between the Director, PCD, Accountant, Doctor and Child Survival Project (CSP)." image={featuredImages.impact} />
         <section className="section">
           <div className="container-page">
             <div className="card mx-auto max-w-md p-10 text-center">
@@ -171,7 +171,7 @@ export default function MeetingsAdmin() {
 
   return (
     <>
-      <PageHeader eyebrow="Staff" title="Meeting Management" subtitle="Schedule and organize meetings between the Director, PCD, Accountant and Doctor." image={featuredImages.impact} />
+      <PageHeader eyebrow="Staff" title="Meeting Management" subtitle="Schedule and organize meetings between the Director, PCD, Accountant, Doctor and Child Survival Project (CSP)." image={featuredImages.impact} />
 
       <section className="section">
         <div className="container-page space-y-6">

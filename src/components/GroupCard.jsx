@@ -313,12 +313,6 @@ export default function GroupCard({ group }) {
               </span>
             </span>
           )}
-          {group.members && (
-            <span className="inline-flex items-center gap-2 text-muted">
-              <Users className="h-4 w-4 text-forest-500" />
-              {group.members} {t('common.members')}
-            </span>
-          )}
         </div>
 
         <div className="mt-5 flex flex-wrap items-center justify-between gap-2">

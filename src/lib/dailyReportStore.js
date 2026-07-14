@@ -9,7 +9,13 @@
 const KEY = 'nyabinaga_daily_reports_v1'
 
 // The Compassion International staff who file reports / attend meetings.
-export const STAFF_ROLES = ['Director', 'PCD', 'Accountant (Contable)', 'Doctor']
+export const STAFF_ROLES = [
+  'Director',
+  'PCD',
+  'Accountant (Contable)',
+  'Doctor',
+  'Child Survival Project (CSP)',
+]
 
 export const TASK_STATUSES = [
   { id: 'done', label: 'Completed' },
